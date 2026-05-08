@@ -18,6 +18,7 @@ use App\Http\Controllers\AI\ChatController;
 use App\Http\Controllers\AI\TranslateController;
 use App\Http\Controllers\AI\ExtractDataController;
 use App\Http\Controllers\PDF\SignController;
+use App\Http\Middleware\CheckFreeTierLimit;
 
 Route::get('/health', fn() => response()->json(['status' => 'ok']));
 
@@ -40,6 +41,9 @@ Route::prefix('pdf')->group(function () {
     Route::post('/protect',      [SecurityController::class,    'protect']);
     Route::post('/unlock',       [SecurityController::class,    'unlock']);
     Route::post('/sign', [SignController::class, 'handle']);
+    Route::prefix('pdf')->middleware([CheckFreeTierLimit::class])->group(function () {
+    // existing routes...
+});
 });
 
 Route::prefix('ai')->group(function () {

@@ -820,8 +820,11 @@ async function runTool(key){
 
     if(!resp.ok){
       const e = await resp.json().catch(() => ({}));
-      showResult('❌ ' + (e.error || 'Server error — check Laravel logs'), true);
-      showToast('Error occurred','❌');
+      if(e.error === 'free_limit_reached'){
+        showUpgradeModal();
+        return;
+      }
+      showResult('❌ ' + (e.error || 'Server error'), true);
       return;
     }
 
@@ -949,6 +952,18 @@ dz.addEventListener('drop', e => {
     showToast('File ready!','📄'); }
 });
 
+// ── Upgrade Modal ─────────────────────────────────────────────────────────
+function showUpgradeModal(){
+    const m = document.getElementById('upgrade-modal');
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeUpgradeModal(){
+    const m = document.getElementById('upgrade-modal');
+    m.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
 // ── Toast ─────────────────────────────────────────────────────────────────
 function showToast(msg, icon='✅'){
   document.getElementById('t-msg').textContent = msg;
@@ -958,5 +973,26 @@ function showToast(msg, icon='✅'){
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 </script>
+
+<!-- Upgrade Modal -->
+<div id="upgrade-modal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:24px;max-width:480px;width:100%;padding:40px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px">⚡</div>
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;margin-bottom:10px">Daily limit reached!</h2>
+    <p style="color:var(--text2);font-size:14px;line-height:1.65;margin-bottom:24px">You have used your <strong style="color:var(--text)">5 free tasks</strong> for today.<br>Upgrade to Pro for unlimited access.</p>
+    <div style="background:var(--bg3);border-radius:16px;padding:20px;margin-bottom:24px;text-align:left;">
+      <div style="font-size:13px;color:var(--text2);display:flex;flex-direction:column;gap:8px;">
+        <div>✅ Unlimited tasks every day</div>
+        <div>✅ All 20+ PDF tools</div>
+        <div>✅ Unlimited AI features</div>
+        <div>✅ PDF Translation (12 languages)</div>
+        <div>✅ 2GB document storage</div>
+      </div>
+      <div style="margin-top:16px;font-size:32px;font-weight:700;color:var(--text)">$9<span style="font-size:14px;font-weight:400;color:var(--text2)">/month</span></div>
+    </div>
+    <button onclick="window.location.href='#pricing'" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:10px;">Upgrade to Pro →</button>
+    <button onclick="closeUpgradeModal()" style="width:100%;padding:10px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:99px;font-size:13px;cursor:pointer;">Maybe later</button>
+  </div>
+</div>
 </body>
 </html>
