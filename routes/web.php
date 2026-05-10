@@ -2,10 +2,16 @@
 // এই file টা routes/web.php এ add করুন — শুধু test এর জন্য
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// ── Payment Routes ───────────────────────────────────────────────────────────
+Route::post('/payment/checkout', [PaymentController::class, 'checkout']);
+Route::get('/payment/success',   [PaymentController::class, 'success']);
+Route::get('/payment/cancel',    [PaymentController::class, 'cancel']);
 
 // ── Tool Test Route (development only) ───────────────────────────────────────
 // Route::get('/test-tools', function () {

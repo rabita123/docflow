@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>DocFlow — Advanced PDF Platform</title>
+<title>PDFTash — Advanced PDF Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -247,7 +247,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <body>
 
 <nav>
-  <div class="nav-logo">DocFlow</div>
+  <div class="nav-logo">PDFTash</div>
   <div class="nav-links">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
@@ -340,15 +340,15 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
   <div class="pricing-grid">
     <div class="price-card"><div class="pname">Free</div><div class="pamount">$0<sub>/mo</sub></div><div class="pdesc">For occasional use</div><hr class="phr"><ul class="pfeats"><li>5 tasks per day</li><li>10MB file size</li><li>Basic tools</li><li class="pno">AI features</li><li class="pno">Storage</li></ul><button class="pbtn pbtn-out">Start Free</button></div>
-    <div class="price-card feat"><div class="pname">Pro</div><div class="pamount">$9<sub>/mo</sub></div><div class="pdesc">For regular users</div><hr class="phr"><ul class="pfeats"><li>Unlimited tasks</li><li>200MB files</li><li>All 20+ tools</li><li>Unlimited AI</li><li>Translation</li><li>2GB storage</li></ul><button class="pbtn pbtn-fill">Get Pro →</button></div>
-    <div class="price-card"><div class="pname">Team</div><div class="pamount">$25<sub>/mo</sub></div><div class="pdesc">For teams of 5</div><hr class="phr"><ul class="pfeats"><li>Everything in Pro</li><li>5 team members</li><li>Shared workspace</li><li>Priority support</li></ul><button class="pbtn pbtn-out">Get Team</button></div>
+    <div class="price-card feat"><div class="pname">Pro</div><div class="pamount">$9<sub>/mo</sub></div><div class="pdesc">For regular users</div><hr class="phr"><ul class="pfeats"><li>Unlimited tasks</li><li>200MB files</li><li>All 20+ tools</li><li>Unlimited AI</li><li>Translation</li><li>2GB storage</li></ul><button class="pbtn pbtn-fill" onclick="upgradeToPro()">Get Pro →</button></div>
+    <div class="price-card"><div class="pname">Team</div><div class="pamount">$25<sub>/mo</sub></div><div class="pdesc">For teams of 5</div><hr class="phr"><ul class="pfeats"><li>Everything in Pro</li><li>5 team members</li><li>Shared workspace</li><li>Priority support</li></ul><button class="pbtn pbtn-out" onclick="upgradeToPro()">Get Team</button></div>
   </div>
 </section>
 
 <footer>
-  <div class="foot-logo">DocFlow</div>
+  <div class="foot-logo">PDFTash</div>
   <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/test-tools" target="_blank">System Status</a></div>
-  <div class="foot-copy">© 2026 DocFlow — Built with Laravel + Anthropic Claude</div>
+  <div class="foot-copy">© 2026 PDFTash — Built with Laravel + Anthropic Claude</div>
 </footer>
 
 <!-- PANEL -->
@@ -951,6 +951,25 @@ dz.addEventListener('drop', e => {
     document.getElementById('dz-info').textContent = '✅ ' + f.name;
     showToast('File ready!','📄'); }
 });
+
+// ── Payment ───────────────────────────────────────────────────────────────
+async function upgradeToPro() {
+    try {
+        const resp = await fetch('/payment/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': CSRF
+            }
+        });
+        const data = await resp.json();
+        if (data.url) {
+            window.location.href = data.url;
+        }
+    } catch(e) {
+        showToast('Payment error. Try again.', '❌');
+    }
+}
 
 // ── Upgrade Modal ─────────────────────────────────────────────────────────
 function showUpgradeModal(){
