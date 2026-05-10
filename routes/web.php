@@ -13,6 +13,33 @@ Route::post('/payment/checkout', [PaymentController::class, 'checkout']);
 Route::get('/payment/success',   [PaymentController::class, 'success']);
 Route::get('/payment/cancel',    [PaymentController::class, 'cancel']);
 
+
+
+
+Route::get('/sitemap.xml', function () {
+    $content = '<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://pdftash.com</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://pdftash.com/#tools</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://pdftash.com/#pricing</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+</urlset>';
+    return response($content, 200, ['Content-Type' => 'application/xml']);
+});
+
+
+
 // ── Tool Test Route (development only) ───────────────────────────────────────
 // Route::get('/test-tools', function () {
 //     $results = [];
