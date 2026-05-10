@@ -340,7 +340,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
   <div class="pricing-grid">
     <div class="price-card"><div class="pname">Free</div><div class="pamount">$0<sub>/mo</sub></div><div class="pdesc">For occasional use</div><hr class="phr"><ul class="pfeats"><li>5 tasks per day</li><li>10MB file size</li><li>Basic tools</li><li class="pno">AI features</li><li class="pno">Storage</li></ul><button class="pbtn pbtn-out">Start Free</button></div>
-    <div class="price-card feat"><div class="pname">Pro</div><div class="pamount">$9<sub>/mo</sub></div><div class="pdesc">For regular users</div><hr class="phr"><ul class="pfeats"><li>Unlimited tasks</li><li>200MB files</li><li>All 20+ tools</li><li>Unlimited AI</li><li>Translation</li><li>2GB storage</li></ul><button class="pbtn pbtn-fill" onclick="upgradeToPro()">Get Pro →</button></div>
+    <div class="price-card feat"><div class="pname">Pro</div><div class="pamount">$9<sub>/mo</sub></div><div class="pdesc">For regular users</div><hr class="phr"><ul class="pfeats"><li>Unlimited tasks</li><li>200MB files</li><li>All 20+ tools</li><li>Unlimited AI</li><li>Translation</li><li>2GB storage</li></ul><button type="button" class="pbtn pbtn-fill" onclick="upgradeToPro()">Get Pro →</button></div>
     <div class="price-card"><div class="pname">Team</div><div class="pamount">$25<sub>/mo</sub></div><div class="pdesc">For teams of 5</div><hr class="phr"><ul class="pfeats"><li>Everything in Pro</li><li>5 team members</li><li>Shared workspace</li><li>Priority support</li></ul><button class="pbtn pbtn-out" onclick="upgradeToPro()">Get Team</button></div>
   </div>
 </section>
@@ -953,21 +953,46 @@ dz.addEventListener('drop', e => {
 });
 
 // ── Payment ───────────────────────────────────────────────────────────────
+
+
+
 async function upgradeToPro() {
+    const csrf = document.querySelector('meta[name="csrf-token"]');
+    if (!csrf) {
+        showToast('CSRF token missing!', '❌');
+        return;
+    }
+
     try {
         const resp = await fetch('/payment/checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': CSRF
-            }
+                'X-CSRF-TOKEN': csrf.getAttribute('content'),
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({})
         });
-        const data = await resp.json();
+
+        const text = await resp.text();
+        console.log('Response:', text);
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch(e) {
+            console.error('Not JSON:', text);
+            showToast('Server error — check console', '❌');
+            return;
+        }
+
         if (data.url) {
             window.location.href = data.url;
+        } else {
+            showToast('Error: ' + (data.error || 'Unknown'), '❌');
         }
     } catch(e) {
-        showToast('Payment error. Try again.', '❌');
+        showToast('Error: ' + e.message, '❌');
     }
 }
 
