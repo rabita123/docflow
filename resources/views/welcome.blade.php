@@ -5,6 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="google-site-verification" content="npJr20F8kzU83RI-uS84JNdqH6ndTNVaUlrK5m7dNq8" />
+<!-- SEO Meta Tags -->
+<title>PDFTash — Free PDF Tools Online | Compress, Merge, AI Chat</title>
+<meta name="description" content="Free online PDF tools — compress, merge, split, translate and chat with PDF using AI. No signup needed. 20+ tools. Fast and secure.">
+<meta name="keywords" content="compress pdf, merge pdf, split pdf, pdf translator, chat with pdf, pdf to image, sejda alternative, free pdf tools online">
+<meta name="author" content="PDFTash">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="PDFTash — Free PDF Tools with AI">
+<meta property="og:description" content="20+ free PDF tools — compress, merge, translate to Bengali, sign and chat with AI. No signup needed.">
+<meta property="og:url" content="https://pdftash.com">
+<meta property="og:site_name" content="PDFTash">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDFTash — Free PDF Tools with AI">
+<meta name="twitter:description" content="20+ free PDF tools with AI. Compress, merge, translate and chat with your PDFs.">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://pdftash.com">
+
+
 <title>PDFTash — Advanced PDF Platform</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
