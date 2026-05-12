@@ -90,7 +90,7 @@ async function processFile(file) {
     result.innerHTML = '<div style="color:#8888a8;padding:20px">⏳ Compressing your PDF...</div>';
 
     const formData = new FormData();
-    formData.append('pdf', file);
+    formData.append('file', file);
     formData.append('_token', CSRF);
 
     try {
