@@ -3,23 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title') — PDFTash</title>
 <meta name="description" content="@yield('description')">
-<meta name="keywords" content="@yield('keywords')">
-<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="canonical" href="https://pdftash.com/@yield('slug')">
-<meta name="google-site-verification" content="npJr20F8kzU83RI-uS84JNdqH6ndTNVaUlrK5m7dNq8" />
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BX49JDS3BB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-BX49JDS3BB');
-</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;}
+body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100vh;}
 .nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);}
 .nav-logo{font-size:20px;font-weight:700;color:#5b5cff;text-decoration:none;}
 .nav-back{color:#8888a8;text-decoration:none;font-size:14px;}
