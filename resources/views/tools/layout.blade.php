@@ -6,6 +6,7 @@
 <title>@yield('title') — PDFTash</title>
 <meta name="description" content="@yield('description')">
 <meta name="keywords" content="@yield('keywords')">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="canonical" href="https://pdftash.com/@yield('slug')">
 <meta name="google-site-verification" content="npJr20F8kzU83RI-uS84JNdqH6ndTNVaUlrK5m7dNq8" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BX49JDS3BB"></script>
