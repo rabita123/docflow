@@ -14,6 +14,12 @@ Route::get('/payment/success',   [PaymentController::class, 'success']);
 Route::get('/payment/cancel',    [PaymentController::class, 'cancel']);
 
 
+Route::get('/compress-pdf', fn() => view('tools.compress'))->name('tool.compress');
+Route::get('/merge-pdf', fn() => view('tools.merge'))->name('tool.merge');
+Route::get('/split-pdf', fn() => view('tools.split'))->name('tool.split');
+Route::get('/chat-with-pdf', fn() => view('tools.chat'))->name('tool.chat');
+Route::get('/translate-pdf', fn() => view('tools.translate'))->name('tool.translate');
+Route::get('/sign-pdf', fn() => view('tools.sign'))->name('tool.sign');
 
 
 Route::get('/sitemap.xml', function () {
