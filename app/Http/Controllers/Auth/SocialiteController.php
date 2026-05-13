@@ -11,35 +11,44 @@ class SocialiteController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->with(['redirect_uri' => url('/auth/google/callback')])
+            ->redirect();
     }
 
     public function handleGoogleCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->stateless()->user();
+            $googleUser = Socialite::driver('google')
+                ->with(['redirect_uri' => url('/auth/google/callback')])
+                ->user();
+
+            $user = User::updateOrCreate(
+                ['email' => $googleUser->getEmail()],
+                [
+                    'name'      => $googleUser->getName(),
+                    'google_id' => $googleUser->getId(),
+                    'avatar'    => $googleUser->getAvatar(),
+                    'password'  => bcrypt(\Illuminate\Support\Str::random(24)),
+                    'plan'      => 'free',
+                ]
+            );
+
+            Auth::login($user, true);
+
+            return redirect('/');
+
         } catch (\Exception $e) {
+            \Log::error('Google login error: ' . $e->getMessage());
             return redirect('/')->with('error', 'Google login failed. Please try again.');
         }
-
-        $user = User::updateOrCreate(
-            ['email' => $googleUser->getEmail()],
-            [
-                'name'      => $googleUser->getName(),
-                'google_id' => $googleUser->getId(),
-                'avatar'    => $googleUser->getAvatar(),
-                'password'  => bcrypt(\Illuminate\Support\Str::random(24)),
-            ]
-        );
-
-        Auth::login($user, true);
-
-        return redirect('/');
     }
 
-    public function logout()
+    public function logout(\Illuminate\Http\Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/');
     }
 }
