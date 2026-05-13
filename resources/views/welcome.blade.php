@@ -304,10 +304,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
         </form>
     </div>
     @else
-    <a href="/auth/google" style="display:flex;align-items:center;gap:8px;background:#fff;color:#333;padding:8px 20px;border-radius:99px;text-decoration:none;font-weight:600;font-size:14px;">
-        <img src="https://www.google.com/favicon.ico" style="width:16px;height:16px;">
-        Sign in with Google
-    </a>
+    <button type="button" class="btn btn-ghost" onclick="openLoginModal()">Sign in</button>
     @endauth
     <button class="btn btn-primary" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Start Free →</button>
   </div>
@@ -1006,6 +1003,21 @@ dz.addEventListener('drop', e => {
     showToast('File ready!','📄'); }
 });
 
+// ── Login Modal ───────────────────────────────────────────────────────────
+function openLoginModal(){
+    const m = document.getElementById('login-modal');
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeLoginModal(){
+    const m = document.getElementById('login-modal');
+    m.style.display = 'none';
+    document.body.style.overflow = '';
+}
+document.getElementById('login-modal')?.addEventListener('click', function(e){
+    if(e.target === this) closeLoginModal();
+});
+
 // ── Payment ───────────────────────────────────────────────────────────────
 
 
@@ -1071,6 +1083,27 @@ function showToast(msg, icon='✅'){
   setTimeout(() => t.classList.remove('show'), 3500);
 }
 </script>
+
+<!-- Login Modal -->
+<div id="login-modal" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:24px;max-width:420px;width:100%;padding:40px;position:relative;">
+    <button onclick="closeLoginModal()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;">×</button>
+
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;">Welcome back</div>
+      <div style="font-size:14px;color:var(--text2);">Sign in to your account to continue</div>
+    </div>
+
+    <a href="/auth/google" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:#fff;color:#1f1f1f;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;margin-bottom:20px;transition:opacity .2s;" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+      Continue with Google
+    </a>
+
+    <div style="text-align:center;color:var(--text3);font-size:12px;">
+      By signing in, you agree to our Terms of Service.<br>Free plan: 5 tasks/day. No credit card required.
+    </div>
+  </div>
+</div>
 
 <!-- Upgrade Modal -->
 <div id="upgrade-modal" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:20px;">
