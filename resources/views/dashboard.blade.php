@@ -142,18 +142,28 @@ textarea.tool-input::placeholder{color:var(--text3);}
   </nav>
 
   <div class="sidebar-bottom">
-    @if(auth()->user()->plan !== 'pro')
+    @if(auth()->user()->plan === 'pro')
     <div class="words-bar">
       <div class="words-label">
-        <span>Tasks today</span>
-        <span>{{ auth()->user()->daily_tasks ?? 0 }} / 5</span>
+        <span style="color:var(--accent2);">⚡ Pro Plan</span>
+        <span style="color:var(--accent2);">Unlimited</span>
       </div>
       <div class="words-track">
-        <div class="words-fill" style="width:{{ min(100, ((auth()->user()->daily_tasks ?? 0) / 5) * 100) }}%"></div>
+        <div class="words-fill" style="width:100%;background:var(--accent2);"></div>
+      </div>
+    </div>
+    @else
+    <div class="words-bar">
+      <div class="words-label">
+        <span>Tasks remaining</span>
+        <span id="tasks-remaining-label">… / 150</span>
+      </div>
+      <div class="words-track">
+        <div class="words-fill" id="tasks-fill" style="width:0%"></div>
       </div>
     </div>
     <button class="upgrade-btn" onclick="window.location.href='/#pricing'">
-      ⚡ Upgrade Plan
+      ⚡ Upgrade to Pro
     </button>
     @endif
 
@@ -463,6 +473,45 @@ textarea.tool-input::placeholder{color:var(--text3);}
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
+// ── Usage counter ──────────────────────────────────────────────────────────
+async function loadUsage(){
+    try {
+        const r = await fetch('/api/usage');
+        const d = await r.json();
+        const label = document.getElementById('tasks-remaining-label');
+        const fill  = document.getElementById('tasks-fill');
+        if(!label) return; // pro user — element not rendered
+        if(d.unlimited){
+            label.textContent = 'Unlimited';
+            if(fill) fill.style.width = '100%';
+        } else {
+            label.textContent = d.remaining + ' / ' + d.limit;
+            const pct = Math.min(100, (d.used / d.limit) * 100);
+            if(fill){
+                fill.style.width = pct + '%';
+                fill.style.background = pct >= 90 ? '#ff6b6b' : pct >= 60 ? '#ffcc44' : 'var(--accent2)';
+            }
+        }
+    } catch(e){}
+}
+loadUsage();
+
+// Update usage after each tool call
+function updateUsageAfterCall(resp){
+    const used      = resp.headers.get('X-Tasks-Used');
+    const remaining = resp.headers.get('X-Tasks-Remaining');
+    const limit     = resp.headers.get('X-Tasks-Limit');
+    if(remaining === null) return;
+    const label = document.getElementById('tasks-remaining-label');
+    const fill  = document.getElementById('tasks-fill');
+    if(label) label.textContent = remaining + ' / ' + limit;
+    if(fill){
+        const pct = Math.min(100, ((+limit - +remaining) / +limit) * 100);
+        fill.style.width = pct + '%';
+        fill.style.background = pct >= 90 ? '#ff6b6b' : pct >= 60 ? '#ffcc44' : 'var(--accent2)';
+    }
+}
+
 // ── Navigation ─────────────────────────────────────────────────────────────
 const sections = ['overview','compress','merge','split','sign','chat','translate','summarize'];
 const titles = {overview:'Overview',compress:'Compress PDF',merge:'Merge PDF',split:'Split PDF',sign:'Sign PDF',chat:'Chat with PDF',translate:'Translate PDF',summarize:'Summarize PDF'};
@@ -508,6 +557,7 @@ async function runCompress(){
     fd.append('file', compressFile);
     try {
         const r = await fetch('/api/pdf/compress', {method:'POST', body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const b=await r.blob(); showResult('compress-result', resultSuccess(`Compressed! ${(compressFile.size/1024).toFixed(0)}KB → ${(b.size/1024).toFixed(0)}KB`, URL.createObjectURL(b), 'compressed.pdf')); }
         else { const d=await r.json(); showResult('compress-result', resultError(d.error||'Compression failed')); }
     } catch(e){ showResult('compress-result', resultError('Connection error.')); }
@@ -531,6 +581,7 @@ async function runMerge(){
     mergeFiles.forEach(f => fd.append('files[]', f));
     try {
         const r = await fetch('/api/pdf/merge', {method:'POST', body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const b=await r.blob(); showResult('merge-result', resultSuccess(`Merged ${mergeFiles.length} files!`, URL.createObjectURL(b), 'merged.pdf')); }
         else { const d=await r.json(); showResult('merge-result', resultError(d.error||'Merge failed')); }
     } catch(e){ showResult('merge-result', resultError('Connection error.')); }
@@ -551,6 +602,7 @@ async function runSplit(){
     fd.append('pages', document.getElementById('split-pages').value || 'all');
     try {
         const r = await fetch('/api/pdf/split', {method:'POST', body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const b=await r.blob(); showResult('split-result', resultSuccess('Split successfully!', URL.createObjectURL(b), 'split.pdf')); }
         else { const d=await r.json(); showResult('split-result', resultError(d.error||'Split failed')); }
     } catch(e){ showResult('split-result', resultError('Connection error.')); }
@@ -573,6 +625,7 @@ async function runSign(){
     fd.append('placement','last'); fd.append('x',10); fd.append('y',85); fd.append('width',150); fd.append('height',50);
     try {
         const r = await fetch('/api/pdf/sign', {method:'POST', body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const b=await r.blob(); showResult('sign-result', resultSuccess('Signed successfully!', URL.createObjectURL(b), 'signed.pdf')); }
         else { const d=await r.json(); showResult('sign-result', resultError(d.error||'Sign failed')); }
     } catch(e){ showResult('sign-result', resultError('Connection error.')); }
@@ -627,6 +680,7 @@ async function runTranslate(){
     const fd = new FormData(); fd.append('file', translateFile); fd.append('language', document.getElementById('translate-lang').value);
     try {
         const r = await fetch('/api/ai/translate',{method:'POST',body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const d=await r.json(); document.getElementById('translate-output').style.display='block'; document.getElementById('translate-output').textContent=d.translation||d.text||''; showResult('translate-result',''); }
         else { const d=await r.json(); showResult('translate-result', resultError(d.error||'Translation failed')); }
     } catch(e){ showResult('translate-result', resultError('Connection error.')); }
@@ -644,6 +698,7 @@ async function runSummarize(){
     const fd = new FormData(); fd.append('file', summarizeFile);
     try {
         const r = await fetch('/api/ai/summarize',{method:'POST',body:fd});
+        updateUsageAfterCall(r);
         if(r.ok){ const d=await r.json(); document.getElementById('summarize-output').style.display='block'; document.getElementById('summarize-output').textContent=d.summary||d.text||''; showResult('summarize-result',''); }
         else { const d=await r.json(); showResult('summarize-result', resultError(d.error||'Summarize failed')); }
     } catch(e){ showResult('summarize-result', resultError('Connection error.')); }
