@@ -386,13 +386,86 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <section class="section" id="pricing">
   <div class="sec-header">
     <div class="sec-tag">Pricing</div>
-    <div class="sec-title">Better than Sejda. Half the price.</div>
+    <div class="sec-title">Simple, transparent pricing</div>
     <div class="sec-sub">Start free. No credit card needed.</div>
   </div>
-  <div class="pricing-grid">
-    <div class="price-card"><div class="pname">Free</div><div class="pamount">$0<sub>/mo</sub></div><div class="pdesc">For occasional use</div><hr class="phr"><ul class="pfeats"><li>5 tasks per day</li><li>10MB file size</li><li>Basic tools</li><li class="pno">AI features</li><li class="pno">Storage</li></ul><button class="pbtn pbtn-out">Start Free</button></div>
-    <div class="price-card feat"><div class="pname">Pro</div><div class="pamount">$9<sub>/mo</sub></div><div class="pdesc">For regular users</div><hr class="phr"><ul class="pfeats"><li>Unlimited tasks</li><li>200MB files</li><li>All 20+ tools</li><li>Unlimited AI</li><li>Translation</li><li>2GB storage</li></ul><button type="button" class="pbtn pbtn-fill" onclick="upgradeToPro()">Get Pro →</button></div>
-    <div class="price-card"><div class="pname">Team</div><div class="pamount">$25<sub>/mo</sub></div><div class="pdesc">For teams of 5</div><hr class="phr"><ul class="pfeats"><li>Everything in Pro</li><li>5 team members</li><li>Shared workspace</li><li>Priority support</li></ul><button class="pbtn pbtn-out" onclick="upgradeToPro()">Get Team</button></div>
+
+  <div class="pricing-grid" style="max-width:700px;margin:44px auto 0;grid-template-columns:1fr 1fr;">
+    <div class="price-card">
+      <div class="pname">Free</div>
+      <div class="pamount">$0<sub>/mo</sub></div>
+      <div class="pdesc">For occasional use</div>
+      <hr class="phr">
+      <ul class="pfeats">
+        <li>Compress / Merge / Split — <strong style="color:var(--text)">3/day</strong></li>
+        <li>AI Chat — <strong style="color:var(--text)">1/day, 500 words</strong></li>
+        <li>AI Translate — <strong style="color:var(--text)">1/day, 500 words</strong></li>
+        <li>AI Summarize — <strong style="color:var(--text)">1/day</strong></li>
+        <li>File size — <strong style="color:var(--text)">10MB</strong></li>
+        <li class="pno">History</li>
+      </ul>
+      <button class="pbtn pbtn-out" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Start Free</button>
+    </div>
+    <div class="price-card feat">
+      <div class="pname">Pro</div>
+      <div class="pamount">$9<sub>/mo</sub></div>
+      <div class="pdesc">For power users</div>
+      <hr class="phr">
+      <ul class="pfeats">
+        <li>Compress / Merge / Split — <strong style="color:var(--text)">Unlimited</strong></li>
+        <li>AI Chat — <strong style="color:var(--text)">Unlimited</strong></li>
+        <li>AI Translate — <strong style="color:var(--text)">Unlimited</strong></li>
+        <li>AI Summarize — <strong style="color:var(--text)">Unlimited</strong></li>
+        <li>File size — <strong style="color:var(--text)">200MB</strong></li>
+        <li>History ✅</li>
+      </ul>
+      <button type="button" class="pbtn pbtn-fill" onclick="upgradeToPro()">Get Pro →</button>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <div style="max-width:700px;margin:40px auto 0;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border2);">
+          <th style="text-align:left;padding:12px 16px;color:var(--text2);font-weight:600;">Feature</th>
+          <th style="text-align:center;padding:12px 16px;color:var(--text2);font-weight:600;">Free</th>
+          <th style="text-align:center;padding:12px 16px;color:var(--accent);font-weight:700;">Pro $9/mo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);">Compress / Merge / Split</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text2);">3/day</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--accent2);font-weight:600;">Unlimited</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);">AI Chat with PDF</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text2);">1/day, 500 words</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--accent2);font-weight:600;">Unlimited</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);">AI Translate</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text2);">1/day, 500 words</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--accent2);font-weight:600;">Unlimited</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);">AI Summarize</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text2);">1/day</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--accent2);font-weight:600;">Unlimited</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:12px 16px;color:var(--text);">File size</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text2);">10MB</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--accent2);font-weight:600;">200MB</td>
+        </tr>
+        <tr>
+          <td style="padding:12px 16px;color:var(--text);">History</td>
+          <td style="padding:12px 16px;text-align:center;color:var(--text3);">❌</td>
+          <td style="padding:12px 16px;text-align:center;">✅</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
