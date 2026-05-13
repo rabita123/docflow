@@ -9,6 +9,93 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// ── System Status ────────────────────────────────────────────────────────────
+Route::get('/system-status', function () {
+    $checks = [];
+
+    // PHP
+    $checks['PHP'] = ['status' => 'ok', 'value' => PHP_VERSION, 'label' => 'PHP ' . PHP_VERSION];
+
+    // Laravel
+    $checks['Laravel'] = ['status' => 'ok', 'value' => app()->version(), 'label' => 'Laravel ' . app()->version()];
+
+    // Database
+    try {
+        \DB::connection()->getPdo();
+        $checks['Database'] = ['status' => 'ok', 'label' => 'SQLite — connected'];
+    } catch (\Exception $e) {
+        $checks['Database'] = ['status' => 'error', 'label' => 'Database — ' . $e->getMessage()];
+    }
+
+    // Ghostscript
+    $gsGlob = glob('C:\\Program Files\\gs\\gs*\\bin\\gswin64c.exe');
+    if (!empty($gsGlob)) {
+        exec('"' . $gsGlob[0] . '" --version 2>&1', $gsOut);
+        $checks['Ghostscript'] = ['status' => 'ok', 'label' => 'Ghostscript ' . trim(implode('', $gsOut))];
+    } else {
+        $checks['Ghostscript'] = ['status' => 'error', 'label' => 'Ghostscript — not found'];
+    }
+
+    // PDFtk
+    $pdftkPaths = ['C:\\Program Files (x86)\\PDFtk Server\\bin\\pdftk.exe', 'C:\\Program Files\\PDFtk Server\\bin\\pdftk.exe'];
+    $pdftkFound = false;
+    foreach ($pdftkPaths as $p) {
+        if (file_exists($p)) {
+            exec('"' . $p . '" --version 2>&1', $pOut);
+            $checks['PDFtk'] = ['status' => 'ok', 'label' => 'PDFtk — ' . trim($pOut[0] ?? 'installed')];
+            $pdftkFound = true; break;
+        }
+    }
+    if (!$pdftkFound) $checks['PDFtk'] = ['status' => 'error', 'label' => 'PDFtk — not found'];
+
+    // ImageMagick
+    $magick = 'C:\\Program Files\\ImageMagick-7.1.2-Q16-HDRI\\magick.exe';
+    if (file_exists($magick)) {
+        exec('"' . $magick . '" --version 2>&1', $mOut);
+        $checks['ImageMagick'] = ['status' => 'ok', 'label' => 'ImageMagick — ' . trim($mOut[0] ?? 'installed')];
+    } else {
+        $checks['ImageMagick'] = ['status' => 'warning', 'label' => 'ImageMagick — not found (optional)'];
+    }
+
+    // Poppler (pdftotext)
+    $popplerPaths = ['C:\\poppler\\Library\\bin\\pdftotext.exe', 'C:\\poppler\\bin\\pdftotext.exe'];
+    $popplerFound = false;
+    foreach ($popplerPaths as $p) {
+        if (file_exists($p)) {
+            $checks['Poppler'] = ['status' => 'ok', 'label' => 'Poppler (pdftotext) — installed'];
+            $popplerFound = true; break;
+        }
+    }
+    if (!$popplerFound) $checks['Poppler'] = ['status' => 'warning', 'label' => 'Poppler — not found (AI features limited)'];
+
+    // Anthropic API
+    $apiKey = env('ANTHROPIC_API_KEY');
+    $checks['Anthropic AI'] = $apiKey
+        ? ['status' => 'ok',    'label' => 'Anthropic API — key configured']
+        : ['status' => 'error', 'label' => 'Anthropic API — key missing'];
+
+    // Stripe
+    $stripeKey = env('STRIPE_KEY');
+    $checks['Stripe'] = $stripeKey
+        ? ['status' => 'ok',    'label' => 'Stripe — key configured']
+        : ['status' => 'warning', 'label' => 'Stripe — key missing'];
+
+    // Storage writable
+    $storageOk = is_writable(storage_path('app'));
+    $checks['Storage'] = $storageOk
+        ? ['status' => 'ok',    'label' => 'Storage — writable']
+        : ['status' => 'error', 'label' => 'Storage — not writable'];
+
+    // Google OAuth
+    $checks['Google OAuth'] = env('GOOGLE_CLIENT_ID')
+        ? ['status' => 'ok',    'label' => 'Google OAuth — configured']
+        : ['status' => 'warning', 'label' => 'Google OAuth — not configured'];
+
+    $allOk = collect($checks)->every(fn($c) => $c['status'] !== 'error');
+
+    return response()->view('system-status', compact('checks', 'allOk'));
+});
+
 // ── Dashboard ────────────────────────────────────────────────────────────────
 Route::get('/dashboard', function () {
     return view('dashboard');

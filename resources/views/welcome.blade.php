@@ -284,7 +284,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   <div class="nav-links">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
-    <a href="/test-tools" target="_blank">System Status</a>
+    <a href="/system-status" target="_blank">System Status</a>
   </div>
   <div class="nav-right">
     @auth
@@ -473,7 +473,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 
 <footer>
   <div class="foot-logo">PDFTash</div>
-  <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/test-tools" target="_blank">System Status</a></div>
+  <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
   <div class="foot-copy">© 2026 PDFTash</div>
 </footer>
 
