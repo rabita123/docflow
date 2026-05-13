@@ -287,7 +287,28 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     <a href="/test-tools" target="_blank">System Status</a>
   </div>
   <div class="nav-right">
-    <button class="btn btn-ghost">Log in</button>
+    @auth
+    <div style="display:flex;align-items:center;gap:12px;">
+        <img src="{{ auth()->user()->avatar }}"
+             style="width:32px;height:32px;border-radius:50%;border:2px solid #5b5cff;"
+             alt="{{ auth()->user()->name }}">
+        <span style="font-size:14px;color:#fff;">{{ auth()->user()->name }}</span>
+        @if(auth()->user()->plan === 'pro')
+            <span style="background:#5b5cff;color:#fff;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;">PRO</span>
+        @endif
+        <form method="POST" action="/logout" style="margin:0;">
+            @csrf
+            <button type="submit" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:8px 16px;border-radius:99px;cursor:pointer;font-size:13px;">
+                Logout
+            </button>
+        </form>
+    </div>
+    @else
+    <a href="/auth/google" style="display:flex;align-items:center;gap:8px;background:#fff;color:#333;padding:8px 20px;border-radius:99px;text-decoration:none;font-weight:600;font-size:14px;">
+        <img src="https://www.google.com/favicon.ico" style="width:16px;height:16px;">
+        Sign in with Google
+    </a>
+    @endauth
     <button class="btn btn-primary" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Start Free →</button>
   </div>
 </nav>
