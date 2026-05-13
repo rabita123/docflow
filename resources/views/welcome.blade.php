@@ -288,17 +288,19 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
   <div class="nav-right">
     @auth
-    <div style="display:flex;align-items:center;gap:12px;">
-        <img src="{{ auth()->user()->avatar }}"
-             style="width:32px;height:32px;border-radius:50%;border:2px solid #5b5cff;"
-             alt="{{ auth()->user()->name }}">
-        <span style="font-size:14px;color:#fff;">{{ auth()->user()->name }}</span>
-        @if(auth()->user()->plan === 'pro')
-            <span style="background:#5b5cff;color:#fff;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;">PRO</span>
-        @endif
+    <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/dashboard" style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:6px 14px;border-radius:99px;border:1px solid rgba(255,255,255,.15);transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,.07)'" onmouseout="this.style.background='transparent'">
+            @if(auth()->user()->avatar)
+            <img src="{{ auth()->user()->avatar }}" style="width:24px;height:24px;border-radius:50%;" alt="">
+            @endif
+            <span style="font-size:13px;color:#fff;font-weight:500;">{{ explode(' ', auth()->user()->name)[0] }}</span>
+            @if(auth()->user()->plan === 'pro')
+                <span style="background:#5b5cff;color:#fff;font-size:10px;padding:1px 6px;border-radius:99px;font-weight:700;">PRO</span>
+            @endif
+        </a>
         <form method="POST" action="/logout" style="margin:0;">
             @csrf
-            <button type="submit" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:8px 16px;border-radius:99px;cursor:pointer;font-size:13px;">
+            <button type="submit" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:7px 14px;border-radius:99px;cursor:pointer;font-size:13px;">
                 Logout
             </button>
         </form>
