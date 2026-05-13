@@ -284,7 +284,6 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   <div class="nav-links">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
-    <a href="/system-status" target="_blank">System Status</a>
   </div>
   <div class="nav-right">
     @auth
