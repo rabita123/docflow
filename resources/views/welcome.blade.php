@@ -474,7 +474,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <footer>
   <div class="foot-logo">PDFTash</div>
   <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/test-tools" target="_blank">System Status</a></div>
-  <div class="foot-copy">© 2026 PDFTash — Built with Laravel + Anthropic Claude</div>
+  <div class="foot-copy">© 2026 PDFTash</div>
 </footer>
 
 <!-- PANEL -->
