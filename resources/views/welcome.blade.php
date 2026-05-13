@@ -1004,7 +1004,11 @@ dz.addEventListener('drop', e => {
 });
 
 // ── Login Modal ───────────────────────────────────────────────────────────
+let modalMode = 'login';
+
 function openLoginModal(){
+    modalMode = 'login';
+    setModalMode('login');
     const m = document.getElementById('login-modal');
     m.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -1013,6 +1017,31 @@ function closeLoginModal(){
     const m = document.getElementById('login-modal');
     m.style.display = 'none';
     document.body.style.overflow = '';
+}
+function switchToRegister(e){
+    e.preventDefault();
+    modalMode = 'register';
+    setModalMode('register');
+}
+function switchToLogin(e){
+    e.preventDefault();
+    modalMode = 'login';
+    setModalMode('login');
+}
+function setModalMode(mode){
+    const isLogin = mode === 'login';
+    document.getElementById('modal-title').textContent    = isLogin ? 'Sign in' : 'Create account';
+    document.getElementById('modal-sub').textContent      = isLogin ? 'Continue to your account' : 'Start for free — no credit card needed';
+    document.getElementById('modal-submit-btn').textContent = isLogin ? 'Sign In' : 'Create Account';
+    document.getElementById('password-group').style.display = isLogin ? 'block' : 'none';
+    document.getElementById('forgot-group').style.display   = isLogin ? 'block' : 'none';
+    document.getElementById('modal-toggle').innerHTML = isLogin
+        ? 'Don\'t have an account? <a href="#" onclick="switchToRegister(event)" style="color:var(--accent);text-decoration:none;font-weight:600;">Create an account</a>'
+        : 'Already have an account? <a href="#" onclick="switchToLogin(event)" style="color:var(--accent);text-decoration:none;font-weight:600;">Sign in</a>';
+}
+function submitLoginForm(){
+    // For now redirect to Google — email/password can be added later
+    window.location.href = '/auth/google';
 }
 document.getElementById('login-modal')?.addEventListener('click', function(e){
     if(e.target === this) closeLoginModal();
@@ -1086,21 +1115,51 @@ function showToast(msg, icon='✅'){
 
 <!-- Login Modal -->
 <div id="login-modal" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px;">
-  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:24px;max-width:420px;width:100%;padding:40px;position:relative;">
-    <button onclick="closeLoginModal()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:var(--text3);font-size:22px;cursor:pointer;line-height:1;">×</button>
+  <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;max-width:400px;width:100%;padding:36px 32px;position:relative;">
+    <button onclick="closeLoginModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:#666;font-size:22px;cursor:pointer;line-height:1;">×</button>
 
-    <div style="text-align:center;margin-bottom:28px;">
-      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;">Welcome back</div>
-      <div style="font-size:14px;color:var(--text2);">Sign in to your account to continue</div>
+    <!-- Logo + Title -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+      <div style="width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;">PDFTash</span>
     </div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;" id="modal-title">Sign in</div>
+    <div style="font-size:13px;color:#888;margin-bottom:24px;" id="modal-sub">Continue to your account</div>
 
-    <a href="/auth/google" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;background:#fff;color:#1f1f1f;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;margin-bottom:20px;transition:opacity .2s;" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
-      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+    <!-- Google Button -->
+    <a href="/auth/google" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px;background:#2a2a3e;color:#eee;border:1px solid rgba(255,255,255,.12);border-radius:10px;text-decoration:none;font-weight:500;font-size:14px;margin-bottom:20px;box-sizing:border-box;transition:background .2s;" onmouseover="this.style.background='#33334a'" onmouseout="this.style.background='#2a2a3e'">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Continue with Google
     </a>
 
-    <div style="text-align:center;color:var(--text3);font-size:12px;">
-      By signing in, you agree to our Terms of Service.<br>Free plan: 5 tasks/day. No credit card required.
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+      <span style="font-size:12px;color:#555;">OR</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom:14px;">
+      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Email</label>
+      <input type="email" id="login-email" placeholder="you@example.com" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+
+    <!-- Password (hidden on register) -->
+    <div style="margin-bottom:6px;" id="password-group">
+      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Password</label>
+      <input type="password" id="login-password" placeholder="••••••••" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+    <div style="text-align:right;margin-bottom:20px;" id="forgot-group">
+      <a href="#" style="font-size:13px;color:#5b5cff;text-decoration:none;">Forgot password?</a>
+    </div>
+
+    <!-- Submit -->
+    <button type="button" onclick="submitLoginForm()" id="modal-submit-btn" style="width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:20px;transition:background .2s;" onmouseover="this.style.background='var(--accent-h)'" onmouseout="this.style.background='var(--accent)'">Sign In</button>
+
+    <!-- Toggle -->
+    <div style="text-align:center;font-size:13px;color:#666;" id="modal-toggle">
+      Don't have an account? <a href="#" onclick="switchToRegister(event)" style="color:var(--accent);text-decoration:none;font-weight:600;">Create an account</a>
     </div>
   </div>
 </div>
