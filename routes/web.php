@@ -3,10 +3,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Auth\SocialiteController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// ── Google OAuth Routes ──────────────────────────────────────────────────────
+Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
+Route::post('/logout',              [SocialiteController::class, 'logout'])->name('logout');
 
 // ── Payment Routes ───────────────────────────────────────────────────────────
 Route::post('/payment/checkout', [PaymentController::class, 'checkout']);

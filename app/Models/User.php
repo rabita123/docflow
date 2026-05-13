@@ -21,6 +21,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'avatar',
+        'plan',
+        'stripe_customer_id',
+        'stripe_subscription_id',
+        'pro_expires_at',
+        'daily_tasks',
+        'last_task_date',
     ];
 
     /**
