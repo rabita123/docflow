@@ -31,21 +31,19 @@ Route::get('/usage', function () {
         return response()->json([
             'plan'      => 'pro',
             'unlimited' => true,
-            'used'      => 0,
-            'limit'     => 0,
-            'remaining' => 999,
+            'pdf'       => ['used' => 0, 'limit' => 0, 'remaining' => 999],
+            'ai'        => ['used' => 0, 'limit' => 0, 'remaining' => 999],
         ]);
     }
     $identifier = Auth::check() ? 'user_' . Auth::id() : 'ip_' . request()->ip();
-    $used       = Cache::get('tasks_used_' . $identifier, 0);
-    $limit      = \App\Http\Middleware\CheckFreeTierLimit::FREE_TOTAL_LIMIT;
-    return response()->json([
-        'plan'      => Auth::check() ? Auth::user()->plan : 'guest',
-        'unlimited' => false,
-        'used'      => $used,
-        'limit'     => $limit,
-        'remaining' => max(0, $limit - $used),
-    ]);
+    $today      = date('Y-m-d');
+    $limits     = \App\Http\Middleware\CheckFreeTierLimit::LIMITS;
+    $data       = ['plan' => Auth::check() ? Auth::user()->plan : 'guest', 'unlimited' => false];
+    foreach ($limits as $group => $limit) {
+        $used = Cache::get("limit_{$group}_{$identifier}_{$today}", 0);
+        $data[$group] = ['used' => $used, 'limit' => $limit, 'remaining' => max(0, $limit - $used)];
+    }
+    return response()->json($data);
 });
 
 // All tool routes — protected by free tier limit

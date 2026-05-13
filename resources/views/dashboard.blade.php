@@ -155,11 +155,20 @@ textarea.tool-input::placeholder{color:var(--text3);}
     @else
     <div class="words-bar">
       <div class="words-label">
-        <span>Tasks remaining</span>
-        <span id="tasks-remaining-label">… / 150</span>
+        <span>📄 PDF tools today</span>
+        <span id="pdf-remaining-label">… / 3</span>
       </div>
       <div class="words-track">
-        <div class="words-fill" id="tasks-fill" style="width:0%"></div>
+        <div class="words-fill" id="pdf-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="words-bar" style="padding-top:0">
+      <div class="words-label">
+        <span>🤖 AI tools today</span>
+        <span id="ai-remaining-label">… / 1</span>
+      </div>
+      <div class="words-track">
+        <div class="words-fill" id="ai-fill" style="width:0%"></div>
       </div>
     </div>
     <button class="upgrade-btn" onclick="window.location.href='/#pricing'">
@@ -478,38 +487,33 @@ async function loadUsage(){
     try {
         const r = await fetch('/api/usage');
         const d = await r.json();
-        const label = document.getElementById('tasks-remaining-label');
-        const fill  = document.getElementById('tasks-fill');
-        if(!label) return; // pro user — element not rendered
-        if(d.unlimited){
-            label.textContent = 'Unlimited';
-            if(fill) fill.style.width = '100%';
-        } else {
-            label.textContent = d.remaining + ' / ' + d.limit;
-            const pct = Math.min(100, (d.used / d.limit) * 100);
-            if(fill){
-                fill.style.width = pct + '%';
-                fill.style.background = pct >= 90 ? '#ff6b6b' : pct >= 60 ? '#ffcc44' : 'var(--accent2)';
-            }
-        }
+        if(d.unlimited) return;
+        updateBar('pdf', d.pdf?.used||0, d.pdf?.limit||3);
+        updateBar('ai',  d.ai?.used||0,  d.ai?.limit||1);
     } catch(e){}
+}
+
+function updateBar(group, used, limit){
+    const label = document.getElementById(group+'-remaining-label');
+    const fill  = document.getElementById(group+'-fill');
+    if(!label) return;
+    const remaining = Math.max(0, limit - used);
+    label.textContent = remaining + ' / ' + limit;
+    const pct = Math.min(100, (used / limit) * 100);
+    if(fill){
+        fill.style.width = pct + '%';
+        fill.style.background = pct >= 100 ? '#ff6b6b' : pct >= 60 ? '#ffcc44' : 'var(--accent2)';
+    }
 }
 loadUsage();
 
 // Update usage after each tool call
 function updateUsageAfterCall(resp){
-    const used      = resp.headers.get('X-Tasks-Used');
-    const remaining = resp.headers.get('X-Tasks-Remaining');
-    const limit     = resp.headers.get('X-Tasks-Limit');
-    if(remaining === null) return;
-    const label = document.getElementById('tasks-remaining-label');
-    const fill  = document.getElementById('tasks-fill');
-    if(label) label.textContent = remaining + ' / ' + limit;
-    if(fill){
-        const pct = Math.min(100, ((+limit - +remaining) / +limit) * 100);
-        fill.style.width = pct + '%';
-        fill.style.background = pct >= 90 ? '#ff6b6b' : pct >= 60 ? '#ffcc44' : 'var(--accent2)';
-    }
+    const used      = parseInt(resp.headers.get('X-Tasks-Used') || 0);
+    const limit     = parseInt(resp.headers.get('X-Tasks-Limit') || 0);
+    const group     = resp.headers.get('X-Tasks-Group');
+    if(!group || !limit) return;
+    updateBar(group, used, limit);
 }
 
 // ── Navigation ─────────────────────────────────────────────────────────────

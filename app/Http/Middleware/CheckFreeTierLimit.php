@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Cache;
 
 class CheckFreeTierLimit
 {
-    const FREE_TOTAL_LIMIT = 150;
+    // Daily limits per tool group for free users
+    const LIMITS = [
+        'pdf'  => 3,   // compress, merge, split, sign, etc.
+        'ai'   => 1,   // chat, translate, summarize
+    ];
 
     public function handle(Request $request, Closure $next)
     {
@@ -18,30 +22,48 @@ class CheckFreeTierLimit
             return $next($request);
         }
 
-        // Identify user: logged in → user ID, guest → IP
+        // Determine tool group from route
+        $path  = $request->path(); // e.g. api/pdf/compress or api/ai/translate
+        $group = $this->getGroup($path);
+
+        if (!$group) {
+            return $next($request); // unknown route — skip
+        }
+
+        $limit      = self::LIMITS[$group];
         $identifier = Auth::check() ? 'user_' . Auth::id() : 'ip_' . $request->ip();
-        $key        = 'tasks_used_' . $identifier;
+        $today      = date('Y-m-d');
+        $key        = "limit_{$group}_{$identifier}_{$today}";
         $used       = Cache::get($key, 0);
 
-        if ($used >= self::FREE_TOTAL_LIMIT) {
+        if ($used >= $limit) {
+            $groupLabel = $group === 'pdf' ? 'PDF tool' : 'AI tool';
             return response()->json([
                 'error'     => 'free_limit_reached',
-                'message'   => 'You have used all 150 free tasks. Upgrade to Pro for unlimited access.',
-                'limit'     => self::FREE_TOTAL_LIMIT,
+                'message'   => "You've used your {$limit} free {$groupLabel} tasks for today. Upgrade to Pro for unlimited access.",
+                'group'     => $group,
+                'limit'     => $limit,
                 'used'      => $used,
                 'remaining' => 0,
             ], 429);
         }
 
-        // Increment — store for 365 days (permanent free quota)
-        Cache::put($key, $used + 1, now()->addDays(365));
+        // Increment daily counter — expires at end of day
+        Cache::put($key, $used + 1, now()->endOfDay());
 
-        // Attach remaining to response header
         $response = $next($request);
         $response->headers->set('X-Tasks-Used',      $used + 1);
-        $response->headers->set('X-Tasks-Remaining', self::FREE_TOTAL_LIMIT - ($used + 1));
-        $response->headers->set('X-Tasks-Limit',     self::FREE_TOTAL_LIMIT);
+        $response->headers->set('X-Tasks-Remaining', $limit - ($used + 1));
+        $response->headers->set('X-Tasks-Limit',     $limit);
+        $response->headers->set('X-Tasks-Group',     $group);
 
         return $response;
+    }
+
+    private function getGroup(string $path): ?string
+    {
+        if (str_contains($path, 'api/pdf') || str_contains($path, 'api/pdf')) return 'pdf';
+        if (str_contains($path, 'api/ai'))  return 'ai';
+        return null;
     }
 }
