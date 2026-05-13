@@ -1030,11 +1030,14 @@ function switchToLogin(e){
 }
 function setModalMode(mode){
     const isLogin = mode === 'login';
-    document.getElementById('modal-title').textContent    = isLogin ? 'Sign in' : 'Create account';
-    document.getElementById('modal-sub').textContent      = isLogin ? 'Continue to your account' : 'Start for free — no credit card needed';
+    document.getElementById('modal-title').textContent      = isLogin ? 'Sign in' : 'Create an account';
+    document.getElementById('modal-sub').textContent        = isLogin ? 'Continue to your account' : 'Start for free — no credit card needed';
     document.getElementById('modal-submit-btn').textContent = isLogin ? 'Sign In' : 'Create Account';
-    document.getElementById('password-group').style.display = isLogin ? 'block' : 'none';
-    document.getElementById('forgot-group').style.display   = isLogin ? 'block' : 'none';
+    document.getElementById('password-group').style.display        = 'block';
+    document.getElementById('forgot-group').style.display          = isLogin ? 'block' : 'none';
+    document.getElementById('fullname-group').style.display        = isLogin ? 'none' : 'block';
+    document.getElementById('confirm-password-group').style.display= isLogin ? 'none' : 'block';
+    document.getElementById('terms-group').style.display           = isLogin ? 'none' : 'flex';
     document.getElementById('modal-toggle').innerHTML = isLogin
         ? 'Don\'t have an account? <a href="#" onclick="switchToRegister(event)" style="color:var(--accent);text-decoration:none;font-weight:600;">Create an account</a>'
         : 'Already have an account? <a href="#" onclick="switchToLogin(event)" style="color:var(--accent);text-decoration:none;font-weight:600;">Sign in</a>';
@@ -1145,13 +1148,33 @@ function showToast(msg, icon='✅'){
       <input type="email" id="login-email" placeholder="you@example.com" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
     </div>
 
-    <!-- Password (hidden on register) -->
-    <div style="margin-bottom:6px;" id="password-group">
-      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Password</label>
-      <input type="password" id="login-password" placeholder="••••••••" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    <!-- Full Name (register only) -->
+    <div style="margin-bottom:14px;display:none;" id="fullname-group">
+      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Full Name</label>
+      <input type="text" id="register-name" placeholder="Jane Smith" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
     </div>
+
+    <!-- Password -->
+    <div style="margin-bottom:14px;" id="password-group">
+      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Password</label>
+      <input type="password" id="login-password" placeholder="Min. 8 characters" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+
+    <!-- Confirm Password (register only) -->
+    <div style="margin-bottom:14px;display:none;" id="confirm-password-group">
+      <label style="display:block;font-size:12px;font-weight:600;color:#aaa;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Confirm Password</label>
+      <input type="password" id="register-confirm" placeholder="Repeat your password" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+
+    <!-- Forgot (login only) -->
     <div style="text-align:right;margin-bottom:20px;" id="forgot-group">
       <a href="#" style="font-size:13px;color:#5b5cff;text-decoration:none;">Forgot password?</a>
+    </div>
+
+    <!-- Terms (register only) -->
+    <div style="display:none;margin-bottom:18px;align-items:flex-start;gap:8px;" id="terms-group">
+      <input type="checkbox" id="terms-check" style="margin-top:2px;accent-color:#5b5cff;cursor:pointer;">
+      <label for="terms-check" style="font-size:13px;color:#888;cursor:pointer;">I agree to the <a href="#" style="color:#5b5cff;text-decoration:none;">Terms of Service</a> and <a href="#" style="color:#5b5cff;text-decoration:none;">Privacy Policy</a></label>
     </div>
 
     <!-- Submit -->
