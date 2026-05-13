@@ -120,24 +120,23 @@ Route::get('/translate-pdf', fn() => view('tools.translate'))->name('tool.transl
 Route::get('/sign-pdf', fn() => view('tools.sign'))->name('tool.sign');
 
 
+Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
+Route::get('/free-sejda-alternative', fn() => view('tools.sejda-alternative'));
+Route::get('/sejda-alternative-free', fn() => view('tools.sejda-alternative'));
+
+
 Route::get('/sitemap.xml', function () {
     $content = '<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://pdftash.com</loc>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>https://pdftash.com/#tools</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://pdftash.com/#pricing</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
+<url><loc>https://pdftash.com</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+    <url><loc>https://pdftash.com/compress-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/merge-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/split-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/chat-with-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/translate-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/sign-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/pdf-to-bengali</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://pdftash.com/sejda-alternative</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 </urlset>';
     return response($content, 200, ['Content-Type' => 'application/xml']);
 });
