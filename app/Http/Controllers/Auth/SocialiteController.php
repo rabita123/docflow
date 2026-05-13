@@ -36,7 +36,7 @@ class SocialiteController extends Controller
 
             Auth::login($user, true);
 
-            return redirect('/');
+            return redirect('/dashboard');
 
         } catch (\Exception $e) {
             \Log::error('Google login error: ' . $e->getMessage());

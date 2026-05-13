@@ -9,6 +9,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// ── Dashboard ────────────────────────────────────────────────────────────────
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
+
 // ── Google OAuth Routes ──────────────────────────────────────────────────────
 Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
