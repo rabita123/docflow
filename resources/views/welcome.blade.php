@@ -21,23 +21,152 @@
 <meta name="author" content="PDFTash">
 <meta name="robots" content="index, follow">
 
-<!-- Open Graph (Facebook, LinkedIn) -->
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="PDFTash — Free PDF Tools with AI">
 <meta property="og:description" content="20+ free PDF tools — compress, merge, translate to Bengali, sign and chat with AI. No signup needed.">
 <meta property="og:url" content="https://pdftash.com">
 <meta property="og:site_name" content="PDFTash">
+<meta property="og:image" content="https://pdftash.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="PDFTash — Free PDF Tools Online">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PDFTash — Free PDF Tools with AI">
 <meta name="twitter:description" content="20+ free PDF tools with AI. Compress, merge, translate and chat with your PDFs.">
+<meta name="twitter:image" content="https://pdftash.com/og-image.png">
+<meta name="twitter:image:alt" content="PDFTash — Free PDF Tools Online">
 
 <!-- Canonical -->
 <link rel="canonical" href="https://pdftash.com">
 
+<!-- Structured Data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PDFTash",
+  "url": "https://pdftash.com",
+  "logo": "https://pdftash.com/og-image.png",
+  "description": "Free online PDF tools — compress, merge, split, translate and chat with PDF using AI.",
+  "foundingDate": "2025",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "url": "https://pdftash.com"
+  }
+}
+</script>
 
-<title>PDFTash — Advanced PDF Platform</title>
+<!-- Structured Data: WebSite + Sitelinks Search -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "PDFTash",
+  "url": "https://pdftash.com",
+  "description": "Free online PDF tools with AI — compress, merge, split, translate, sign PDFs.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://pdftash.com/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- Structured Data: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PDFTash",
+  "applicationCategory": "WebApplication",
+  "operatingSystem": "Web Browser",
+  "url": "https://pdftash.com",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Free Plan",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "3 PDF tasks and 1 AI task per day, up to 10MB"
+    },
+    {
+      "@type": "Offer",
+      "name": "Pro Plan",
+      "price": "9",
+      "priceCurrency": "USD",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "9",
+        "priceCurrency": "USD",
+        "unitCode": "MON"
+      },
+      "description": "Unlimited PDF and AI tasks, up to 200MB files"
+    }
+  ],
+  "featureList": [
+    "Compress PDF", "Merge PDF", "Split PDF", "Translate PDF to Bengali",
+    "Chat with PDF (AI)", "Sign PDF", "AI Summarizer", "Data Extractor"
+  ]
+}
+</script>
+
+<!-- Structured Data: FAQPage (homepage) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is PDFTash free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PDFTash is free to use with no signup needed. Free users get 3 PDF tool tasks and 1 AI task per day. Pro users get unlimited access for $9/month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I translate a PDF to Bengali for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PDFTash lets you translate PDFs to Bengali (Bangla) for free using AI. No account needed. Free users get 1 translation per day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PDFTash work without signup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All PDF tools on PDFTash work without creating an account. Simply upload your PDF and use the tool immediately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PDFTash a good Sejda alternative?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. PDFTash offers similar PDF tools to Sejda but adds AI features like PDF chat, translation and summarization. The free plan is generous and no signup is required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my PDF safe on PDFTash?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All uploaded files are encrypted, processed securely, and automatically deleted from servers after 2 hours. PDFTash never stores or shares your documents."
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -346,7 +475,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <section class="section" id="tools">
   <div class="sec-header">
     <div class="sec-tag">All Tools</div>
-    <div class="sec-title">Everything for PDF work</div>
+    <h2 class="sec-title">Everything for PDF work</h2>
     <div class="sec-sub">20+ tools — free to start, powerful on Pro.</div>
   </div>
   <div class="tool-tabs">
@@ -389,7 +518,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <section class="section" id="pricing">
   <div class="sec-header">
     <div class="sec-tag">Pricing</div>
-    <div class="sec-title">Simple, transparent pricing</div>
+    <h2 class="sec-title">Simple, transparent pricing</h2>
     <div class="sec-sub">Start free. No credit card needed.</div>
   </div>
 

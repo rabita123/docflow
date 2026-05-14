@@ -128,19 +128,34 @@ Route::get('/pdf-translator-bengali', function () {
 });
 
 Route::get('/sitemap.xml', function () {
-    $content = '<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://pdftash.com</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-    <url><loc>https://pdftash.com/compress-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/merge-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/split-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/chat-with-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/translate-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/sign-pdf</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/pdf-to-bengali</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://pdftash.com/sejda-alternative</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-</urlset>';
-    return response($content, 200, ['Content-Type' => 'application/xml']);
+    $today = date('Y-m-d');
+    $urls = [
+        ['loc' => 'https://pdftash.com',                          'priority' => '1.0', 'changefreq' => 'daily'],
+        ['loc' => 'https://pdftash.com/compress-pdf',             'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/merge-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/split-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/chat-with-pdf',            'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf',            'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/sign-pdf',                 'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-translator-bengali',   'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/free-sejda-alternative',   'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/sejda-alternative-free',   'priority' => '0.7', 'changefreq' => 'monthly'],
+    ];
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($urls as $u) {
+        $xml .= "  <url>\n";
+        $xml .= "    <loc>{$u['loc']}</loc>\n";
+        $xml .= "    <lastmod>{$today}</lastmod>\n";
+        $xml .= "    <changefreq>{$u['changefreq']}</changefreq>\n";
+        $xml .= "    <priority>{$u['priority']}</priority>\n";
+        $xml .= "  </url>\n";
+    }
+    $xml .= '</urlset>';
+
+    return response($xml, 200, ['Content-Type' => 'application/xml']);
 });
 
 

@@ -13,6 +13,14 @@
 <meta property="og:description" content="Translate any PDF to Bengali instantly. Free, no signup, AI-powered. Supports 12+ languages to Bengali.">
 <meta property="og:url" content="https://pdftash.com/pdf-translator-bengali">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://pdftash.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PDFTash — Translate PDF to Bengali Free">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Translate PDF to Bengali Free — PDFTash">
+<meta name="twitter:description" content="Translate any PDF to Bengali instantly. Free, AI-powered, no signup.">
+<meta name="twitter:image" content="https://pdftash.com/og-image.png">
 
 <!-- Schema: FAQPage -->
 <script type="application/ld+json">
