@@ -1,9 +1,76 @@
 @extends('tools.layout')
 
-@section('title', 'Best Free Sejda Alternative — PDFTash')
-@section('description', 'Looking for a free Sejda alternative? PDFTash offers 20+ PDF tools with AI — compress, merge, split, chat and translate. No signup needed. Completely free.')
-@section('keywords', 'sejda alternative, sejda alternative free, free sejda alternative, sejda pdf alternative, best sejda alternative 2026')
+@section('title', 'Best Free Sejda Alternative 2026 — PDFTash')
+@section('description', 'Looking for a free Sejda alternative? PDFTash offers 20+ PDF tools with AI — compress, merge, split, chat and translate. No signup. No daily limit. Completely free.')
+@section('keywords', 'sejda alternative, sejda alternative free, free sejda alternative, sejda pdf alternative, best sejda alternative 2026, sejda replacement, pdf tools like sejda')
 @section('slug', 'sejda-alternative')
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is PDFTash really a free Sejda alternative?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! PDFTash offers all the core PDF tools that Sejda provides — completely free. Plus AI features like Chat with PDF and PDF translation to Bengali and 12+ languages that Sejda doesn't have."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is PDFTash better than Sejda?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PDFTash has AI features (chat, translate, summarize) that Sejda doesn't offer. Our free plan also has fewer restrictions and we support 12+ languages including Bengali, Hindi, and Arabic."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does PDFTash have a daily limit like Sejda?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Basic tools like compress, merge and split have generous free limits. AI features have a daily limit on the free plan. Pro users at $9/month get unlimited access to everything."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is PDFTash safe to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All uploaded files are processed securely and automatically deleted after 2 hours. PDFTash never stores or shares your documents."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What other Sejda alternatives are there?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Other alternatives include Smallpdf, ILovePDF, and PDF24. But PDFTash is the only one with AI chat, AI translation to Bengali, and truly unlimited basic tools."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Best Free Sejda Alternative 2026 — PDFTash",
+  "description": "PDFTash is the best free Sejda alternative with AI features, 12+ language PDF translation, and no daily limits on basic tools.",
+  "url": "https://pdftash.com/sejda-alternative",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "PDFTash", "item": "https://pdftash.com"},
+      {"@type": "ListItem", "position": 2, "name": "Sejda Alternative", "item": "https://pdftash.com/sejda-alternative"}
+    ]
+  }
+}
+</script>
+@endsection
 
 @section('content')
 

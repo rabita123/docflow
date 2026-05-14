@@ -6,7 +6,30 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>@yield('title') — PDFTash</title>
 <meta name="description" content="@yield('description')">
+@hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
+<meta name="robots" content="index, follow">
+<meta name="author" content="PDFTash">
 <link rel="canonical" href="https://pdftash.com/@yield('slug')">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PDFTash">
+<meta property="og:title" content="@yield('title') — PDFTash">
+<meta property="og:description" content="@yield('description')">
+<meta property="og:url" content="https://pdftash.com/@yield('slug')">
+<meta property="og:image" content="https://pdftash.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="@yield('title') — PDFTash">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@yield('title') — PDFTash">
+<meta name="twitter:description" content="@yield('description')">
+<meta name="twitter:image" content="https://pdftash.com/og-image.png">
+
+@hasSection('schema')@yield('schema')@endif
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
