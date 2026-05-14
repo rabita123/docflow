@@ -360,7 +360,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   <div class="tools-grid" id="tools-grid">
     <div class="tc" data-c="ai" onclick="openTool('chat')"><div class="tc-icon">💬</div><div class="tc-name">Chat with PDF</div><div class="tc-desc">Ask questions, get instant answers</div><span class="tc-badge bai">AI</span></div>
     <div class="tc" data-c="ai" onclick="openTool('summarize')"><div class="tc-icon">📝</div><div class="tc-name">AI Summarizer</div><div class="tc-desc">Concise summary of any PDF</div><span class="tc-badge bai">AI</span></div>
-    <div class="tc" data-c="ai" onclick="openTool('translate')"><div class="tc-icon">🌐</div><div class="tc-name">PDF Translator</div><div class="tc-desc">Translate to 12+ languages</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="ai" onclick="openTool('translate')"><div class="tc-icon">🌐</div><div class="tc-name">PDF Translator</div><div class="tc-desc">Translate to 12+ languages</div><span class="tc-badge bnew">NEW</span><a href="/pdf-translator-bengali" onclick="event.stopPropagation()" style="display:block;margin-top:8px;font-size:0.78rem;color:#8888a8;text-decoration:none;">📖 Bengali guide</a></div>
     <div class="tc" data-c="ai" onclick="openTool('extract-data')"><div class="tc-icon">📊</div><div class="tc-name">Data Extractor</div><div class="tc-desc">Extract invoices & tables to JSON</div><span class="tc-badge bai">AI</span></div>
     <div class="tc" data-c="organize" onclick="openTool('compress')"><div class="tc-icon">🗜️</div><div class="tc-name">Compress PDF</div><div class="tc-desc">Reduce size, keep quality</div><span class="tc-badge bhot">HOT</span></div>
     <div class="tc" data-c="organize" onclick="openTool('merge')"><div class="tc-icon">🔗</div><div class="tc-name">Merge PDFs</div><div class="tc-desc">Combine multiple PDFs into one</div><span class="tc-badge bfree">FREE</span></div>
@@ -475,6 +475,11 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <footer>
   <div class="foot-logo">PDFTash</div>
   <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
+  <div style="margin:14px 0 4px;font-size:0.82rem;color:#44445a;">
+    <a href="/pdf-translator-bengali" style="color:#44445a;text-decoration:none;">📖 PDF to Bengali Translation</a>
+    &nbsp;·&nbsp;
+    <a href="/sejda-alternative" style="color:#44445a;text-decoration:none;">Sejda Alternative</a>
+  </div>
   <div class="foot-copy">© 2026 PDFTash</div>
 </footer>
 
