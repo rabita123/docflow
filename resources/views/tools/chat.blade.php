@@ -1,9 +1,25 @@
 @extends('tools.layout')
 
-@section('title', 'Chat with PDF Online Free — AI PDF Chat')
-@section('description', 'Chat with your PDF documents using AI. Ask questions, get summaries, extract information from any PDF. Free online tool.')
-@section('keywords', 'chat with pdf, ai pdf chat, talk to pdf, ask pdf questions, pdf ai assistant free')
+@section('title', 'Chat with PDF Online Free — Ask AI Questions About Any PDF')
+@section('description', 'Chat with any PDF using AI. Ask questions, get instant answers, extract key information and summaries from any document. Free, no signup needed.')
+@section('keywords', 'chat with pdf, ai pdf chat, talk to pdf, ask pdf questions, pdf ai assistant free, chatpdf alternative, pdf question answering, ai document chat')
 @section('slug', 'chat-with-pdf')
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How does Chat with PDF work?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF to PDFTash. Our AI reads the document and you can then ask any question about its content. The AI answers instantly based on the document text."}},
+    {"@type":"Question","name":"What kinds of questions can I ask about my PDF?","acceptedAnswer":{"@type":"Answer","text":"You can ask anything — summarize this document, what are the key points, explain section 3, what does this contract say about payment terms, find all dates mentioned, and more."}},
+    {"@type":"Question","name":"Is Chat with PDF free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI chat session per day. Pro users ($9/month) get unlimited AI chats with larger PDF files up to 200MB."}},
+    {"@type":"Question","name":"Is PDFTash a good ChatPDF alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash offers the same AI chat functionality as ChatPDF — completely free with no signup. Plus PDF tools like compress, merge, translate and sign."}},
+    {"@type":"Question","name":"What languages can I chat in?","acceptedAnswer":{"@type":"Answer","text":"You can ask questions in any language including English, Bengali, Hindi, Arabic, Spanish and more. The AI understands and responds in your language."}}
+  ]
+}
+</script>
+@endsection
 
 @section('content')
 <div class="hero">
@@ -47,6 +63,54 @@
     <div class="feature-icon">📊</div>
     <div class="feature-title">Any PDF Type</div>
     <div class="feature-desc">Works with reports, books, contracts, research papers</div>
+  </div>
+</div>
+
+{{-- HOW IT WORKS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">How to Chat with Your PDF</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    @foreach([
+      ['📤','Upload PDF','Drop your PDF file. The AI reads and indexes the full document.'],
+      ['💬','Ask Anything','Type your question — summarize, explain, find information, compare sections.'],
+      ['🤖','Get Answers','AI responds instantly based on your document content.'],
+    ] as $i => $s)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center;">
+      <div style="width:32px;height:32px;background:#5b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin:0 auto 12px;">{{ $i+1 }}</div>
+      <div style="font-size:28px;margin-bottom:10px;">{{ $s[0] }}</div>
+      <div style="font-weight:600;margin-bottom:6px;font-size:14px;">{{ $s[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $s[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- USE CASES --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">What Can You Ask Your PDF?</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    @foreach([
+      ['📝','Summarize Documents','Ask "Summarize this document in 5 bullet points" to get a quick overview.'],
+      ['⚖️','Understand Contracts','Ask "What are the payment terms?" or "When does this contract expire?"'],
+      ['🎓','Study & Research','Ask questions about a research paper or textbook chapter to understand faster.'],
+      ['📊','Extract Data','Ask "List all dates mentioned" or "What are the key statistics in this report?"'],
+    ] as $u)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:8px;">{{ $u[0] }}</div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:6px;">{{ $u[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $u[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- RELATED TOOLS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;text-align:center;">
+  <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">More Free PDF Tools</h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    @foreach([['Compress PDF','/compress-pdf'],['Merge PDF','/merge-pdf'],['Split PDF','/split-pdf'],['Translate PDF','/translate-pdf'],['Sign PDF','/sign-pdf']] as $t)
+    <a href="{{ $t[1] }}" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;font-weight:500;" onmouseover="this.style.borderColor='#5b5cff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">{{ $t[0] }}</a>
+    @endforeach
   </div>
 </div>
 

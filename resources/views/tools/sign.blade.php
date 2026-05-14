@@ -1,9 +1,25 @@
 @extends('tools.layout')
 
-@section('title', 'Sign PDF Online Free — Add Digital Signature')
-@section('description', 'Add digital signature to PDF online for free. Sign PDF documents electronically. No signup needed. Fast and secure.')
-@section('keywords', 'sign pdf online, digital signature pdf, electronic signature pdf, sign pdf free, pdf signature')
+@section('title', 'Sign PDF Online Free — Add Electronic Signature to PDF')
+@section('description', 'Sign PDF documents online for free. Add electronic or digital signature to any PDF instantly. No signup needed. Legally valid e-signature. Fast and secure.')
+@section('keywords', 'sign pdf online, digital signature pdf, electronic signature pdf, sign pdf free, pdf signature, esign pdf, add signature to pdf, pdf esignature free')
 @section('slug', 'sign-pdf')
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How to sign a PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF to PDFTash, draw or type your signature, place it on the document, and download the signed PDF instantly. No signup required."}},
+    {"@type":"Question","name":"Is an electronic signature on PDFTash legally valid?","acceptedAnswer":{"@type":"Answer","text":"Electronic signatures are legally recognized in most countries under laws like eIDAS (EU) and ESIGN Act (USA). PDFTash signatures are valid for most business documents."}},
+    {"@type":"Question","name":"Can I sign a PDF on my phone?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash works fully on mobile. Sign PDFs from your phone or tablet by drawing your signature with your finger."}},
+    {"@type":"Question","name":"Is PDFTash a good free DocuSign alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash lets you sign PDFs for free without a subscription. For simple document signing, it works just as well as DocuSign or Adobe Sign at no cost."}},
+    {"@type":"Question","name":"What is the maximum PDF size for signing?","acceptedAnswer":{"@type":"Answer","text":"Free users can sign PDFs up to 10MB. Pro users ($9/month) can sign files up to 200MB."}}
+  ]
+}
+</script>
+@endsection
 
 @section('content')
 <div class="hero">

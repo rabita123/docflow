@@ -1,9 +1,38 @@
 @extends('tools.layout')
 
-@section('title', 'Merge PDF Files Online Free — Combine PDF')
-@section('description', 'Merge multiple PDF files into one online for free. Combine PDF documents easily. No signup needed. Fast and secure.')
-@section('keywords', 'merge pdf, combine pdf, merge pdf files online free, join pdf files')
+@section('title', 'Merge PDF Files Online Free — Combine PDF into One')
+@section('description', 'Merge multiple PDF files into one online for free. Combine PDF documents in any order instantly. No signup needed. Fast, secure, and free.')
+@section('keywords', 'merge pdf, combine pdf, merge pdf files online free, join pdf files, combine pdf into one, pdf merger online, ilovepdf alternative, smallpdf merge')
 @section('slug', 'merge-pdf')
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Merge PDF Files Online Free",
+  "description": "Combine multiple PDF documents into one file in 3 easy steps using PDFTash.",
+  "step": [
+    {"@type":"HowToStep","position":1,"name":"Upload PDFs","text":"Click the upload area and select 2 or more PDF files to merge. You can also drag and drop them."},
+    {"@type":"HowToStep","position":2,"name":"Arrange order","text":"Your files are listed in order. Remove any file you don't need."},
+    {"@type":"HowToStep","position":3,"name":"Merge & Download","text":"Click Merge PDFs and download the combined file instantly."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How to merge PDF files online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDFs to PDFTash, arrange them in your desired order, and click Merge PDF. Download the combined file instantly with no signup required."}},
+    {"@type":"Question","name":"How many PDF files can I merge at once?","acceptedAnswer":{"@type":"Answer","text":"Free users can merge multiple PDF files per session. Pro users ($9/month) get unlimited merging with larger file sizes up to 200MB."}},
+    {"@type":"Question","name":"Will quality be affected when merging PDFs?","acceptedAnswer":{"@type":"Answer","text":"No. PDFTash merges PDF files without any quality loss. Your documents look exactly the same after merging."}},
+    {"@type":"Question","name":"Is PDFTash better than ILovePDF for merging?","acceptedAnswer":{"@type":"Answer","text":"PDFTash offers the same PDF merging as ILovePDF and Smallpdf — completely free with no signup. Plus unique AI features like PDF translation and chat."}},
+    {"@type":"Question","name":"Can I merge PDFs on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash works fully on mobile browsers. Upload and merge PDF files from your phone or tablet without installing any app."}}
+  ]
+}
+</script>
+@endsection
 
 @section('content')
 <div class="hero">
@@ -33,17 +62,65 @@
   <div class="feature">
     <div class="feature-icon">📚</div>
     <div class="feature-title">Multiple Files</div>
-    <div class="feature-desc">Merge unlimited PDF files into one</div>
+    <div class="feature-desc">Combine as many PDFs as you need into one</div>
   </div>
   <div class="feature">
     <div class="feature-icon">🔄</div>
     <div class="feature-title">Custom Order</div>
-    <div class="feature-desc">Arrange pages in any order</div>
+    <div class="feature-desc">Arrange files in any order before merging</div>
   </div>
   <div class="feature">
     <div class="feature-icon">🔒</div>
     <div class="feature-title">100% Secure</div>
-    <div class="feature-desc">Files deleted after 2 hours</div>
+    <div class="feature-desc">Files deleted automatically after 2 hours</div>
+  </div>
+</div>
+
+{{-- HOW IT WORKS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">How to Merge PDFs in 3 Steps</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    @foreach([
+      ['📤','Upload PDFs','Select 2 or more PDF files. Drag and drop or click to browse.'],
+      ['🔄','Set Order','Your files appear in a list. Rearrange or remove any file.'],
+      ['⬇️','Merge & Download','Click Merge and download your combined PDF instantly.'],
+    ] as $i => $s)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center;">
+      <div style="width:32px;height:32px;background:#5b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin:0 auto 12px;">{{ $i+1 }}</div>
+      <div style="font-size:28px;margin-bottom:10px;">{{ $s[0] }}</div>
+      <div style="font-weight:600;margin-bottom:6px;font-size:14px;">{{ $s[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $s[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- USE CASES --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">When Do You Need to Merge PDFs?</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    @foreach([
+      ['📝','Reports & Proposals','Combine separate chapters or sections into a single professional document.'],
+      ['🎓','Academic Work','Merge multiple assignment files or research papers for submission.'],
+      ['🏠','Legal Documents','Combine contracts, ID proofs, and supporting documents into one PDF.'],
+      ['💼','Business Use','Merge invoices, receipts, and statements into one organized file.'],
+    ] as $u)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:8px;">{{ $u[0] }}</div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:6px;">{{ $u[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $u[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- RELATED TOOLS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;text-align:center;">
+  <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">More Free PDF Tools</h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    @foreach([['Compress PDF','/compress-pdf'],['Split PDF','/split-pdf'],['Translate PDF','/translate-pdf'],['Chat with PDF','/chat-with-pdf'],['Sign PDF','/sign-pdf']] as $t)
+    <a href="{{ $t[1] }}" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;font-weight:500;" onmouseover="this.style.borderColor='#5b5cff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">{{ $t[0] }}</a>
+    @endforeach
   </div>
 </div>
 
@@ -55,15 +132,19 @@
   </div>
   <div class="faq-item">
     <h3>How many PDF files can I merge at once?</h3>
-    <p>Free users can merge up to 5 PDF files per day. Pro users ($9/mo) can merge unlimited files.</p>
+    <p>You can merge multiple PDF files in one session. Pro users ($9/month) get unlimited merging with files up to 200MB.</p>
+  </div>
+  <div class="faq-item">
+    <h3>Will merging affect PDF quality?</h3>
+    <p>No! PDFTash merges PDF files without any quality loss. Your documents look exactly the same after merging.</p>
   </div>
   <div class="faq-item">
     <h3>Is PDFTash better than ILovePDF for merging?</h3>
-    <p>PDFTash offers the same PDF merging as ILovePDF and Smallpdf — completely free. Plus unique AI features.</p>
+    <p>PDFTash offers the same PDF merging as ILovePDF and Smallpdf — completely free with no signup. Plus AI features like PDF translation and chat.</p>
   </div>
   <div class="faq-item">
-    <h3>Will quality be affected when merging PDFs?</h3>
-    <p>No! PDFTash merges PDF files without any quality loss. Your documents will look exactly the same.</p>
+    <h3>Can I merge PDFs on my phone?</h3>
+    <p>Yes! PDFTash works fully on mobile browsers. Merge PDFs from your phone or tablet without installing any app.</p>
   </div>
 </div>
 

@@ -1,9 +1,38 @@
 @extends('tools.layout')
 
-@section('title', 'Split PDF Online Free — Extract PDF Pages')
-@section('description', 'Split PDF files online for free. Extract specific pages or split PDF into multiple files. No signup needed. Fast and secure.')
-@section('keywords', 'split pdf, extract pdf pages, split pdf online free, divide pdf, separate pdf pages')
+@section('title', 'Split PDF Online Free — Extract Pages from PDF')
+@section('description', 'Split PDF files online for free. Extract specific pages, remove pages, or divide PDF into multiple files. No signup needed. Instant download.')
+@section('keywords', 'split pdf, extract pdf pages, split pdf online free, divide pdf, separate pdf pages, remove pages from pdf, pdf page extractor, cut pdf pages')
 @section('slug', 'split-pdf')
+
+@section('schema')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Split a PDF Online Free",
+  "description": "Extract specific pages or split a PDF into multiple files in 3 easy steps.",
+  "step": [
+    {"@type":"HowToStep","position":1,"name":"Upload your PDF","text":"Click the upload area or drag and drop your PDF file."},
+    {"@type":"HowToStep","position":2,"name":"Enter page range","text":"Type the pages you want to extract, e.g. 1-3, 5, 7-9."},
+    {"@type":"HowToStep","position":3,"name":"Split & Download","text":"Click Split PDF and download the extracted pages instantly."}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How to split a PDF file online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF to PDFTash, enter the page range you want to extract (e.g. 1-3, 5), and click Split PDF. Download instantly with no signup required."}},
+    {"@type":"Question","name":"Can I extract specific pages from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes! Enter any combination of pages such as 1, 3, 5-10 and PDFTash will extract exactly those pages into a new PDF."}},
+    {"@type":"Question","name":"What page range format does PDFTash support?","acceptedAnswer":{"@type":"Answer","text":"Use comma-separated values and ranges. For example: 1-3, 5, 7-9 will extract pages 1, 2, 3, 5, 7, 8, and 9."}},
+    {"@type":"Question","name":"Is PDFTash better than Smallpdf for splitting PDFs?","acceptedAnswer":{"@type":"Answer","text":"PDFTash offers the same PDF splitting as Smallpdf and Sejda — completely free with no signup. Plus AI features like PDF translation and chat."}},
+    {"@type":"Question","name":"How many pages can I extract from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Free users can extract any number of pages from PDFs up to 10MB. Pro users ($9/month) can split PDFs up to 200MB."}}
+  ]
+}
+</script>
+@endsection
 
 @section('content')
 <div class="hero">
@@ -37,13 +66,13 @@
 <div class="features">
   <div class="feature">
     <div class="feature-icon">📄</div>
-    <div class="feature-title">Extract Pages</div>
-    <div class="feature-desc">Select specific pages to extract from your PDF</div>
+    <div class="feature-title">Extract Any Pages</div>
+    <div class="feature-desc">Pick exact pages using ranges like 1-3, 5, 7-9</div>
   </div>
   <div class="feature">
     <div class="feature-icon">📂</div>
     <div class="feature-title">Split by Range</div>
-    <div class="feature-desc">Split PDF into multiple files by page range</div>
+    <div class="feature-desc">Divide a large PDF into smaller files</div>
   </div>
   <div class="feature">
     <div class="feature-icon">🔒</div>
@@ -52,23 +81,75 @@
   </div>
 </div>
 
+{{-- HOW IT WORKS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">How to Split a PDF in 3 Steps</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    @foreach([
+      ['📤','Upload PDF','Click or drag your PDF into the upload box.'],
+      ['✍️','Enter Pages','Type the pages to extract, e.g. 1-3, 5, 7-9.'],
+      ['⬇️','Download','Get your extracted pages as a new PDF instantly.'],
+    ] as $i => $s)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center;">
+      <div style="width:32px;height:32px;background:#5b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin:0 auto 12px;">{{ $i+1 }}</div>
+      <div style="font-size:28px;margin-bottom:10px;">{{ $s[0] }}</div>
+      <div style="font-weight:600;margin-bottom:6px;font-size:14px;">{{ $s[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $s[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- USE CASES --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">When to Split a PDF?</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    @foreach([
+      ['📧','Email Size Limit','Extract only the relevant pages to stay under email attachment limits.'],
+      ['🎓','Submit Assignments','Extract specific chapters or pages required for your submission.'],
+      ['📑','Remove Blank Pages','Split out unwanted pages from scanned documents.'],
+      ['🏢','Share Sections','Send only the relevant section of a large report to clients.'],
+    ] as $u)
+    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:8px;">{{ $u[0] }}</div>
+      <div style="font-weight:600;font-size:14px;margin-bottom:6px;">{{ $u[1] }}</div>
+      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $u[2] }}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
+{{-- RELATED TOOLS --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;text-align:center;">
+  <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">More Free PDF Tools</h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    @foreach([['Compress PDF','/compress-pdf'],['Merge PDF','/merge-pdf'],['Translate PDF','/translate-pdf'],['Chat with PDF','/chat-with-pdf'],['Sign PDF','/sign-pdf']] as $t)
+    <a href="{{ $t[1] }}" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;font-weight:500;" onmouseover="this.style.borderColor='#5b5cff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">{{ $t[0] }}</a>
+    @endforeach
+  </div>
+</div>
+
 <div class="faq">
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item">
     <h3>How to split a PDF file online for free?</h3>
-    <p>Upload your PDF to PDFTash, select the pages you want to extract, and click "Split PDF". Download instantly. No signup required.</p>
+    <p>Upload your PDF to PDFTash, enter the page range (e.g. 1-3, 5), and click "Split PDF". Download instantly. No signup required.</p>
   </div>
   <div class="faq-item">
     <h3>Can I extract specific pages from a PDF?</h3>
-    <p>Yes! PDFTash lets you select any combination of pages to extract. For example, extract pages 1, 3, 5-10 from a large PDF.</p>
+    <p>Yes! Enter any combination like 1, 3, 5-10 and PDFTash will extract exactly those pages into a new PDF.</p>
+  </div>
+  <div class="faq-item">
+    <h3>What page range format should I use?</h3>
+    <p>Use comma-separated values and ranges. Example: 1-3, 5, 7-9 extracts pages 1, 2, 3, 5, 7, 8, and 9.</p>
   </div>
   <div class="faq-item">
     <h3>Is PDFTash better than Smallpdf for splitting PDFs?</h3>
-    <p>PDFTash offers the same PDF splitting as Smallpdf and Sejda — completely free with no daily limits. Plus AI features.</p>
+    <p>PDFTash offers the same PDF splitting as Smallpdf and Sejda — completely free with no signup. Plus AI features like translation to Bengali.</p>
   </div>
   <div class="faq-item">
-    <h3>How many pages can I extract from a PDF?</h3>
-    <p>Free users can extract any number of pages from PDFs up to 10MB. Pro users ($9/mo) can split PDFs up to 200MB.</p>
+    <h3>How many pages can I extract?</h3>
+    <p>Free users can extract any pages from PDFs up to 10MB. Pro users ($9/month) can split PDFs up to 200MB.</p>
   </div>
 </div>
 
