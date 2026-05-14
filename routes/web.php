@@ -123,7 +123,9 @@ Route::get('/sign-pdf', fn() => view('tools.sign'))->name('tool.sign');
 Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
 Route::get('/free-sejda-alternative', fn() => view('tools.sejda-alternative'));
 Route::get('/sejda-alternative-free', fn() => view('tools.sejda-alternative'));
-
+Route::get('/pdf-translator-bengali', function () {
+    return view('pages.pdf-translator-bengali');
+});
 
 Route::get('/sitemap.xml', function () {
     $content = '<?xml version="1.0" encoding="UTF-8"?>

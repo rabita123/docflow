@@ -11,8 +11,8 @@ class CheckFreeTierLimit
 {
     // Daily limits per tool group for free users
     const LIMITS = [
-        'pdf'  => 3,   // compress, merge, split, sign, etc.
-        'ai'   => 1,   // chat, translate, summarize
+        'pdf'  => 6,   // compress, merge, split, sign, etc. (test: 6)
+        'ai'   => 6,   // chat, translate, summarize (test: 6)
     ];
 
     public function handle(Request $request, Closure $next)
