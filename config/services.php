@@ -31,13 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'stripe' => [
-    'key'       => env('STRIPE_KEY'),
-    'secret'    => env('STRIPE_SECRET'),
-    'price_pro' => env('STRIPE_PRICE_PRO'),
-],
+    'lemonsqueezy' => [
+        'api_key'        => env('LEMONSQUEEZY_API_KEY'),
+        'store_id'       => env('LEMONSQUEEZY_STORE_ID'),
+        'checkout_url'   => env('LEMONSQUEEZY_CHECKOUT_URL'),   // e.g. https://pdftash.lemonsqueezy.com/buy/VARIANT_ID
+        'webhook_secret' => env('LEMONSQUEEZY_WEBHOOK_SECRET'),
+    ],
 
-'google' => [
+    'google' => [
     'client_id'     => env('GOOGLE_CLIENT_ID'),
     'client_secret' => env('GOOGLE_CLIENT_SECRET'),
     'redirect'      => env('GOOGLE_REDIRECT_URI'),

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->string('avatar')->nullable();
             $table->string('plan')->default('free');
-            $table->string('stripe_customer_id')->nullable();
-            $table->string('stripe_subscription_id')->nullable();
+            $table->string('lemonsqueezy_customer_id')->nullable();
+            $table->string('lemonsqueezy_subscription_id')->nullable();
             $table->timestamp('pro_expires_at')->nullable();
             $table->integer('daily_tasks')->default(0);
             $table->date('last_task_date')->nullable();

@@ -74,11 +74,11 @@ Route::get('/system-status', function () {
         ? ['status' => 'ok',    'label' => 'Anthropic API — key configured']
         : ['status' => 'error', 'label' => 'Anthropic API — key missing'];
 
-    // Stripe
-    $stripeKey = env('STRIPE_KEY');
-    $checks['Stripe'] = $stripeKey
-        ? ['status' => 'ok',    'label' => 'Stripe — key configured']
-        : ['status' => 'warning', 'label' => 'Stripe — key missing'];
+    // Lemon Squeezy
+    $lsKey = env('LEMONSQUEEZY_API_KEY');
+    $checks['Lemon Squeezy'] = $lsKey
+        ? ['status' => 'ok',      'label' => 'Lemon Squeezy — API key configured']
+        : ['status' => 'warning', 'label' => 'Lemon Squeezy — API key missing'];
 
     // Storage writable
     $storageOk = is_writable(storage_path('app'));
@@ -106,10 +106,11 @@ Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoog
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 Route::post('/logout',              [SocialiteController::class, 'logout'])->name('logout');
 
-// ── Payment Routes ───────────────────────────────────────────────────────────
-Route::post('/payment/checkout', [PaymentController::class, 'checkout']);
-Route::get('/payment/success',   [PaymentController::class, 'success']);
-Route::get('/payment/cancel',    [PaymentController::class, 'cancel']);
+// ── Payment Routes (Lemon Squeezy) ───────────────────────────────────────────
+Route::post('/payment/checkout',         [PaymentController::class, 'checkout']);
+Route::get('/payment/success',           [PaymentController::class, 'success']);
+Route::get('/payment/cancel',            [PaymentController::class, 'cancel']);
+Route::post('/payment/webhook',          [PaymentController::class, 'webhook'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 
 Route::get('/compress-pdf', fn() => view('tools.compress'))->name('tool.compress');

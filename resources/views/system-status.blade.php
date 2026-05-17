@@ -63,7 +63,7 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:28px;font-weight:800;mar
       'ImageMagick'  => '🪄',
       'Poppler'      => '📑',
       'Anthropic AI' => '🤖',
-      'Stripe'       => '💳',
+      'Lemon Squeezy'=> '🍋',
       'Storage'      => '💾',
       'Google OAuth' => '🔑',
     ];
