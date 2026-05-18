@@ -488,6 +488,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
   <div class="tools-grid" id="tools-grid">
     <div class="tc" data-c="ai" onclick="window.location='/ai-pdf-generator'"><div class="tc-icon">✨</div><div class="tc-name">AI PDF Generator</div><div class="tc-desc">Text to beautiful PDF with AI</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="edit" onclick="window.location='/pdf-text-editor'"><div class="tc-icon">✏️</div><div class="tc-name">PDF Text Editor</div><div class="tc-desc">Edit PDF text in your browser</div><span class="tc-badge bnew">NEW</span></div>
     <div class="tc" data-c="ai" onclick="openTool('chat')"><div class="tc-icon">💬</div><div class="tc-name">Chat with PDF</div><div class="tc-desc">Ask questions, get instant answers</div><span class="tc-badge bai">AI</span></div>
     <div class="tc" data-c="ai" onclick="openTool('summarize')"><div class="tc-icon">📝</div><div class="tc-name">AI Summarizer</div><div class="tc-desc">Concise summary of any PDF</div><span class="tc-badge bai">AI</span></div>
     <div class="tc" data-c="ai" onclick="openTool('translate')"><div class="tc-icon">🌐</div><div class="tc-name">PDF Translator</div><div class="tc-desc">Translate to 12+ languages</div><span class="tc-badge bnew">NEW</span><a href="/pdf-translator-bengali" onclick="event.stopPropagation()" style="display:block;margin-top:8px;font-size:0.78rem;color:#8888a8;text-decoration:none;">📖 Bengali guide</a></div>

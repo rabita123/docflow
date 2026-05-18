@@ -20,6 +20,7 @@ use App\Http\Controllers\AI\ChatController;
 use App\Http\Controllers\AI\TranslateController;
 use App\Http\Controllers\AI\ExtractDataController;
 use App\Http\Controllers\AI\PdfGeneratorController;
+use App\Http\Controllers\PDF\PdfTextEditorController;
 use App\Http\Controllers\PDF\SignController;
 use App\Http\Middleware\CheckFreeTierLimit;
 
@@ -69,6 +70,8 @@ Route::middleware([CheckFreeTierLimit::class])->group(function () {
         Route::post('/protect',       [SecurityController::class,    'protect']);
         Route::post('/unlock',        [SecurityController::class,    'unlock']);
         Route::post('/sign',          [SignController::class,        'handle']);
+        Route::post('/text-editor/extract', [PdfTextEditorController::class, 'extract']);
+        Route::post('/text-editor/export',  [PdfTextEditorController::class, 'export']);
     });
 
     Route::prefix('ai')->group(function () {

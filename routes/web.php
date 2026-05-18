@@ -122,6 +122,7 @@ Route::get('/sign-pdf', fn() => view('tools.sign'))->name('tool.sign');
 
 
 Route::get('/ai-pdf-generator', fn() => view('tools.pdf-generator'))->name('tool.pdf-generator');
+Route::get('/pdf-text-editor', fn() => view('tools.pdf-text-editor'))->name('tool.pdf-text-editor');
 
 Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
 Route::get('/free-sejda-alternative', fn() => view('tools.sejda-alternative'));
@@ -142,6 +143,7 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/sign-pdf',                 'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/pdf-translator-bengali',   'priority' => '0.95','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ai-pdf-generator',         'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-text-editor',          'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/free-sejda-alternative',   'priority' => '0.7', 'changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/sejda-alternative-free',   'priority' => '0.7', 'changefreq' => 'monthly'],
