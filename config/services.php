@@ -34,7 +34,8 @@ return [
     'lemonsqueezy' => [
         'api_key'        => env('LEMONSQUEEZY_API_KEY'),
         'store_id'       => env('LEMONSQUEEZY_STORE_ID'),
-        'checkout_url'   => env('LEMONSQUEEZY_CHECKOUT_URL'),   // e.g. https://pdftash.lemonsqueezy.com/buy/VARIANT_ID
+        'checkout_url'   => env('LEMONSQUEEZY_CHECKOUT_URL'),
+        'variant_id'     => env('LEMONSQUEEZY_VARIANT_ID', '1665412'),
         'webhook_secret' => env('LEMONSQUEEZY_WEBHOOK_SECRET'),
     ],
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\AI\SummarizeController;
 use App\Http\Controllers\AI\ChatController;
 use App\Http\Controllers\AI\TranslateController;
 use App\Http\Controllers\AI\ExtractDataController;
+use App\Http\Controllers\AI\PdfGeneratorController;
 use App\Http\Controllers\PDF\SignController;
 use App\Http\Middleware\CheckFreeTierLimit;
 
@@ -75,7 +76,8 @@ Route::middleware([CheckFreeTierLimit::class])->group(function () {
         Route::post('/upload-for-chat', [ChatController::class,        'upload']);
         Route::post('/chat',            [ChatController::class,        'chat']);
         Route::post('/translate',       [TranslateController::class,   'handle']);
-        Route::post('/extract-data',    [ExtractDataController::class, 'handle']);
+        Route::post('/extract-data',    [ExtractDataController::class,  'handle']);
+        Route::post('/generate-pdf',    [PdfGeneratorController::class, 'handle']);
     });
 
 });
