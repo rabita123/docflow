@@ -200,7 +200,7 @@ function downloadPdf() {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${name} — ${lang}</title>
+<title>Translated PDF — PDFTash</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&family=Noto+Sans:wght@400;700&display=swap');
   body { font-family: 'Noto Sans Bengali', 'Noto Sans', Arial, sans-serif; font-size: 13pt; line-height: 1.8; margin: 40px; color: #111; }

@@ -1,6 +1,6 @@
 @extends('tools.layout')
 
-@section('title', 'Best Free Sejda Alternative 2026 — PDFTash')
+@section('title', 'Best Free Sejda Alternative 2026 — Free PDF Tools')
 @section('description', 'Looking for a free Sejda alternative? PDFTash offers 20+ PDF tools with AI — compress, merge, split, chat and translate. No signup. No daily limit. Completely free.')
 @section('keywords', 'sejda alternative, sejda alternative free, free sejda alternative, sejda pdf alternative, best sejda alternative 2026, sejda replacement, pdf tools like sejda')
 @section('slug', 'sejda-alternative')
