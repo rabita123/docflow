@@ -280,102 +280,112 @@ async function handleFile(file) {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   DETECT FIELDS
+   DETECT FIELDS — works entirely in PDF point space
+   (i.transform[4/5] are PDF coords; no viewport conversion)
 ═══════════════════════════════════════════════════════════ */
 async function detectAllFields() {
   const fields = [];
   const totalPages = pdfJsDoc.numPages;
 
-  for (let p = 1; p <= totalPages; p++) {
-    const page     = await pdfJsDoc.getPage(p);
-    const viewport = page.getViewport({ scale: 1.5 });
-    const dims     = { w: page.getViewport({scale:1}).width, h: page.getViewport({scale:1}).height };
+  const LABEL_RE = /^(name|first|last|middle|full name|email|e-mail|phone|mobile|cell|fax|date|dob|date of birth|birth|address|street|city|state|zip|postal|country|company|organization|org|title|position|designation|signature|gender|nationality|passport|id|ssn|tax|website|note|comment|occupation|dept|department|employee|salary|age|building|room|floor|district|institute|discipline|subject|section|roll|reg|registration|administrative|mobile phone)\b/i;
 
-    /* 1 — AcroForm Widget annotations */
+  for (let p = 1; p <= totalPages; p++) {
+    const page  = await pdfJsDoc.getPage(p);
+    const vp1   = page.getViewport({ scale: 1 });
+    const pageW = vp1.width;    // PDF points
+    const pageH = vp1.height;   // PDF points
+
+    /* 1 — AcroForm Widget annotations (already in PDF point space) */
     try {
       const annots  = await page.getAnnotations();
       const widgets = annots.filter(a => a.subtype === 'Widget' && a.fieldName);
       for (const w of widgets) {
         if (w.fieldType === 'Btn' && w.radioButton !== undefined) continue;
-        const vr = viewport.convertToViewportRectangle(w.rect);
-        const sx = Math.min(vr[0], vr[2]);
-        const sy = Math.min(vr[1], vr[3]);
-        const sw = Math.abs(vr[2] - vr[0]);
-        const sh = Math.abs(vr[3] - vr[1]);
-        if (sw < 5 || sh < 5) continue;
+        const [x1,y1,x2,y2] = w.rect;
+        const rw = Math.abs(x2-x1), rh = Math.abs(y2-y1);
+        if (rw < 4 || rh < 4) continue;
         fields.push({
-          pageNum: p, source: 'acroform', scale: 1.5,
+          pageNum: p, source: 'acroform',
           label: w.fieldName.split('.').pop() || w.fieldName,
-          x: sx, y: sy, w: sw, h: sh,
-          pdfRect: w.rect, dims,
+          pdfRect: w.rect, pageW, pageH,
         });
       }
     } catch(_) {}
 
-    /* 2 — Visual labels (only if no AcroForm fields on this page) */
+    /* 2 — Visual labels — pure PDF point space */
     if (!fields.some(f => f.pageNum === p && f.source === 'acroform')) {
       try {
         const tc = await page.getTextContent();
 
-        // ── Raw individual text items (granular, before any grouping) ──
-        const rawItems = tc.items.map(i => {
-          const tx = pdfjsLib.Util.transform(viewport.transform, i.transform);
-          const fh = Math.sqrt(tx[2]*tx[2] + tx[3]*tx[3]);
-          return { str: i.str, x: tx[4], bottom: tx[5], w: Math.abs(i.width * viewport.scale), h: fh };
-        }).filter(i => i.h > 0);
+        // All items in PDF point space
+        // i.transform = [a,b,c,d,e,f] — e=x, f=baseline-y (y increases upward in PDF)
+        // font height ≈ |d| (scale factor)
+        const pts = tc.items
+          .filter(i => i.str)
+          .map(i => ({
+            str : i.str,
+            x   : i.transform[4],           // left edge in PDF pts
+            y   : i.transform[5],           // baseline (PDF: y up)
+            w   : Math.abs(i.width),        // PDF pts
+            h   : Math.abs(i.transform[3]) || Math.abs(i.transform[0]) || 10,
+          }))
+          .filter(i => i.h > 0);
 
-        // ── Merged blocks (for label detection) ──
-        const blocks = groupBlocks(tc.items, viewport);
+        // Group into logical words/blocks on the same baseline
+        pts.sort((a,b) => Math.abs(a.y-b.y) > a.h*.4 ? b.y-a.y : a.x-b.x); // top→bottom, left→right
+        const blocks = [], grp = [pts[0]];
+        for (let i = 1; i < pts.length; i++) {
+          const c = pts[i], l = grp[grp.length-1];
+          if (Math.abs(c.y - l.y) < l.h*.4 && c.x - (l.x+l.w) < l.h*1.8) grp.push(c);
+          else { blocks.push(pdfMerge(grp)); grp.length=0; grp.push(c); }
+        }
+        if (grp.length) blocks.push(pdfMerge(grp));
 
+        const seen = new Set();
         for (const b of blocks) {
           const txt      = b.str.trim();
           const cleanTxt = txt.replace(/[:\s_.\-]+$/, '').trim();
+          if (!cleanTxt || cleanTxt.length < 2 || txt.length > 90) continue;
+          if (seen.has(cleanTxt.toLowerCase())) continue;
 
-          const selfColon = /:\s*$/.test(txt); // colon already inside this block
-
-          const isKeyword = /^(name|first|last|middle|full name|email|e-mail|phone|mobile|cell|fax|date|dob|birth|address|street|city|state|zip|postal|country|company|organization|org|title|position|designation|signature|gender|nationality|passport|id|ssn|tax|website|note|comment|occupation|dept|department|employee|salary|age|building|room|floor|district|institute|discipline|subject|section|roll|reg|registration)\b/i
-            .test(cleanTxt.replace(/[\/\-]/g,' '));
-
+          const selfColon = /:\s*$/.test(txt);
+          const isKeyword = LABEL_RE.test(cleanTxt.replace(/[\/\-]/g,' '));
           if (!selfColon && !isKeyword) continue;
-          if (cleanTxt.length < 2 || txt.length > 90) continue;
 
-          // ── Find colon using RAW items on the same baseline ──
-          // Much more reliable than grouped blocks — catches ":" even when
-          // surrounded by dots, underscores, or spaces.
-          const sameLineRaw = rawItems
-            .filter(ri =>
-              Math.abs(ri.bottom - b.bottom) < b.h * 0.75 && // same baseline
-              ri.x > b.x + b.w * 0.5                          // to the right of label midpoint
-            )
-            .sort((a, c) => a.x - c.x);
+          // ── Find rightmost colon on the same baseline in raw pts ──
+          const sameLine = pts.filter(ri =>
+            Math.abs(ri.y - b.y) < b.h * 0.7 &&   // same line (PDF y)
+            ri.x >= b.x                              // at or right of label start
+          ).sort((a,c) => a.x - c.x);
 
-          // Find the RIGHTMOST colon on this line (handles "Name .....: ")
-          const colonCandidates = sameLineRaw.filter(ri => ri.str.includes(':'));
-          const rightmostColon  = colonCandidates[colonCandidates.length - 1];
+          const colonItems     = sameLine.filter(ri => ri.str.includes(':'));
+          const rightmostColon = colonItems[colonItems.length - 1];
 
-          let fillX, fillW;
+          // ── Compute fill position in PDF points ──
+          let fillPdfX, fillPdfW;
           if (selfColon) {
-            // Colon baked into this block — place right after
-            fillX = b.x + b.w + 5;
-            fillW = viewport.width - fillX - 10;
+            fillPdfX = b.x + b.w + 2;
+            fillPdfW = pageW - fillPdfX - 15;
           } else if (rightmostColon) {
-            // Found separate colon raw item — place AFTER it
-            fillX = rightmostColon.x + rightmostColon.w + 5;
-            fillW = viewport.width - fillX - 10;
+            fillPdfX = rightmostColon.x + rightmostColon.w + 3;
+            fillPdfW = pageW - fillPdfX - 15;
           } else {
-            // No colon at all — place after label
-            fillX = b.x + b.w + 8;
-            fillW = Math.max(100, viewport.width - fillX - 10);
+            fillPdfX = b.x + b.w + 5;
+            fillPdfW = Math.max(60, pageW - fillPdfX - 15);
           }
 
-          if (fillX + 20 > viewport.width) continue;
+          if (fillPdfX + 15 > pageW) continue;
 
+          seen.add(cleanTxt.toLowerCase());
           fields.push({
-            pageNum: p, source: 'visual', scale: 1.5,
-            label: cleanTxt,
-            x: fillX, y: b.y,
-            w: Math.min(fillW, 340), h: b.h,
-            pdfRect: null, dims,
+            pageNum: p, source: 'visual',
+            label   : cleanTxt,
+            fillPdfX,
+            fillPdfY: b.y,       // baseline — used directly by pdf-lib drawText
+            fillPdfW,
+            fillPdfH: b.h,
+            fillPdfFs: Math.max(7, Math.min(b.h * 0.72, 11)),
+            pageW, pageH,
           });
         }
       } catch(_) {}
@@ -384,6 +394,17 @@ async function detectAllFields() {
   return fields;
 }
 
+function pdfMerge(g) {
+  return {
+    str: g.map(i=>i.str).join(''),
+    x  : Math.min(...g.map(i=>i.x)),
+    y  : g[0].y,  // baseline from first item
+    w  : Math.max(...g.map(i=>i.x+i.w)) - Math.min(...g.map(i=>i.x)),
+    h  : Math.max(...g.map(i=>i.h)),
+  };
+}
+
+// ── kept for pdf-text-editor compat ──
 function groupBlocks(items, viewport) {
   const pts = items.filter(i => i.str?.trim()).map(i => {
     const tx = pdfjsLib.Util.transform(viewport.transform, i.transform);
@@ -459,25 +480,24 @@ async function runFill() {
         const { dims, scale: sc } = field;
 
         if (field.source === 'acroform' && field.pdfRect) {
-          // AcroForm: draw white bg then text using PDF coordinates directly
+          // AcroForm: PDF rect coords are already in PDF point space
           const [x1,y1,x2,y2] = field.pdfRect;
           const rx = Math.min(x1,x2), ry = Math.min(y1,y2);
           const rw = Math.abs(x2-x1), rh = Math.abs(y2-y1);
           pdfPage.drawRectangle({ x:rx, y:ry, width:rw, height:rh, color:rgb(1,1,1) });
           const fs = Math.max(7, Math.min(rh*0.6, 13));
-          pdfPage.drawText(value.slice(0,60), {
+          pdfPage.drawText(value.slice(0, 80), {
             x: rx+3, y: ry + (rh-fs)/2, size:fs, font, color:rgb(0,0,0), maxWidth:rw-6
           });
-        } else {
-          // Visual: screen → PDF coordinates (PDF origin = bottom-left)
-          const pdfX = field.x / sc;
-          const pdfH = field.h / sc;
-          // Align to baseline: bottom of the text line in PDF coords
-          const pdfY = dims.h - (field.y + field.h) / sc + pdfH * 0.15;
-          const pdfW = field.w / sc;
-          const fs   = Math.max(7, Math.min(pdfH * 0.72, 11));
+        } else if (field.fillPdfX !== undefined) {
+          // Visual: coordinates already in PDF point space — use directly, no conversion
           pdfPage.drawText(value.slice(0, 80), {
-            x: pdfX, y: pdfY, size: fs, font, color: rgb(0, 0, 0), maxWidth: pdfW
+            x      : field.fillPdfX,
+            y      : field.fillPdfY,   // baseline (PDF y-up)
+            size   : field.fillPdfFs,
+            font,
+            color  : rgb(0, 0, 0),
+            maxWidth: field.fillPdfW,
           });
         }
         placedCount++;
