@@ -251,10 +251,54 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
   transition:all .2s;font-family:'Inter',sans-serif;}
 .dz-btn:hover{background:var(--accent-h);transform:translateY(-1px);}
 .dz-formats{margin-top:14px;font-size:12px;color:var(--text3);}
-.dz-info{margin-top:14px;padding:10px 16px;background:rgba(0,229,160,.08);
-  border:1px solid rgba(0,229,160,.2);border-radius:var(--r);font-size:13px;
-  color:var(--accent2);display:none;}
+.dz-info{display:none;}
 #file-input{display:none;}
+
+/* ── SMART UPLOAD — LOADED STATE ──────────────────────────────────────────── */
+#dz-loaded{display:none;animation:fadeUp .35s ease both;}
+.dz-file-card{display:flex;align-items:center;gap:14px;
+  background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.25);
+  border-radius:var(--r-lg);padding:18px 22px;margin-bottom:20px;}
+.dz-file-icon{width:46px;height:46px;background:rgba(0,229,160,.15);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.dz-file-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:320px;}
+.dz-file-meta{font-size:12px;color:var(--accent2);}
+.dz-change{margin-left:auto;padding:7px 16px;background:transparent;
+  border:1px solid var(--border2);border-radius:99px;color:var(--text2);
+  font-size:12px;cursor:pointer;flex-shrink:0;font-family:'Inter',sans-serif;transition:all .2s;}
+.dz-change:hover{border-color:var(--accent);color:var(--accent);}
+.qt-label{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:14px;letter-spacing:.06em;
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+.qt-label::before,.qt-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.quick-tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+@media(max-width:480px){.quick-tools-grid{grid-template-columns:repeat(2,1fr);}}
+.qt-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px 10px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
+.qt-card::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;
+  background:radial-gradient(circle at 50% 0,rgba(91,92,255,.12),transparent 70%);}
+.qt-card:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 10px 28px rgba(91,92,255,.2);}
+.qt-card:hover::after{opacity:1;}
+.qt-icon{font-size:26px;margin-bottom:7px;}
+.qt-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.qt-desc{font-size:11px;color:var(--text2);}
+.qt-more{text-align:center;font-size:13px;color:var(--text2);margin-top:4px;}
+.qt-more a{color:var(--accent);text-decoration:none;font-weight:600;}
+.qt-more a:hover{text-decoration:underline;}
+
+/* ── PANEL FILE BANNER (pre-loaded file) ─────────────────────────────────── */
+.panel-file-banner{display:flex;align-items:center;gap:12px;
+  background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);
+  border-radius:var(--r);padding:14px 16px;margin-bottom:16px;}
+.pfb-icon{font-size:24px;flex-shrink:0;}
+.pfb-info{flex:1;min-width:0;}
+.pfb-name{font-size:13px;font-weight:600;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pfb-meta{font-size:11px;color:var(--accent2);margin-top:2px;}
+.pfb-change{padding:6px 14px;background:transparent;border:1px solid var(--border2);
+  border-radius:99px;color:var(--text3);font-size:11px;cursor:pointer;flex-shrink:0;
+  font-family:'Inter',sans-serif;transition:all .2s;}
+.pfb-change:hover{border-color:var(--accent);color:var(--accent);}
 
 /* TOOLS */
 .section{padding:72px 24px;max-width:1160px;margin:0 auto;}
@@ -461,14 +505,88 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 </section>
 
 <div id="drop-section" style="padding:0 24px 72px;display:flex;justify-content:center;">
-  <div id="dropzone" onclick="document.getElementById('file-input').click()">
-    <div class="dz-icon">📄</div>
-    <div class="dz-title">Drop your PDF here</div>
-    <div class="dz-sub">Drag & drop or click to browse.<br>Files deleted after 2 hours.</div>
-    <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">Choose File</button>
-    <div class="dz-formats">PDF · Word · JPG · PNG · Max 50MB</div>
-    <div class="dz-info" id="dz-info"></div>
-    <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleGlobalFile(this)">
+  <div style="max-width:700px;width:100%;">
+
+    {{-- ── STATE 1: No file selected ── --}}
+    <div id="dz-empty">
+      <div id="dropzone" onclick="document.getElementById('file-input').click()">
+        <div class="dz-icon">📄</div>
+        <div class="dz-title">Drop your PDF here</div>
+        <div class="dz-sub">Drag & drop or click to browse · Auto-deleted after 2 hours · No signup needed</div>
+        <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">📂 Choose File</button>
+        <div class="dz-formats">PDF · JPG · PNG · Max 10MB free</div>
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleGlobalFile(this)">
+      </div>
+    </div>
+
+    {{-- ── STATE 2: File loaded — pick your tool ── --}}
+    <div id="dz-loaded">
+
+      {{-- File card --}}
+      <div class="dz-file-card">
+        <div class="dz-file-icon">📄</div>
+        <div style="flex:1;min-width:0;">
+          <div class="dz-file-name" id="dz-fname">document.pdf</div>
+          <div class="dz-file-meta" id="dz-fmeta">Ready to process ✓</div>
+        </div>
+        <button class="dz-change" onclick="clearGlobalFile()">Change File</button>
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleGlobalFile(this)" style="display:none">
+      </div>
+
+      {{-- Quick tool picker --}}
+      <div class="qt-label">Pick a tool to apply</div>
+      <div class="quick-tools-grid">
+        <div class="qt-card" onclick="openTool('compress')">
+          <div class="qt-icon">🗜️</div>
+          <div class="qt-name">Compress</div>
+          <div class="qt-desc">Reduce file size</div>
+        </div>
+        <div class="qt-card" onclick="openTool('merge')">
+          <div class="qt-icon">🔗</div>
+          <div class="qt-name">Merge PDFs</div>
+          <div class="qt-desc">Combine multiple files</div>
+        </div>
+        <div class="qt-card" onclick="openTool('split')">
+          <div class="qt-icon">✂️</div>
+          <div class="qt-name">Split</div>
+          <div class="qt-desc">Separate pages</div>
+        </div>
+        <div class="qt-card" onclick="openTool('chat')">
+          <div class="qt-icon">💬</div>
+          <div class="qt-name">Chat with AI</div>
+          <div class="qt-desc">Ask any question</div>
+        </div>
+        <div class="qt-card" onclick="openTool('translate')">
+          <div class="qt-icon">🌐</div>
+          <div class="qt-name">Translate</div>
+          <div class="qt-desc">12+ languages</div>
+        </div>
+        <div class="qt-card" onclick="openTool('summarize')">
+          <div class="qt-icon">📝</div>
+          <div class="qt-name">Summarize</div>
+          <div class="qt-desc">Get key points</div>
+        </div>
+        <div class="qt-card" onclick="openTool('sign')">
+          <div class="qt-icon">✍️</div>
+          <div class="qt-name">eSign</div>
+          <div class="qt-desc">Add signature</div>
+        </div>
+        <div class="qt-card" onclick="openTool('protect')">
+          <div class="qt-icon">🔐</div>
+          <div class="qt-name">Protect</div>
+          <div class="qt-desc">Add password</div>
+        </div>
+        <div class="qt-card" onclick="openTool('rotate')">
+          <div class="qt-icon">🔄</div>
+          <div class="qt-name">Rotate</div>
+          <div class="qt-desc">Fix orientation</div>
+        </div>
+      </div>
+      <div class="qt-more">
+        <a href="#tools" onclick="event.preventDefault();document.getElementById('tools').scrollIntoView({behavior:'smooth'})">See all 20+ tools ↓</a>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -752,12 +870,28 @@ function buildPanel(tool, key){
 
   const accept = tool.accept || '.pdf';
   const multi  = tool.multi ? 'multiple' : '';
-  html += `<div class="panel-upload" onclick="document.getElementById('p-file').click()">
-    <div class="pu-icon">📁</div>
-    <div class="pu-text">${tool.multi ? 'Click to upload multiple files' : 'Click to upload your file'}</div>
-    <div class="pu-name" id="pu-name">No file selected</div>
-    <input type="file" id="p-file" style="display:none" accept="${accept}" ${multi} onchange="setPanelFile(this)">
-  </div>`;
+
+  if(globalFile && !tool.multi){
+    // File already loaded — show banner, no re-upload needed
+    const kb = globalFile.size / 1024;
+    const sizeStr = kb < 1024 ? kb.toFixed(0) + ' KB' : (kb/1024).toFixed(1) + ' MB';
+    html += `<div class="panel-file-banner">
+      <div class="pfb-icon">📄</div>
+      <div class="pfb-info">
+        <div class="pfb-name">${globalFile.name}</div>
+        <div class="pfb-meta">${sizeStr} · Ready to process ✓</div>
+      </div>
+      <button class="pfb-change" onclick="document.getElementById('p-file').click()">Change</button>
+      <input type="file" id="p-file" style="display:none" accept="${accept}" onchange="swapPanelFile(this)">
+    </div>`;
+  } else {
+    html += `<div class="panel-upload" onclick="document.getElementById('p-file').click()">
+      <div class="pu-icon">📁</div>
+      <div class="pu-text">${tool.multi ? 'Click to upload multiple files' : 'Click to upload your PDF'}</div>
+      <div class="pu-name" id="pu-name">No file selected</div>
+      <input type="file" id="p-file" style="display:none" accept="${accept}" ${multi} onchange="setPanelFile(this)">
+    </div>`;
+  }
 
   if(tool.fields){
     tool.fields.forEach(f => {
@@ -873,13 +1007,44 @@ function setPanelFile(input){
   const el = document.getElementById('pu-name');
   if(el) el.textContent = '✅ ' + (names.length > 60 ? names.slice(0,60)+'…' : names);
 }
+
+// Called when user hits "Change" inside the panel banner
+function swapPanelFile(input){
+  if(!input.files[0]) return;
+  globalFile = input.files[0];
+  const kb = globalFile.size / 1024;
+  const sizeStr = kb < 1024 ? kb.toFixed(0) + ' KB' : (kb/1024).toFixed(1) + ' MB';
+  const nameEl = document.querySelector('.pfb-name');
+  const metaEl = document.querySelector('.pfb-meta');
+  if(nameEl) nameEl.textContent = globalFile.name;
+  if(metaEl) metaEl.textContent = sizeStr + ' · Ready to process ✓';
+}
 function handleGlobalFile(input){
   if(!input.files[0]) return;
   globalFile = input.files[0];
-  const info = document.getElementById('dz-info');
-  info.style.display = 'block';
-  info.textContent = '✅ ' + globalFile.name + ' — choose a tool below';
-  showToast('File ready: ' + globalFile.name, '📄');
+
+  // Format file size
+  const kb = globalFile.size / 1024;
+  const sizeStr = kb < 1024 ? kb.toFixed(0) + ' KB' : (kb/1024).toFixed(1) + ' MB';
+
+  // Populate loaded-state card
+  document.getElementById('dz-fname').textContent = globalFile.name;
+  document.getElementById('dz-fmeta').textContent = sizeStr + ' · Ready to process ✓';
+
+  // Switch to loaded state
+  document.getElementById('dz-empty').style.display = 'none';
+  document.getElementById('dz-loaded').style.display = 'block';
+  document.getElementById('dz-loaded').scrollIntoView({behavior:'smooth', block:'nearest'});
+
+  showToast('File loaded! Pick a tool ↓', '📄');
+}
+
+function clearGlobalFile(){
+  globalFile = null;
+  // Reset both file inputs
+  document.querySelectorAll('#file-input').forEach(el => el.value = '');
+  document.getElementById('dz-empty').style.display = 'block';
+  document.getElementById('dz-loaded').style.display = 'none';
 }
 
 function filterTools(cat, btn){
@@ -1205,15 +1370,21 @@ async function sendChat(){
 
 // ── Drag & Drop ───────────────────────────────────────────────────────────
 const dz = document.getElementById('dropzone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => {
-  e.preventDefault(); dz.classList.remove('drag');
-  const f = e.dataTransfer.files[0];
-  if(f){ globalFile = f; document.getElementById('dz-info').style.display='block';
-    document.getElementById('dz-info').textContent = '✅ ' + f.name;
-    showToast('File ready!','📄'); }
-});
+if(dz){
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag');
+    const f = e.dataTransfer.files[0];
+    if(f){
+      // Simulate file input change
+      const dt = new DataTransfer();
+      dt.items.add(f);
+      const inp = document.getElementById('file-input');
+      if(inp){ inp.files = dt.files; handleGlobalFile(inp); }
+    }
+  });
+}
 
 // ── Login Modal ───────────────────────────────────────────────────────────
 let modalMode = 'login';
