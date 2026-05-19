@@ -120,13 +120,13 @@
         ['1','Upload PDF Form','Drop any PDF form — job application, lease, contract, or any fillable form.'],
         ['2','Enter Your Details','Type your name, email, address, date and any other info in plain text.'],
         ['3','Download Filled PDF','AI detects every field, fills them in, and gives you the completed PDF.'],
-      ] as $s)
+      ] as $step)
       <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center;">
         <div style="width:32px;height:32px;background:rgba(91,92,255,.2);border:1px solid rgba(91,92,255,.4);
           border-radius:50%;font-size:14px;font-weight:800;color:#9898ff;
-          display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">{{ $s[0] }}</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:5px;">{{ $s[1] }}</div>
-        <div style="color:#8888a8;font-size:12px;line-height:1.5;">{{ $s[2] }}</div>
+          display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">{{ $step[0] }}</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:5px;">{{ $step[1] }}</div>
+        <div style="color:#8888a8;font-size:12px;line-height:1.5;">{{ $step[2] }}</div>
       </div>
       @endforeach
     </div>
@@ -136,9 +136,9 @@
   <div style="max-width:680px;margin:0 auto 50px;padding:0 20px;text-align:center;">
     <div style="font-size:12px;color:#44445a;margin-bottom:10px;">WORKS WITH</div>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">
-      @foreach(['Job Applications','Lease Agreements','Tax Forms','Medical Forms','Registration Forms','Visa Applications','Insurance Forms','Contracts'])
+      @foreach(['Job Applications','Lease Agreements','Tax Forms','Medical Forms','Registration Forms','Visa Applications','Insurance Forms','Contracts'] as $form)
       <span style="padding:5px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.07);
-        border-radius:99px;font-size:12px;color:#8888a8;">{{ $loop->current }}</span>
+        border-radius:99px;font-size:12px;color:#8888a8;">{{ $form }}</span>
       @endforeach
     </div>
   </div>
