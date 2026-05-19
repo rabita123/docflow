@@ -315,57 +315,67 @@ async function detectAllFields() {
     /* 2 — Visual labels (only if no AcroForm fields on this page) */
     if (!fields.some(f => f.pageNum === p && f.source === 'acroform')) {
       try {
-        const tc     = await page.getTextContent();
+        const tc = await page.getTextContent();
+
+        // ── Raw individual text items (granular, before any grouping) ──
+        const rawItems = tc.items.map(i => {
+          const tx = pdfjsLib.Util.transform(viewport.transform, i.transform);
+          const fh = Math.sqrt(tx[2]*tx[2] + tx[3]*tx[3]);
+          return { str: i.str, x: tx[4], bottom: tx[5], w: Math.abs(i.width * viewport.scale), h: fh };
+        }).filter(i => i.h > 0);
+
+        // ── Merged blocks (for label detection) ──
         const blocks = groupBlocks(tc.items, viewport);
 
         for (const b of blocks) {
           const txt      = b.str.trim();
-          const cleanTxt = txt.replace(/[:\s_]+$/, '').trim();
+          const cleanTxt = txt.replace(/[:\s_.\-]+$/, '').trim();
 
-          // Detect: block itself ends with colon
-          const selfColon = /:\s*$/.test(txt);
+          const selfColon = /:\s*$/.test(txt); // colon already inside this block
 
-          // Detect: block is a form label keyword
-          const isKeyword = /^(name|first name|last name|middle|full name|email|e-mail|phone|mobile|cell|fax|date|dob|date of birth|birth|address|street|city|state|zip|postal|country|company|organization|org|title|position|designation|signature|gender|nationality|passport|id number|id|ssn|tax|website|note|comment|occupation|dept|department|employee|salary|age|building|room|floor|district|institute|discipline|subject|section|roll|reg|registration)\b/i
+          const isKeyword = /^(name|first|last|middle|full name|email|e-mail|phone|mobile|cell|fax|date|dob|birth|address|street|city|state|zip|postal|country|company|organization|org|title|position|designation|signature|gender|nationality|passport|id|ssn|tax|website|note|comment|occupation|dept|department|employee|salary|age|building|room|floor|district|institute|discipline|subject|section|roll|reg|registration)\b/i
             .test(cleanTxt.replace(/[\/\-]/g,' '));
 
           if (!selfColon && !isKeyword) continue;
           if (cleanTxt.length < 2 || txt.length > 90) continue;
 
-          // ── Find colon on the same baseline but further right ──
-          // Handles forms like:  "Name _________ :"  where colon is a separate block
-          const colonBlock = blocks.find(cb =>
-            cb !== b &&
-            /^[\s:]+$/.test(cb.str) && cb.str.includes(':') &&  // standalone colon block
-            Math.abs(cb.bottom - b.bottom) < b.h * 0.65 &&       // same baseline
-            cb.x > b.x + b.w + 2                                 // strictly to the right
-          );
+          // ── Find colon using RAW items on the same baseline ──
+          // Much more reliable than grouped blocks — catches ":" even when
+          // surrounded by dots, underscores, or spaces.
+          const sameLineRaw = rawItems
+            .filter(ri =>
+              Math.abs(ri.bottom - b.bottom) < b.h * 0.75 && // same baseline
+              ri.x > b.x + b.w * 0.5                          // to the right of label midpoint
+            )
+            .sort((a, c) => a.x - c.x);
+
+          // Find the RIGHTMOST colon on this line (handles "Name .....: ")
+          const colonCandidates = sameLineRaw.filter(ri => ri.str.includes(':'));
+          const rightmostColon  = colonCandidates[colonCandidates.length - 1];
 
           let fillX, fillW;
           if (selfColon) {
-            // Colon is already part of this block — fill goes right after
+            // Colon baked into this block — place right after
             fillX = b.x + b.w + 5;
-            fillW = viewport.width - fillX - 12;
-          } else if (colonBlock) {
-            // Separate colon block found — fill goes AFTER the colon
-            fillX = colonBlock.x + colonBlock.w + 5;
-            fillW = viewport.width - fillX - 12;
+            fillW = viewport.width - fillX - 10;
+          } else if (rightmostColon) {
+            // Found separate colon raw item — place AFTER it
+            fillX = rightmostColon.x + rightmostColon.w + 5;
+            fillW = viewport.width - fillX - 10;
           } else {
-            // No colon visible — fill goes after the label
+            // No colon at all — place after label
             fillX = b.x + b.w + 8;
-            fillW = Math.max(100, viewport.width - fillX - 12);
+            fillW = Math.max(100, viewport.width - fillX - 10);
           }
 
-          if (fillX + 25 > viewport.width) continue;
+          if (fillX + 20 > viewport.width) continue;
 
           fields.push({
             pageNum: p, source: 'visual', scale: 1.5,
             label: cleanTxt,
             x: fillX, y: b.y,
-            w: Math.min(fillW, 320), h: b.h,
+            w: Math.min(fillW, 340), h: b.h,
             pdfRect: null, dims,
-            // Store PDF coords of the fill position for the pdf-lib step
-            fillAfterColon: !!(selfColon || colonBlock),
           });
         }
       } catch(_) {}
