@@ -31,8 +31,10 @@
 #main-bar {
   display:flex; align-items:center; gap:8px; padding:0 14px;
   height:50px; background:#0d0d1f; border-bottom:1px solid rgba(255,255,255,.1);
-  flex-shrink:0; z-index:10;
+  flex-shrink:0; z-index:10; overflow-x:auto;
 }
+#main-bar::-webkit-scrollbar { height:3px; }
+#main-bar::-webkit-scrollbar-thumb { background:rgba(91,92,255,.4); border-radius:2px; }
 .bar-logo { font-weight:800; font-size:15px; color:#5b5cff; margin-right:4px; white-space:nowrap; }
 .bar-fname { font-size:13px; color:#8888a8; max-width:220px; overflow:hidden;
   text-overflow:ellipsis; white-space:nowrap; }
@@ -271,10 +273,6 @@
     <button class="tool-btn" id="btn-highlight" onclick="setMode('highlight')" title="Highlight text">
       <span class="ti">🖊</span> Highlight
     </button>
-    <button class="tool-btn" id="btn-ai-fill" onclick="openAIFillModal()" title="AI Form Fill — auto-fill form fields with AI"
-      style="background:rgba(91,92,255,.12);color:#9898ff;border:1px solid rgba(91,92,255,.25);">
-      <span class="ti">✨</span> AI Fill
-    </button>
 
     <div class="bar-sep"></div>
 
@@ -289,6 +287,13 @@
       </select>
       <span id="change-pill" style="display:none;padding:3px 10px;background:rgba(0,229,160,.15);
         border:1px solid rgba(0,229,160,.3);border-radius:99px;font-size:11px;font-weight:700;color:#00e5a0;"></span>
+      <button id="btn-ai-fill" onclick="openAIFillModal()" title="AI Form Fill — auto-fill form fields with AI"
+        style="padding:8px 14px;background:linear-gradient(135deg,rgba(91,92,255,.25),rgba(123,124,255,.2));
+          color:#9898ff;border:1px solid rgba(91,92,255,.4);border-radius:7px;
+          font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;
+          transition:all .2s;display:flex;align-items:center;gap:5px;">
+        ✨ AI Fill
+      </button>
       <button id="btn-download" onclick="saveAndDownload()">⬇ Download PDF</button>
       <button id="btn-close-editor" onclick="closeEditor()" title="Close editor">✕</button>
     </div>
