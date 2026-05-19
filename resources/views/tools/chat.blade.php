@@ -23,9 +23,12 @@
 
 @section('content')
 <div class="hero">
-  <div class="badge">🤖 AI PDF Chat</div>
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+    <div class="badge">🤖 AI PDF Chat</div>
+    <div class="badge" style="background:rgba(255,165,0,.1);border-color:rgba(255,165,0,.4);color:#ffa500;">🔒 Pro Feature</div>
+  </div>
   <h1>Chat with PDF Using AI</h1>
-  <p>Upload any PDF and start asking questions. Our AI reads your document and answers instantly. No signup needed.</p>
+  <p>Upload any PDF and ask questions — AI answers instantly from your document. Requires a <strong style="color:#ffa500;">Pro plan</strong>.</p>
 </div>
 
 <div class="tool-box">
@@ -164,8 +167,11 @@ async function uploadFile(file) {
     try {
         const resp = await fetch('/api/ai/upload-for-chat', { method: 'POST', body: formData });
         const data = await resp.json();
-        if (data.file_id || data.id) {
-            chatFileId = data.file_id || data.id;
+        if (data.error === 'pro_required' || data.error === 'free_limit_reached') {
+            dropZone.querySelector('.upload-title').textContent = 'Drop your PDF here to Chat';
+            showProModal();
+        } else if (data.session_id || data.file_id || data.id) {
+            chatFileId = data.session_id || data.file_id || data.id;
             dropZone.querySelector('.upload-title').textContent = '✅ ' + file.name;
             document.getElementById('chat-ui').style.display = 'block';
             addMsg('assistant', 'PDF uploaded! Ask me anything about this document.');
@@ -201,9 +207,12 @@ async function sendMsg() {
     try {
         const resp = await fetch('/api/ai/chat', { method: 'POST', body: formData });
         const data = await resp.json();
+        if (data.error === 'pro_required' || data.error === 'free_limit_reached') {
+            showProModal(); return;
+        }
         const msgs = document.getElementById('messages');
         const lastMsg = msgs.lastElementChild;
-        if (lastMsg) lastMsg.querySelector('div').textContent = data.reply || data.response || data.error || 'No response';
+        if (lastMsg) lastMsg.querySelector('div').textContent = data.answer || data.reply || data.response || data.error || 'No response';
     } catch(e) {
         const msgs = document.getElementById('messages');
         const lastMsg = msgs.lastElementChild;

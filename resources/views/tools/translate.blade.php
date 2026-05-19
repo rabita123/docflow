@@ -7,16 +7,19 @@
 
 @section('content')
 <div class="hero">
-  <div class="badge">🌐 AI PDF Translator</div>
-  <h1>Translate PDF to Any Language Free</h1>
-  <p>Translate your PDF documents to Bengali, Hindi, Arabic, Spanish and 12+ languages using AI. Fast, accurate, and free.</p>
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+    <div class="badge">🌐 AI PDF Translator</div>
+    <div class="badge" style="background:rgba(255,165,0,.1);border-color:rgba(255,165,0,.4);color:#ffa500;">🔒 Pro Feature</div>
+  </div>
+  <h1>Translate PDF to Any Language</h1>
+  <p>AI-powered PDF translation to Bengali, Hindi, Arabic, Spanish and 12+ languages. Requires a <strong style="color:#ffa500;">Pro plan</strong> — upgrade once, translate unlimited PDFs.</p>
 </div>
 
 <div class="tool-box">
   <div class="upload-area" id="drop-zone" onclick="document.getElementById('pdfInput').click()">
     <div class="upload-icon">🌍</div>
     <div class="upload-title">Drop your PDF here to Translate</div>
-    <div class="upload-sub">Supports 12+ languages including Bengali · AI-powered</div>
+    <div class="upload-sub">Supports 12+ languages including Bengali · Pro Plan Required</div>
     <input type="file" id="pdfInput" accept=".pdf" style="display:none" onchange="handleFile(this)">
   </div>
 
@@ -157,13 +160,9 @@ async function processTranslate() {
             window._translatedText = translatedText;
             window._translatedLang = lang;
             window._translatedOrigName = origName;
-        } else if (data.error === 'free_limit_reached') {
-            result.innerHTML = `
-                <div style="background:#1a0a0a;border:1px solid #ff6b6b;border-radius:12px;padding:20px;">
-                    <div style="color:#ff6b6b;font-weight:700;margin-bottom:8px">Daily limit reached!</div>
-                    <div style="color:#8888a8;font-size:14px;margin-bottom:16px">Upgrade to Pro for unlimited access</div>
-                    <a href="/#pricing" style="display:inline-block;padding:12px 24px;background:#5b5cff;color:#fff;border-radius:99px;text-decoration:none;font-weight:600">Upgrade to Pro →</a>
-                </div>`;
+        } else if (data.error === 'pro_required' || data.error === 'free_limit_reached') {
+            result.style.display = 'none';
+            showProModal();
         } else {
             result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong'}</div>`;
         }

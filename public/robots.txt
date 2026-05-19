@@ -1,2 +1,10 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Block API — not indexable
+Disallow: /api/
+Disallow: /storage/
+Disallow: /dashboard
+Disallow: /auth/
+
+Sitemap: https://pdftash.com/sitemap.xml

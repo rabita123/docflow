@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class SummarizeController extends Controller
 {
     protected string $uploadDir;
-    protected string $model = 'claude-sonnet-4-20250514';
+    protected string $model = 'claude-haiku-4-5-20251001';
 
     public function __construct()
     {
@@ -25,7 +25,7 @@ class SummarizeController extends Controller
 
         $path   = $this->saveUpload($request->file('file'));
         $length = $request->input('length', 'medium');
-        $text   = $this->extractText($path);
+        $text   = $this->extractText($path, 10);
         @unlink($path);
 
         if (strlen(trim($text)) < 30) {
@@ -35,6 +35,7 @@ class SummarizeController extends Controller
         $words  = ['short' => '150 words', 'medium' => '350 words', 'detailed' => '700 words'];
         $target = $words[$length] ?? '350 words';
 
+        $text   = $this->sanitizeInput($text);
         $prompt = "Summarize the following document in exactly {$target}.\n\n"
             . "Structure:\n**Overview:** (2-3 sentences)\n**Key Points:**\n- Point 1\n- Point 2\n**Conclusion:** (1-2 sentences)\n\n"
             . "Document:\n{$text}";
@@ -65,7 +66,7 @@ class SummarizeController extends Controller
 
         $text = file_exists($txt) ? file_get_contents($txt) : '';
         @unlink($txt);
-        return substr(trim($text), 0, 20000);
+        return substr(trim($text), 0, 12000);
     }
 
   protected function getPdftotextCmd(): string
@@ -78,8 +79,35 @@ class SummarizeController extends Controller
         return 'pdftotext';
     }
 
+    /**
+     * Strip common prompt-injection patterns from user-supplied text
+     * before it is embedded into an AI prompt.
+     */
+    protected function sanitizeInput(string $text): string
+    {
+        // Remove null bytes and control characters
+        $text = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $text);
+        // Collapse repetitive injection patterns (ignore previous / system prompt overrides)
+        $patterns = [
+            '/ignore\s+(all\s+)?(previous|prior|above)\s+instructions?/i',
+            '/system\s*prompt\s*[:=]/i',
+            '/you\s+are\s+now\s+(a|an)\s+/i',
+            '/forget\s+(everything|all)\s+(you|above)/i',
+            '/act\s+as\s+(a|an)\s+/i',
+            '/\[\s*INST\s*\]|\[\s*\/\s*INST\s*\]/i',
+            '/<\s*\|?(system|user|assistant)\|?\s*>/i',
+        ];
+        foreach ($patterns as $p) {
+            $text = preg_replace($p, '[removed]', $text);
+        }
+        return $text;
+    }
+
     protected function claude(string $prompt, int $maxTokens = 1000): string
     {
+        // Hard cap — never spend more than 1500 tokens output per call on free tier
+        $maxTokens = min($maxTokens, 1500);
+
         $apiKey = config('anthropic.api_key') ?: env('ANTHROPIC_API_KEY');
 
         if (empty($apiKey)) {

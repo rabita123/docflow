@@ -43,6 +43,10 @@ class ChatController extends SummarizeController
         if (empty($question)) {
             return response()->json(['error' => 'Question is required.'], 400);
         }
+        if (strlen($question) > 1000) {
+            return response()->json(['error' => 'Question too long. Max 1000 characters.'], 400);
+        }
+        $question = $this->sanitizeInput($question);
 
         $session = Cache::get('docflow_chat_' . $sessionId);
         $apiKey  = config('anthropic.api_key') ?: env('ANTHROPIC_API_KEY');

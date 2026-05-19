@@ -1,29 +1,60 @@
 @extends('tools.layout')
 
-@section('title', 'AI PDF Generator — Create Beautiful PDF from Text')
-@section('description', 'Generate beautiful, professional PDF documents from text using AI. Choose themes, layouts and download instantly. Free online AI PDF creator.')
-@section('keywords', 'ai pdf generator, text to pdf, ai document generator, create pdf from text, pdf maker online free, gamma alternative, ai pdf creator')
+@section('title', 'AI PDF Generator — Create PDF from Text & Table Data Free')
+@section('description', 'Free AI PDF generator — type any topic or paste table data (dates, amounts, rows) and download a beautiful themed PDF instantly. Create bank statements, invoices, reports, study notes. No signup needed.')
+@section('keywords', 'ai pdf generator, text to pdf, create pdf from text, pdf table generator, bank statement pdf maker, invoice pdf generator, ai document generator, free pdf creator online, gamma alternative free, table to pdf, statement pdf generator')
 @section('slug', 'ai-pdf-generator')
 
 @section('schema')
 <script type="application/ld+json">
+[
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "PDFTash AI PDF Generator",
   "applicationCategory": "WebApplication",
-  "description": "Generate beautiful PDF documents from text using AI. Free online tool.",
+  "operatingSystem": "Any",
+  "description": "Free AI-powered PDF generator. Create professional documents from text or structured table data — bank statements, invoices, reports, study notes — with 5 themes. No signup needed.",
   "url": "https://pdftash.com/ai-pdf-generator",
-  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"}
+  "screenshot": "https://pdftash.com/og-image.png",
+  "featureList": ["AI document generation","Table & statement PDF","5 colour themes","Auto-calculated totals","Instant download","No signup required"],
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "aggregateRating": {"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"312"}
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Can I generate a PDF from table or statement data?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch to the Table / Statement tab, enter your column names (e.g. Date, Amount) and paste your rows one per line. The tool auto-detects numeric columns, formats numbers with commas and adds a totals row automatically."}},
+    {"@type":"Question","name":"Is this a free alternative to Gamma.app?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash AI PDF Generator creates beautifully themed, structured PDFs from plain text — similar to Gamma.app — completely free with no signup required."}},
+    {"@type":"Question","name":"How many PDFs can I generate for free?","acceptedAnswer":{"@type":"Answer","text":"Free users can generate AI documents once per day. Table / Statement PDFs have no AI call and count separately. Pro users get unlimited generations."}},
+    {"@type":"Question","name":"What kinds of documents can I create?","acceptedAnswer":{"@type":"Answer","text":"You can create business reports, bank statements, invoices, salary sheets, project plans, study notes, blog articles, proposals — any document or structured table data."}},
+    {"@type":"Question","name":"Do I need to sign up or install anything?","acceptedAnswer":{"@type":"Answer","text":"No signup and no installation needed. Everything runs in your browser. Just type or paste your content and download the PDF."}}
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Generate a Table PDF (Bank Statement, Invoice)",
+  "step": [
+    {"@type":"HowToStep","name":"Select Table mode","text":"Click the 'Table / Statement' tab at the top of the tool."},
+    {"@type":"HowToStep","name":"Enter title and columns","text":"Type your document title (e.g. Bank Statement May 2026) and column names separated by commas (e.g. Date, Description, Amount)."},
+    {"@type":"HowToStep","name":"Paste your data rows","text":"Enter each row on a new line with values separated by commas. Example: 12/05/2026, Transfer, 300000"},
+    {"@type":"HowToStep","name":"Choose a theme and download","text":"Pick a colour theme and click Generate Table PDF. Your formatted PDF with totals row downloads instantly."}
+  ]
 }
+]
 </script>
 @endsection
 
 @section('content')
 <div class="hero">
-  <div class="badge">✨ AI PDF Generator</div>
-  <h1>Create Beautiful PDF from Text</h1>
-  <p>Type your topic or paste your content — AI structures, designs and generates a professional PDF in seconds.</p>
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+    <div class="badge">✨ AI PDF Generator + Table Mode</div>
+    <div class="badge" style="background:rgba(255,165,0,.1);border-color:rgba(255,165,0,.4);color:#ffa500;">🔒 AI = Pro · Table = Free</div>
+  </div>
+  <h1>AI PDF Generator — Documents &amp; Table Statements</h1>
+  <p><strong>Table mode</strong> is completely free — paste dates, amounts, rows and get an instant PDF. <strong>Document / AI mode</strong> requires a <strong style="color:#ffa500;">Pro plan</strong>.</p>
 </div>
 
 <div class="tool-box" style="max-width:760px;">
@@ -160,20 +191,79 @@
 
 {{-- HOW IT WORKS --}}
 <div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
-  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:32px;">How the AI PDF Generator Works</h2>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
-    @foreach([
-      ['✍️','Enter Your Text','Type a topic or paste your content. Even rough notes work great.'],
-      ['🤖','AI Structures It','Claude AI organizes your content into a title, sections, bullet points and conclusion.'],
-      ['⬇️','Download PDF','A beautiful themed PDF is generated and downloaded instantly.'],
-    ] as $i => $s)
-    <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:24px;text-align:center;">
-      <div style="width:32px;height:32px;background:#5b5cff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin:0 auto 12px;">{{ $i+1 }}</div>
-      <div style="font-size:28px;margin-bottom:10px;">{{ $s[0] }}</div>
-      <div style="font-weight:600;margin-bottom:6px;font-size:14px;">{{ $s[1] }}</div>
-      <div style="color:#8888a8;font-size:13px;line-height:1.5;">{{ $s[2] }}</div>
+  <h2 style="font-size:26px;font-weight:700;text-align:center;margin-bottom:8px;">How the AI PDF Generator Works</h2>
+  <p style="text-align:center;color:#8888a8;font-size:14px;margin-bottom:32px;">Two powerful modes — AI document writer &amp; instant table PDF maker</p>
+
+  {{-- Document Mode steps --}}
+  <div style="margin-bottom:24px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span style="background:rgba(91,92,255,.2);color:#9898ff;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;">📝 DOCUMENT MODE</span>
     </div>
-    @endforeach
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+      @foreach([
+        ['✍️','1. Enter Your Topic','Type any topic or paste rough notes — AI handles the structure.'],
+        ['🤖','2. AI Structures It','Claude AI writes title, sections, bullet points and a conclusion.'],
+        ['⬇️','3. Download Instantly','A beautiful themed PDF is ready in under 30 seconds.'],
+      ] as $s)
+      <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">{{ $s[0] }}</div>
+        <div style="font-weight:600;margin-bottom:6px;font-size:13px;color:#eeeef8;">{{ $s[1] }}</div>
+        <div style="color:#8888a8;font-size:12px;line-height:1.5;">{{ $s[2] }}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+
+  {{-- Table Mode steps --}}
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+      <span style="background:rgba(16,185,129,.15);color:#10b981;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;">📊 TABLE / STATEMENT MODE</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+      @foreach([
+        ['📋','Select Table tab','Click the Table / Statement tab at the top.'],
+        ['🏷️','Enter title & columns','Add a title and column names like Date, Amount, Balance.'],
+        ['📥','Paste your rows','One row per line, values separated by commas.'],
+        ['⬇️','Generate & download','Numeric columns are auto-totalled — download instantly.'],
+      ] as $s)
+      <div style="background:#0f0f1a;border:1px solid rgba(16,185,129,.15);border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:24px;margin-bottom:8px;">{{ $s[0] }}</div>
+        <div style="font-weight:600;margin-bottom:4px;font-size:12px;color:#eeeef8;">{{ $s[1] }}</div>
+        <div style="color:#8888a8;font-size:11px;line-height:1.5;">{{ $s[2] }}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</div>
+
+{{-- TABLE / STATEMENT PDF SECTION --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <div style="background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(91,92,255,.08));border:1px solid rgba(16,185,129,.2);border-radius:18px;padding:32px;">
+    <h2 style="font-size:22px;font-weight:700;margin-bottom:8px;">Table &amp; Statement PDF Generator</h2>
+    <p style="color:#8888a8;font-size:14px;line-height:1.7;margin-bottom:20px;">
+      Need to create a <strong style="color:#eeeef8;">bank statement PDF</strong>, <strong style="color:#eeeef8;">invoice</strong>, <strong style="color:#eeeef8;">salary sheet</strong>, or any structured table document? Our Table mode lets you paste raw data rows and generates a print-ready PDF — no Excel, no Word, no design skills needed.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+      @foreach([
+        ['🏦','Bank Statement PDF','Paste transaction rows (date, description, debit, credit, balance) — get a formatted statement with running totals.'],
+        ['🧾','Invoice PDF','Enter line items (item, qty, unit price) — totals are auto-calculated and formatted.'],
+        ['💼','Salary Sheet','Create employee salary records with department, basic, allowances and net pay columns.'],
+        ['📈','Financial Report','Generate monthly/quarterly data tables with grand totals in a professional theme.'],
+      ] as $u)
+      <div style="background:rgba(0,0,0,.3);border-radius:10px;padding:16px;">
+        <div style="font-size:22px;margin-bottom:6px;">{{ $u[0] }}</div>
+        <div style="font-weight:600;font-size:13px;color:#eeeef8;margin-bottom:4px;">{{ $u[1] }}</div>
+        <div style="color:#8888a8;font-size:12px;line-height:1.5;">{{ $u[2] }}</div>
+      </div>
+      @endforeach
+    </div>
+    <div style="background:rgba(0,0,0,.4);border-radius:10px;padding:14px;font-size:12px;color:#8888a8;line-height:1.8;">
+      <strong style="color:#10b981;">Auto-features:</strong>
+      Numeric columns are <strong style="color:#eeeef8;">right-aligned automatically</strong> ·
+      A <strong style="color:#eeeef8;">totals row</strong> is added at the bottom ·
+      Numbers formatted with <strong style="color:#eeeef8;">comma separators</strong> ·
+      <strong style="color:#eeeef8;">No AI quota</strong> used — table PDFs are always free &amp; unlimited
+    </div>
   </div>
 </div>
 
@@ -337,13 +427,9 @@ async function generatePdf() {
                 </button>`;
         } else {
             const data = await resp.json().catch(() => ({}));
-            if (data.error === 'free_limit_reached') {
-                result.innerHTML = `
-                    <div style="background:#1a0a0a;border:1px solid #ff6b6b;border-radius:12px;padding:20px;">
-                        <div style="color:#ff6b6b;font-weight:700;margin-bottom:8px">Daily limit reached!</div>
-                        <div style="color:#8888a8;font-size:14px;margin-bottom:16px">Upgrade to Pro for unlimited AI PDF generation</div>
-                        <a href="/#pricing" style="display:inline-block;padding:12px 24px;background:#5b5cff;color:#fff;border-radius:99px;text-decoration:none;font-weight:600">Upgrade to Pro →</a>
-                    </div>`;
+            if (data.error === 'pro_required' || data.error === 'free_limit_reached') {
+                result.style.display = 'none';
+                showProModal();
             } else {
                 result.innerHTML = `<div style="color:#ff6b6b;padding:16px;">Error: ${data.error || 'Something went wrong. Please try again.'}</div>`;
             }

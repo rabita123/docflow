@@ -78,5 +78,65 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 <div class="footer">
   <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a></p>
 </div>
+
+{{-- Pro Upgrade Modal (shown when AI feature is accessed without Pro plan) --}}
+<div id="pro-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+  <div style="background:#0f0f1a;border:1px solid rgba(91,92,255,.4);border-radius:24px;padding:40px;max-width:460px;width:90%;text-align:center;position:relative;box-shadow:0 0 60px rgba(91,92,255,.2);">
+    <button onclick="closeProModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#44445a;font-size:22px;cursor:pointer;line-height:1;">×</button>
+    <div style="font-size:52px;margin-bottom:16px;">🔒</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;">Pro Feature</h2>
+    <p style="color:#8888a8;font-size:15px;line-height:1.7;margin-bottom:28px;">
+      AI tools — Chat with PDF, Translate, AI Generator, Form Fill — require a <strong style="color:#eeeef8;">Pro plan</strong>.<br>
+      All other PDF tools (compress, merge, split, sign) are <strong style="color:#00e5a0;">always free</strong>.
+    </p>
+
+    {{-- What you get with Pro --}}
+    <div style="background:#07070d;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px;margin-bottom:24px;text-align:left;">
+      @foreach([
+        ['🤖','Unlimited AI PDF Chat','Ask questions about any PDF'],
+        ['🌍','Unlimited PDF Translation','50+ languages supported'],
+        ['✨','Unlimited AI PDF Generator','Documents &amp; table statements'],
+        ['📋','Unlimited AI Form Fill','Auto-fill any PDF form'],
+        ['⚡','Priority processing','Faster AI responses'],
+        ['🗜️','Larger file uploads','Up to 200MB vs 10MB free'],
+      ] as $f)
+      <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;">
+        <span style="font-size:16px;flex-shrink:0;">{{ $f[0] }}</span>
+        <div>
+          <span style="font-size:13px;font-weight:600;color:#eeeef8;">{{ $f[1] }}</span>
+          <span style="font-size:12px;color:#44445a;margin-left:6px;">{{ $f[2] }}</span>
+        </div>
+      </div>
+      @endforeach
+    </div>
+
+    <a href="/#pricing" style="display:block;padding:15px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border-radius:12px;text-decoration:none;font-size:16px;font-weight:800;margin-bottom:12px;box-shadow:0 4px 20px rgba(91,92,255,.4);">
+      Upgrade to Pro — $9/month →
+    </a>
+    <button onclick="closeProModal()" style="background:transparent;color:#44445a;border:none;font-size:13px;cursor:pointer;padding:4px;">
+      Continue with free tools
+    </button>
+  </div>
+</div>
+
+<script>
+function showProModal() {
+    const m = document.getElementById('pro-modal');
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeProModal() {
+    document.getElementById('pro-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+// Close on backdrop click
+document.getElementById('pro-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeProModal();
+});
+// Close on Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeProModal();
+});
+</script>
 </body>
 </html>

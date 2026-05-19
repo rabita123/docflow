@@ -98,9 +98,12 @@
 {{-- ── UPLOAD STATE ──────────────────────────────────────────────── --}}
 <div id="state-upload">
   <div class="hero">
-    <div class="badge">✨ Powered by Claude AI</div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+      <div class="badge">✨ Powered by Claude AI</div>
+      <div class="badge" style="background:rgba(255,165,0,.1);border-color:rgba(255,165,0,.4);color:#ffa500;">🔒 Pro Feature</div>
+    </div>
     <h1>AI Form Filler</h1>
-    <p>Upload any PDF form — job application, lease, contract, registration — and AI will detect all the fields and fill them automatically from your details.</p>
+    <p>Upload any PDF form — job application, lease, contract, registration — and AI fills all fields automatically. Requires a <strong style="color:#ffa500;">Pro plan</strong>.</p>
   </div>
 
   <div class="tool-box" style="max-width:620px;">
@@ -453,6 +456,7 @@ async function runFill() {
 
     const resp = await fetch('/api/ai/form-fill', { method:'POST', body:fd });
     const data = await resp.json();
+    if (data.error === 'pro_required' || data.error === 'free_limit_reached') { showProModal(); return; }
     if (!resp.ok || data.error) throw new Error(data.error || 'AI error');
 
     const fills = data.fills || {};

@@ -168,17 +168,8 @@ async function processSign() {
                 <br><br>
                 <button onclick="location.reload()" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:10px 20px;border-radius:99px;cursor:pointer;font-size:14px">Sign Another</button>`;
         } else {
-            const data = await resp.json();
-            if (data.error === 'free_limit_reached') {
-                result.innerHTML = `
-                    <div style="background:#1a0a0a;border:1px solid #ff6b6b;border-radius:12px;padding:20px;">
-                        <div style="color:#ff6b6b;font-weight:700;margin-bottom:8px">Daily limit reached!</div>
-                        <div style="color:#8888a8;font-size:14px;margin-bottom:16px">Upgrade to Pro for unlimited access</div>
-                        <a href="/#pricing" style="display:inline-block;padding:12px 24px;background:#5b5cff;color:#fff;border-radius:99px;text-decoration:none;font-weight:600">Upgrade to Pro →</a>
-                    </div>`;
-            } else {
-                result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong'}</div>`;
-            }
+            const data = await resp.json().catch(() => ({}));
+            result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong. Please try again.'}</div>`;
         }
     } catch(e) {
         result.innerHTML = `<div style="color:#ff6b6b">Connection error. Please try again.</div>`;

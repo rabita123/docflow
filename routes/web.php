@@ -127,6 +127,29 @@ Route::get('/ai-form-fill',       fn() => view('tools.ai-form-fill'))->name('too
 Route::get('/watermark-remover',  fn() => view('tools.watermark-remover'))->name('tool.watermark-remover');
 
 Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
+
+// ── Programmatic SEO Landing Pages ──────────────────────────────────────────
+// Compress variants
+Route::get('/compress-pdf-to-200kb',                    fn() => view('pages.compress-to-200kb'))->name('seo.compress-200kb');
+Route::get('/compress-pdf-to-1mb',                      fn() => view('pages.compress-to-1mb'))->name('seo.compress-1mb');
+Route::get('/compress-pdf-for-email',                   fn() => view('pages.compress-for-email'))->name('seo.compress-email');
+Route::get('/reduce-pdf-size-for-whatsapp',             fn() => view('pages.compress-for-whatsapp'))->name('seo.compress-whatsapp');
+Route::get('/compress-pdf-for-whatsapp',                fn() => view('pages.compress-for-whatsapp'));
+
+// Competitor alternative pages
+Route::get('/smallpdf-alternative',                     fn() => view('pages.smallpdf-alt'))->name('seo.smallpdf-alt');
+Route::get('/free-smallpdf-alternative',                fn() => view('pages.smallpdf-alt'));
+Route::get('/ilovepdf-alternative',                     fn() => view('pages.ilovepdf-alt'))->name('seo.ilovepdf-alt');
+Route::get('/free-ilovepdf-alternative',                fn() => view('pages.ilovepdf-alt'));
+
+// Conversion tools (coming soon)
+Route::get('/pdf-to-word',                              fn() => view('pages.pdf-to-word'))->name('seo.pdf-to-word');
+Route::get('/pdf-to-docx',                              fn() => view('pages.pdf-to-word'));
+Route::get('/convert-pdf-to-word',                      fn() => view('pages.pdf-to-word'));
+Route::get('/pdf-to-jpg',                               fn() => view('pages.pdf-to-jpg'))->name('seo.pdf-to-jpg');
+Route::get('/pdf-to-jpeg',                              fn() => view('pages.pdf-to-jpg'));
+Route::get('/pdf-to-image',                             fn() => view('pages.pdf-to-jpg'));
+Route::get('/convert-pdf-to-jpg',                       fn() => view('pages.pdf-to-jpg'));
 Route::get('/free-sejda-alternative', fn() => view('tools.sejda-alternative'));
 Route::get('/sejda-alternative-free', fn() => view('tools.sejda-alternative'));
 Route::get('/pdf-translator-bengali', function () {
@@ -149,8 +172,17 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/ai-form-fill',            'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/watermark-remover',       'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/free-sejda-alternative',   'priority' => '0.7', 'changefreq' => 'monthly'],
-        ['loc' => 'https://pdftash.com/sejda-alternative-free',   'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/free-sejda-alternative',             'priority' => '0.7', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/sejda-alternative-free',             'priority' => '0.7', 'changefreq' => 'monthly'],
+        // Programmatic SEO pages
+        ['loc' => 'https://pdftash.com/compress-pdf-to-200kb',             'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-to-1mb',               'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-for-email',            'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/reduce-pdf-size-for-whatsapp',      'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/smallpdf-alternative',              'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ilovepdf-alternative',              'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-word',                       'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-jpg',                        'priority' => '0.95','changefreq' => 'weekly'],
     ];
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

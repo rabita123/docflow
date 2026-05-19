@@ -24,6 +24,7 @@ use App\Http\Controllers\AI\FormFillController;
 use App\Http\Controllers\PDF\PdfTextEditorController;
 use App\Http\Controllers\PDF\SignController;
 use App\Http\Middleware\CheckFreeTierLimit;
+use App\Http\Middleware\GuardApiOrigin;
 
 Route::get('/health', fn() => response()->json(['status' => 'ok']));
 
@@ -49,8 +50,9 @@ Route::get('/usage', function () {
     return response()->json($data);
 });
 
-// All tool routes — protected by free tier limit
-Route::middleware([CheckFreeTierLimit::class])->group(function () {
+// All tool routes — protected by free tier limit + burst throttle
+// throttle:30,1  = max 30 requests per 1 minute per IP (burst protection)
+Route::middleware([GuardApiOrigin::class, 'throttle:30,1', CheckFreeTierLimit::class])->group(function () {
 
     Route::prefix('pdf')->group(function () {
         Route::post('/compress',      [CompressController::class,    'handle']);
@@ -75,7 +77,8 @@ Route::middleware([CheckFreeTierLimit::class])->group(function () {
         Route::post('/text-editor/export',  [PdfTextEditorController::class, 'export']);
     });
 
-    Route::prefix('ai')->group(function () {
+    // AI routes get extra-tight throttle: 10 req/min — protects API spend
+    Route::middleware('throttle:10,1')->prefix('ai')->group(function () {
         Route::post('/summarize',       [SummarizeController::class,   'handle']);
         Route::post('/upload-for-chat', [ChatController::class,        'upload']);
         Route::post('/chat',            [ChatController::class,        'chat']);

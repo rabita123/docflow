@@ -111,11 +111,26 @@
   </div>
 </div>
 
+{{-- COMPRESS TARGET SIZES --}}
+<div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
+  <h2 style="font-size:20px;font-weight:700;text-align:center;margin-bottom:16px;">Compress PDF to a Specific Size</h2>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+    @foreach([
+      ['Compress to 200KB','/compress-pdf-to-200kb'],
+      ['Compress to 1MB','/compress-pdf-to-1mb'],
+      ['Compress for Email','/compress-pdf-for-email'],
+      ['Compress for WhatsApp','/reduce-pdf-size-for-whatsapp'],
+    ] as $t)
+    <a href="{{ $t[1] }}" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(91,92,255,.3);border-radius:99px;color:#9898ff;text-decoration:none;font-size:13px;font-weight:600;" onmouseover="this.style.borderColor='#5b5cff';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(91,92,255,.3)';this.style.color='#9898ff'">{{ $t[0] }}</a>
+    @endforeach
+  </div>
+</div>
+
 {{-- RELATED TOOLS --}}
 <div style="max-width:700px;margin:0 auto 60px;padding:0 20px;text-align:center;">
   <h2 style="font-size:22px;font-weight:700;margin-bottom:20px;">More Free PDF Tools</h2>
   <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-    @foreach([['Merge PDF','/merge-pdf'],['Split PDF','/split-pdf'],['Translate PDF','/translate-pdf'],['Chat with PDF','/chat-with-pdf'],['Sign PDF','/sign-pdf']] as $t)
+    @foreach([['Merge PDF','/merge-pdf'],['Split PDF','/split-pdf'],['Translate PDF','/translate-pdf'],['Chat with PDF','/chat-with-pdf'],['Sign PDF','/sign-pdf'],['Smallpdf Alternative','/smallpdf-alternative']] as $t)
     <a href="{{ $t[1] }}" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;font-weight:500;transition:all .2s;" onmouseover="this.style.borderColor='#5b5cff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">{{ $t[0] }}</a>
     @endforeach
   </div>
@@ -188,16 +203,7 @@ async function processFile(file) {
                 <button onclick="location.reload()" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:10px 20px;border-radius:99px;cursor:pointer;font-size:14px">Compress Another</button>`;
         } else {
             const data = await resp.json();
-            if (data.error === 'free_limit_reached') {
-                result.innerHTML = `
-                    <div style="background:#1a0a0a;border:1px solid #ff6b6b;border-radius:12px;padding:20px;">
-                        <div style="color:#ff6b6b;font-weight:700;margin-bottom:8px">Daily limit reached!</div>
-                        <div style="color:#8888a8;font-size:14px;margin-bottom:16px">Upgrade to Pro for unlimited access</div>
-                        <a href="/#pricing" style="display:inline-block;padding:12px 24px;background:#5b5cff;color:#fff;border-radius:99px;text-decoration:none;font-weight:600">Upgrade to Pro →</a>
-                    </div>`;
-            } else {
-                result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong'}</div>`;
-            }
+            result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong. Please try again.'}</div>`;
         }
     } catch(e) {
         result.innerHTML = `<div style="color:#ff6b6b">Connection error. Please try again.</div>`;

@@ -5,65 +5,39 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
+/**
+ * Access control:
+ *  - PDF tools  (/api/pdf/*)  → completely free, no limits, no login required
+ *  - AI tools   (/api/ai/*)   → Pro plan required (paid users only)
+ */
 class CheckFreeTierLimit
 {
-    // Daily limits per tool group for free users
-    const LIMITS = [
-        'pdf'  => 6,   // compress, merge, split, sign, etc. (test: 6)
-        'ai'   => 6,   // chat, translate, summarize (test: 6)
-    ];
+    // Kept for backward-compat with /api/usage endpoint — not used for enforcement
+    const LIMITS = ['pdf' => 999, 'ai' => 0];
 
     public function handle(Request $request, Closure $next)
     {
-        // Pro users — unlimited
-        if (Auth::check() && Auth::user()->plan === 'pro') {
+        $path = $request->path();
+
+        // PDF tools — always free, pass through immediately
+        if (str_contains($path, 'api/pdf')) {
             return $next($request);
         }
 
-        // Determine tool group from route
-        $path  = $request->path(); // e.g. api/pdf/compress or api/ai/translate
-        $group = $this->getGroup($path);
+        // AI tools — require active Pro subscription
+        if (str_contains($path, 'api/ai')) {
+            if (Auth::check() && Auth::user()->plan === 'pro') {
+                return $next($request);
+            }
 
-        if (!$group) {
-            return $next($request); // unknown route — skip
-        }
-
-        $limit      = self::LIMITS[$group];
-        $identifier = Auth::check() ? 'user_' . Auth::id() : 'ip_' . $request->ip();
-        $today      = date('Y-m-d');
-        $key        = "limit_{$group}_{$identifier}_{$today}";
-        $used       = Cache::get($key, 0);
-
-        if ($used >= $limit) {
-            $groupLabel = $group === 'pdf' ? 'PDF tool' : 'AI tool';
             return response()->json([
-                'error'     => 'free_limit_reached',
-                'message'   => "You've used your {$limit} free {$groupLabel} tasks for today. Upgrade to Pro for unlimited access.",
-                'group'     => $group,
-                'limit'     => $limit,
-                'used'      => $used,
-                'remaining' => 0,
-            ], 429);
+                'error'   => 'pro_required',
+                'message' => 'This AI feature requires a Pro plan. Upgrade to unlock unlimited AI tools.',
+            ], 402);
         }
 
-        // Increment daily counter — expires at end of day
-        Cache::put($key, $used + 1, now()->endOfDay());
-
-        $response = $next($request);
-        $response->headers->set('X-Tasks-Used',      $used + 1);
-        $response->headers->set('X-Tasks-Remaining', $limit - ($used + 1));
-        $response->headers->set('X-Tasks-Limit',     $limit);
-        $response->headers->set('X-Tasks-Group',     $group);
-
-        return $response;
-    }
-
-    private function getGroup(string $path): ?string
-    {
-        if (str_contains($path, 'api/pdf') || str_contains($path, 'api/pdf')) return 'pdf';
-        if (str_contains($path, 'api/ai'))  return 'ai';
-        return null;
+        // All other routes — pass through
+        return $next($request);
     }
 }
