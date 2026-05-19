@@ -150,6 +150,15 @@
   opacity:0; transition:opacity .25s; white-space:nowrap; z-index:30; }
 #status-tip.show { opacity:1; }
 
+/* ─── AI Fill glow pulse ───────────────────────────────── */
+@keyframes aif-glow {
+  0%,100% { box-shadow:0 0 0 0 rgba(91,92,255,.0); }
+  50%      { box-shadow:0 0 12px 3px rgba(91,92,255,.55); }
+}
+#btn-ai-fill { animation: aif-glow 2.4s ease-in-out infinite; }
+#btn-ai-fill:hover { animation:none; box-shadow:0 0 16px 4px rgba(91,92,255,.7) !important;
+  transform:translateY(-1px); }
+
 /* ─── AI Form Fill Modal ───────────────────────────────── */
 #ai-fill-modal { display:none; position:fixed; inset:0; z-index:300;
   background:rgba(0,0,0,.75); backdrop-filter:blur(6px);
@@ -209,21 +218,37 @@
     </p>
   </div>
 
+  {{-- AI Form Fill highlight banner --}}
+  <div style="max-width:620px;margin:0 auto 28px;padding:0 20px;">
+    <div style="background:linear-gradient(135deg,rgba(91,92,255,.18),rgba(123,124,255,.1));
+      border:1px solid rgba(91,92,255,.4);border-radius:16px;padding:22px 26px;
+      display:flex;align-items:center;gap:20px;">
+      <div style="font-size:40px;flex-shrink:0;">✨</div>
+      <div>
+        <div style="font-weight:800;font-size:15px;color:#9898ff;margin-bottom:5px;">NEW — AI Form Fill</div>
+        <div style="font-size:13px;color:#c8c8e8;line-height:1.55;">
+          Drop your PDF form below, then click <strong style="color:#fff;">✨ AI Fill</strong> in the toolbar.
+          The AI detects every form field and fills them automatically from your details — name, email, date, address and more.
+        </div>
+      </div>
+    </div>
+  </div>
+
   {{-- Feature highlights --}}
   <div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
     <h2 style="font-size:22px;font-weight:700;text-align:center;margin-bottom:24px;">What You Can Do</h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
       @foreach([
+        ['✨','AI Form Fill','Drop a form PDF — AI detects all fields and fills them from your details automatically.'],
         ['✏️','Edit Existing Text','Click any text on the PDF to edit it directly in place.'],
         ['➕','Add New Text','Click any blank area to add a new text box anywhere.'],
         ['⬜','Whiteout Tool','Draw white rectangles to erase or cover any content.'],
         ['🖊','Highlight','Drag to highlight important text in yellow.'],
-        ['🎨','Rich Formatting','Change font, size, color, bold, italic per text box.'],
         ['⬇️','Instant Download','Download your edited PDF with one click.'],
       ] as $f)
-      <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;text-align:center;">
+      <div style="background:#0f0f1a;border:1px solid {{ $f[0]==='✨' ? 'rgba(91,92,255,.35)' : 'rgba(255,255,255,.08)' }};border-radius:12px;padding:18px;text-align:center;">
         <div style="font-size:26px;margin-bottom:8px;">{{ $f[0] }}</div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:5px;">{{ $f[1] }}</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:5px;color:{{ $f[0]==='✨' ? '#9898ff' : 'inherit' }};">{{ $f[1] }}</div>
         <div style="color:#8888a8;font-size:12px;line-height:1.5;">{{ $f[2] }}</div>
       </div>
       @endforeach
