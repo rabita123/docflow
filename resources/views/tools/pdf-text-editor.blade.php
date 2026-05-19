@@ -147,6 +147,44 @@
   padding:8px 16px; font-size:12px; color:#8888a8; pointer-events:none;
   opacity:0; transition:opacity .25s; white-space:nowrap; z-index:30; }
 #status-tip.show { opacity:1; }
+
+/* ─── AI Form Fill Modal ───────────────────────────────── */
+#ai-fill-modal { display:none; position:fixed; inset:0; z-index:300;
+  background:rgba(0,0,0,.75); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:20px; }
+#ai-fill-modal.open { display:flex; }
+#ai-fill-card { background:#16162a; border:1px solid rgba(255,255,255,.12);
+  border-radius:16px; padding:28px; width:100%; max-width:520px;
+  box-shadow:0 24px 64px rgba(0,0,0,.7); }
+.aif-title { font-size:18px; font-weight:800; color:#eeeef8; margin:0 0 6px; }
+.aif-sub { font-size:13px; color:#8888a8; margin:0 0 20px; line-height:1.55; }
+#ai-fields-status { display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  min-height:26px; margin-bottom:14px; font-size:12px; color:#8888a8; }
+.aif-badge { background:rgba(0,229,160,.15); border:1px solid rgba(0,229,160,.3);
+  border-radius:6px; padding:3px 10px; color:#00e5a0; font-size:11px; font-weight:700; flex-shrink:0; }
+.aif-badge.warn { background:rgba(255,153,68,.1); border-color:rgba(255,153,68,.35); color:#ff9944; }
+#ai-info-input { width:100%; min-height:100px; background:#0d0d1f;
+  border:1px solid rgba(255,255,255,.12); border-radius:10px;
+  color:#eeeef8; font-size:13px; padding:12px 14px; resize:vertical;
+  font-family:inherit; line-height:1.6; }
+#ai-info-input:focus { outline:none; border-color:rgba(91,92,255,.5); }
+#ai-info-input::placeholder { color:#44445a; }
+.aif-actions { display:flex; gap:8px; margin-top:16px; }
+#btn-aif-cancel { flex:1; padding:10px; background:transparent;
+  color:#8888a8; border:1px solid rgba(255,255,255,.1); border-radius:10px;
+  font-size:13px; cursor:pointer; transition:all .15s; }
+#btn-aif-cancel:hover { background:rgba(255,255,255,.05); color:#eeeef8; }
+#btn-aif-run { flex:2; padding:10px 18px;
+  background:linear-gradient(135deg,#5b5cff,#7b7cff);
+  color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; }
+#btn-aif-run:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 4px 20px rgba(91,92,255,.5); }
+#btn-aif-run:disabled { opacity:.5; cursor:default; transform:none; box-shadow:none; }
+#aif-result { margin-top:16px; max-height:220px; overflow-y:auto; display:none; }
+.aif-result-row { display:flex; justify-content:space-between; align-items:center;
+  padding:7px 12px; background:#0d0d1f; border-radius:8px; margin-bottom:5px; font-size:12px; }
+.aif-rkey { color:#8888a8; flex-shrink:0; margin-right:8px; }
+.aif-rval { color:#eeeef8; font-weight:600; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:240px; }
 </style>
 
 {{-- ── UPLOAD STATE ──────────────────────────────────────────────── --}}
@@ -233,6 +271,10 @@
     <button class="tool-btn" id="btn-highlight" onclick="setMode('highlight')" title="Highlight text">
       <span class="ti">🖊</span> Highlight
     </button>
+    <button class="tool-btn" id="btn-ai-fill" onclick="openAIFillModal()" title="AI Form Fill — auto-fill form fields with AI"
+      style="background:rgba(91,92,255,.12);color:#9898ff;border:1px solid rgba(91,92,255,.25);">
+      <span class="ti">✨</span> AI Fill
+    </button>
 
     <div class="bar-sep"></div>
 
@@ -299,6 +341,29 @@
 
 {{-- Rubber band for draw tools --}}
 <div id="rubber-band"></div>
+
+{{-- ── AI FORM FILL MODAL ─────────────────────────────────────────── --}}
+<div id="ai-fill-modal" onclick="if(event.target===this)closeAIFillModal()">
+  <div id="ai-fill-card">
+    <p class="aif-title">✨ AI Form Fill</p>
+    <p class="aif-sub">Describe yourself and the AI will automatically detect form fields and fill them in for you.</p>
+
+    <div id="ai-fields-status">
+      <div class="spin" style="width:14px;height:14px;border-width:2px;flex-shrink:0;"></div>
+      <span>Scanning PDF for form fields…</span>
+    </div>
+
+    <textarea id="ai-info-input"
+      placeholder="Example: My name is Sarah Johnson. Email: sarah@example.com. Phone: +1 (555) 987-6543. Company: TechCorp Inc. Address: 456 Oak Avenue, San Francisco, CA 94102. Date of birth: March 8, 1988. Job title: Software Engineer."></textarea>
+
+    <div class="aif-actions">
+      <button id="btn-aif-cancel" onclick="closeAIFillModal()">Cancel</button>
+      <button id="btn-aif-run" onclick="runAIFill()">✨ Fill Form with AI</button>
+    </div>
+
+    <div id="aif-result"></div>
+  </div>
+</div>
 
 <script>
 /* ══════════════════════════════════════════════════════════════════
@@ -970,6 +1035,243 @@ function showEditorLoading(msg) {
 }
 function hideEditorLoading() {
   document.getElementById('editor-loading').style.display = 'none';
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   AI FORM FILL
+══════════════════════════════════════════════════════════════════ */
+let aifFields = []; // detected form fields
+
+async function openAIFillModal() {
+  if (!pdfJsDoc) { tipShow('⚠ Open a PDF first.'); return; }
+  const modal = document.getElementById('ai-fill-modal');
+  modal.classList.add('open');
+  document.getElementById('aif-result').style.display = 'none';
+  document.getElementById('btn-aif-run').disabled = false;
+  document.getElementById('btn-aif-run').textContent = '✨ Fill Form with AI';
+
+  // Scan for fields
+  document.getElementById('ai-fields-status').innerHTML =
+    '<div class="spin" style="width:14px;height:14px;border-width:2px;flex-shrink:0;"></div>' +
+    '<span>Scanning PDF for form fields…</span>';
+
+  aifFields = await detectFormFields();
+
+  const n = aifFields.length;
+  if (n > 0) {
+    const preview = aifFields.slice(0, 5).map(f => f.label).join(', ') + (n > 5 ? '…' : '');
+    document.getElementById('ai-fields-status').innerHTML =
+      `<span class="aif-badge">${n} field${n > 1 ? 's' : ''} found</span>` +
+      `<span>${preview}</span>`;
+  } else {
+    document.getElementById('ai-fields-status').innerHTML =
+      '<span class="aif-badge warn">⚠ No AcroForm fields found</span>' +
+      '<span>AI will match common labels from the PDF text</span>';
+  }
+}
+
+function closeAIFillModal() {
+  document.getElementById('ai-fill-modal').classList.remove('open');
+}
+
+/* ── Detect form fields: AcroForm widgets + visual fallback ── */
+async function detectFormFields() {
+  const fields = [];
+  if (!pdfJsDoc) return fields;
+
+  for (let p = 1; p <= totalPages; p++) {
+    const page     = await pdfJsDoc.getPage(p);
+    const viewport = page.getViewport({ scale });
+
+    /* 1. AcroForm widget annotations — most reliable */
+    try {
+      const annotations = await page.getAnnotations();
+      const widgets = annotations.filter(a => a.subtype === 'Widget' && a.fieldName);
+
+      for (const annot of widgets) {
+        if (annot.fieldType === 'Btn' && annot.checkBox !== undefined) continue; // skip checkboxes for now
+        const vr = viewport.convertToViewportRectangle(annot.rect);
+        const sx = Math.min(vr[0], vr[2]);
+        const sy = Math.min(vr[1], vr[3]);
+        const sw = Math.abs(vr[2] - vr[0]);
+        const sh = Math.abs(vr[3] - vr[1]);
+        if (sw < 5 || sh < 5) continue;
+
+        fields.push({
+          pageNum: p, source: 'acroform',
+          label: annot.fieldName.split('.').pop() || annot.fieldName,
+          x: sx, y: sy, w: sw, h: sh,
+          pdfX: annot.rect[0], pdfY: annot.rect[1],
+          pdfW: annot.rect[2] - annot.rect[0],
+          pdfH: annot.rect[3] - annot.rect[1],
+        });
+      }
+    } catch(_) {}
+
+    /* 2. Visual detection — lines/labels ending with ':' */
+    if (fields.filter(f => f.pageNum === p && f.source === 'acroform').length === 0) {
+      try {
+        const tc     = await page.getTextContent();
+        const blocks = groupTextItems(tc.items, viewport);
+        for (const block of blocks) {
+          const txt = block.str.trim();
+          const isLabel = /[:]\s*$/.test(txt) ||
+            /^(name|first|last|middle|email|phone|fax|date|dob|birth|address|city|state|zip|postal|country|company|organization|title|position|signature|gender|nationality|passport|ssn|tax|id number|website|notes?|comments?|occupation|department|employee)\b/i.test(txt);
+          if (!isLabel || txt.length < 2 || txt.length > 60) continue;
+
+          // Place fill box to the right of the label; clamp to page width
+          const pageW = viewport.width;
+          const fieldX = block.x + block.w + 6;
+          const fieldW = Math.max(120, Math.min(pageW - fieldX - 10, 260));
+          const fieldY = block.y - 2;
+          const fieldH = block.h + 4;
+          if (fieldX + 40 > pageW) continue;
+
+          fields.push({
+            pageNum: p, source: 'visual',
+            label: txt.replace(/[:\s]+$/, ''),
+            x: fieldX, y: fieldY, w: fieldW, h: fieldH,
+            pdfX: null, pdfY: null, pdfW: null, pdfH: null,
+          });
+        }
+      } catch(_) {}
+    }
+  }
+
+  return fields;
+}
+
+/* ── Call AI and place filled boxes ── */
+async function runAIFill() {
+  const userInfo = document.getElementById('ai-info-input').value.trim();
+  if (!userInfo) { alert('Please enter your information first.'); return; }
+
+  const btn = document.getElementById('btn-aif-run');
+  btn.disabled = true;
+  btn.textContent = '⏳ AI is filling fields…';
+
+  try {
+    // Build label list — use detected fields, or fallback to common labels
+    const fieldLabels = aifFields.length
+      ? aifFields.map(f => f.label).join(', ')
+      : 'Full Name, First Name, Last Name, Email Address, Phone Number, Date, Company, Address, City, State, ZIP Code, Country, Job Title, Signature';
+
+    const fd = new FormData();
+    fd.append('field_labels', fieldLabels);
+    fd.append('user_info', userInfo);
+    fd.append('_token', document.querySelector('meta[name=csrf-token]')?.content || '');
+
+    const resp = await fetch('/api/ai/form-fill', { method: 'POST', body: fd });
+    const data = await resp.json();
+    if (!resp.ok || data.error) throw new Error(data.error || 'API error');
+
+    const fills = data.fills || {};
+    const filled = Object.entries(fills).filter(([, v]) => v && v.trim());
+
+    if (!filled.length) {
+      alert('The AI could not find matching values. Please provide more details in the text box.');
+      return;
+    }
+
+    // Place boxes
+    let placed = 0;
+    if (aifFields.length > 0) {
+      for (const field of aifFields) {
+        const value = fills[field.label] || '';
+        if (!value || !value.trim()) continue;
+        placeAIFilledBox(field, value);
+        placed++;
+      }
+    } else {
+      placed = placeGenericFills(fills);
+    }
+
+    // Results panel
+    const rows = filled.map(([k, v]) =>
+      `<div class="aif-result-row"><span class="aif-rkey">${k}</span><span class="aif-rval">${v}</span></div>`
+    ).join('');
+    document.getElementById('aif-result').innerHTML =
+      `<div style="font-size:12px;color:#00e5a0;font-weight:700;margin-bottom:10px;">✅ Filled ${placed} field${placed !== 1 ? 's' : ''}</div>` + rows;
+    document.getElementById('aif-result').style.display = 'block';
+
+    markDirty();
+    tipShow(`✨ AI filled ${placed} form field${placed !== 1 ? 's' : ''}!`, 5000);
+    setTimeout(() => closeAIFillModal(), 3000);
+
+  } catch (err) {
+    alert('AI Fill failed: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ Fill Form with AI';
+  }
+}
+
+/* ── Place one AI-filled text box over a detected field ── */
+function placeAIFilledBox(field, text) {
+  const layer = document.querySelector(`.annot-layer[data-page="${field.pageNum}"]`);
+  if (!layer) return;
+
+  const { x, y, w, h } = field;
+  const fs = Math.max(8, Math.min(Math.round(h * 0.58), 15));
+
+  // For AcroForm fields: add a subtle white background rect
+  if (field.source === 'acroform') {
+    const bg = document.createElement('div');
+    bg.className = 'wout-rect';
+    bg.dataset.page = field.pageNum;
+    bg.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;`;
+    makeDraggable(bg);
+    bg.addEventListener('mousedown', ev => { ev.stopPropagation(); selectEl(bg); });
+    layer.appendChild(bg);
+  }
+
+  // Create the text box
+  const box = createTextBox(layer, x, y + (h - fs * 1.3) / 2, text, field.pageNum, false);
+  box.style.fontSize   = fs + 'px';
+  box.style.minWidth   = w + 'px';
+  box.style.maxWidth   = w + 'px';
+  box.style.background = 'transparent';
+  box.classList.add('tbox-ai-filled');
+
+  // Store PDF coords so saveAndDownload() can use them
+  if (field.pdfX !== null) {
+    box.dataset.pdfX  = field.pdfX;
+    box.dataset.pdfY  = field.pdfY;
+    box.dataset.pdfW  = field.pdfW;
+    box.dataset.pdfH  = field.pdfH;
+    box.dataset.pdfFs = fs / scale;
+  }
+
+  pushUndo({ type: 'delete', el: box });
+}
+
+/* ── Fallback: match fill keys against existing PDF text zones ── */
+function placeGenericFills(fills) {
+  let placed = 0;
+  for (const [key, value] of Object.entries(fills)) {
+    if (!value || !value.trim()) continue;
+    let done = false;
+
+    document.querySelectorAll('.pdf-zone').forEach(zone => {
+      if (done) return;
+      const zt = (zone.dataset.origText || '').toLowerCase().replace(/[:\s_]/g, '');
+      const kt = key.toLowerCase().replace(/\s/g, '');
+      if (zt.includes(kt) || kt.includes(zt.slice(0, Math.max(3, zt.length - 2)))) {
+        const layer   = zone.parentElement;
+        const pageNum = parseInt(zone.dataset.page);
+        const zx = parseFloat(zone.style.left) + parseFloat(zone.style.width) + 6;
+        const zy = parseFloat(zone.style.top);
+        const zh = parseFloat(zone.style.height);
+        const fs = Math.max(8, Math.min(Math.round(zh * 0.7), 15));
+        const box = createTextBox(layer, zx, zy, value, pageNum, false);
+        box.style.fontSize   = fs + 'px';
+        box.style.background = 'transparent';
+        pushUndo({ type: 'delete', el: box });
+        placed++; done = true;
+      }
+    });
+  }
+  return placed;
 }
 </script>
 @endsection

@@ -20,6 +20,7 @@ use App\Http\Controllers\AI\ChatController;
 use App\Http\Controllers\AI\TranslateController;
 use App\Http\Controllers\AI\ExtractDataController;
 use App\Http\Controllers\AI\PdfGeneratorController;
+use App\Http\Controllers\AI\FormFillController;
 use App\Http\Controllers\PDF\PdfTextEditorController;
 use App\Http\Controllers\PDF\SignController;
 use App\Http\Middleware\CheckFreeTierLimit;
@@ -81,6 +82,7 @@ Route::middleware([CheckFreeTierLimit::class])->group(function () {
         Route::post('/translate',       [TranslateController::class,   'handle']);
         Route::post('/extract-data',    [ExtractDataController::class,  'handle']);
         Route::post('/generate-pdf',    [PdfGeneratorController::class, 'handle']);
+        Route::post('/form-fill',       [FormFillController::class,     'handle']);
     });
 
 });
