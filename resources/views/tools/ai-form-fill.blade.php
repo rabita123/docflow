@@ -317,19 +317,55 @@ async function detectAllFields() {
       try {
         const tc     = await page.getTextContent();
         const blocks = groupBlocks(tc.items, viewport);
+
         for (const b of blocks) {
-          const txt = b.str.trim();
-          const isLabel = /[:]$/.test(txt) ||
-            /^(name|first|last|middle|email|phone|mobile|fax|date|dob|birth|address|street|city|state|zip|postal|country|company|org|title|position|signature|gender|nationality|passport|id|ssn|tax|website|note|comment|occupation|dept|employee|salary|age)\b/i.test(txt.replace(/[^a-z ]/gi,''));
-          if (!isLabel || txt.length < 2 || txt.length > 55) continue;
-          const fw = Math.max(130, viewport.width - b.x - b.w - 20);
-          const fx = b.x + b.w + 6;
-          if (fx + 40 > viewport.width) continue;
+          const txt      = b.str.trim();
+          const cleanTxt = txt.replace(/[:\s_]+$/, '').trim();
+
+          // Detect: block itself ends with colon
+          const selfColon = /:\s*$/.test(txt);
+
+          // Detect: block is a form label keyword
+          const isKeyword = /^(name|first name|last name|middle|full name|email|e-mail|phone|mobile|cell|fax|date|dob|date of birth|birth|address|street|city|state|zip|postal|country|company|organization|org|title|position|designation|signature|gender|nationality|passport|id number|id|ssn|tax|website|note|comment|occupation|dept|department|employee|salary|age|building|room|floor|district|institute|discipline|subject|section|roll|reg|registration)\b/i
+            .test(cleanTxt.replace(/[\/\-]/g,' '));
+
+          if (!selfColon && !isKeyword) continue;
+          if (cleanTxt.length < 2 || txt.length > 90) continue;
+
+          // ── Find colon on the same baseline but further right ──
+          // Handles forms like:  "Name _________ :"  where colon is a separate block
+          const colonBlock = blocks.find(cb =>
+            cb !== b &&
+            /^[\s:]+$/.test(cb.str) && cb.str.includes(':') &&  // standalone colon block
+            Math.abs(cb.bottom - b.bottom) < b.h * 0.65 &&       // same baseline
+            cb.x > b.x + b.w + 2                                 // strictly to the right
+          );
+
+          let fillX, fillW;
+          if (selfColon) {
+            // Colon is already part of this block — fill goes right after
+            fillX = b.x + b.w + 5;
+            fillW = viewport.width - fillX - 12;
+          } else if (colonBlock) {
+            // Separate colon block found — fill goes AFTER the colon
+            fillX = colonBlock.x + colonBlock.w + 5;
+            fillW = viewport.width - fillX - 12;
+          } else {
+            // No colon visible — fill goes after the label
+            fillX = b.x + b.w + 8;
+            fillW = Math.max(100, viewport.width - fillX - 12);
+          }
+
+          if (fillX + 25 > viewport.width) continue;
+
           fields.push({
             pageNum: p, source: 'visual', scale: 1.5,
-            label: txt.replace(/[:\s]+$/, ''),
-            x: fx, y: b.y - 2, w: Math.min(fw, 280), h: b.h + 4,
+            label: cleanTxt,
+            x: fillX, y: b.y,
+            w: Math.min(fillW, 320), h: b.h,
             pdfRect: null, dims,
+            // Store PDF coords of the fill position for the pdf-lib step
+            fillAfterColon: !!(selfColon || colonBlock),
           });
         }
       } catch(_) {}
@@ -423,14 +459,15 @@ async function runFill() {
             x: rx+3, y: ry + (rh-fs)/2, size:fs, font, color:rgb(0,0,0), maxWidth:rw-6
           });
         } else {
-          // Visual: convert screen coords → PDF coords
+          // Visual: screen → PDF coordinates (PDF origin = bottom-left)
           const pdfX = field.x / sc;
-          const pdfY = dims.h - (field.y + field.h) / sc;
-          const pdfW = field.w / sc;
           const pdfH = field.h / sc;
-          const fs = Math.max(7, Math.min(pdfH*0.7, 11));
-          pdfPage.drawText(value.slice(0,60), {
-            x:pdfX, y:pdfY+(pdfH-fs)/2, size:fs, font, color:rgb(0,0,0), maxWidth:pdfW
+          // Align to baseline: bottom of the text line in PDF coords
+          const pdfY = dims.h - (field.y + field.h) / sc + pdfH * 0.15;
+          const pdfW = field.w / sc;
+          const fs   = Math.max(7, Math.min(pdfH * 0.72, 11));
+          pdfPage.drawText(value.slice(0, 80), {
+            x: pdfX, y: pdfY, size: fs, font, color: rgb(0, 0, 0), maxWidth: pdfW
           });
         }
         placedCount++;
