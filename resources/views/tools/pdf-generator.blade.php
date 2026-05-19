@@ -28,21 +28,96 @@
 
 <div class="tool-box" style="max-width:760px;">
 
-  {{-- Input --}}
-  <div style="margin-bottom:20px;">
-    <label style="color:#eeeef8;font-size:14px;font-weight:600;display:block;margin-bottom:8px;">
-      📝 Your topic or content
-    </label>
-    <textarea id="topic" rows="6" placeholder="Examples:
+  {{-- Mode toggle --}}
+  <div style="display:flex;gap:0;margin-bottom:24px;border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden;">
+    <button id="tab-doc" onclick="setMode('document')"
+      style="flex:1;padding:11px;background:rgba(91,92,255,.2);color:#9898ff;border:none;font-size:13px;font-weight:700;cursor:pointer;border-right:1px solid rgba(255,255,255,.1);">
+      📝 Document / Article
+    </button>
+    <button id="tab-tbl" onclick="setMode('table')"
+      style="flex:1;padding:11px;background:transparent;color:#8888a8;border:none;font-size:13px;font-weight:600;cursor:pointer;">
+      📊 Table / Statement
+    </button>
+  </div>
+
+  {{-- Document mode --}}
+  <div id="mode-document">
+    <div style="margin-bottom:20px;">
+      <label style="color:#eeeef8;font-size:14px;font-weight:600;display:block;margin-bottom:8px;">
+        📝 Your topic or content
+      </label>
+      <textarea id="topic" rows="6" placeholder="Examples:
 • The benefits of renewable energy
 • How to start a small business in Bangladesh
 • Artificial Intelligence in healthcare
-• Climate change and its effects on agriculture
 • Paste your own notes or draft text here..."
-      style="width:100%;padding:14px 16px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#eeeef8;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;line-height:1.6;"></textarea>
-    <div style="display:flex;justify-content:space-between;margin-top:6px;">
-      <span style="color:#44445a;font-size:12px;">Minimum 10 characters</span>
-      <span id="char-count" style="color:#44445a;font-size:12px;">0 characters</span>
+        style="width:100%;padding:14px 16px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#eeeef8;font-size:14px;font-family:'Inter',sans-serif;resize:vertical;line-height:1.6;"></textarea>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="color:#44445a;font-size:12px;">Minimum 10 characters</span>
+        <span id="char-count" style="color:#44445a;font-size:12px;">0 characters</span>
+      </div>
+    </div>
+  </div>
+
+  {{-- Table mode --}}
+  <div id="mode-table" style="display:none;">
+
+    {{-- Title --}}
+    <div style="margin-bottom:16px;">
+      <label style="color:#eeeef8;font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Document Title <span style="color:#ff6b6b">*</span></label>
+      <input id="tbl-title" type="text" placeholder="e.g. Bank Statement May 2026"
+        style="width:100%;padding:11px 14px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#eeeef8;font-size:13px;font-family:'Inter',sans-serif;">
+    </div>
+
+    {{-- Subtitle --}}
+    <div style="margin-bottom:16px;">
+      <label style="color:#eeeef8;font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Subtitle / Description <span style="color:#44445a;font-size:11px">(optional)</span></label>
+      <input id="tbl-subtitle" type="text" placeholder="e.g. Account: 1234-5678 · Period: 01 May – 31 May 2026"
+        style="width:100%;padding:11px 14px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#eeeef8;font-size:13px;font-family:'Inter',sans-serif;">
+    </div>
+
+    {{-- Columns --}}
+    <div style="margin-bottom:16px;">
+      <label style="color:#eeeef8;font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Column Names <span style="color:#ff6b6b">*</span> <span style="color:#44445a;font-size:11px">(comma-separated)</span></label>
+      <input id="tbl-columns" type="text" placeholder="e.g. Date, Description, Debit, Credit, Balance"
+        style="width:100%;padding:11px 14px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#eeeef8;font-size:13px;font-family:'Inter',sans-serif;">
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;" id="col-presets">
+        @foreach([
+          'Date, Amount' => 'Date, Amount',
+          'Date, Description, Amount' => 'Date, Description, Amount',
+          'Date, Debit, Credit, Balance' => 'Date, Debit, Credit, Balance',
+          'Item, Qty, Unit Price, Total' => 'Item, Qty, Unit Price, Total',
+          'Name, Department, Salary' => 'Name, Department, Salary',
+        ] as $label => $val)
+        <button onclick="document.getElementById('tbl-columns').value='{{ $val }}'"
+          style="padding:3px 10px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#8888a8;font-size:11px;cursor:pointer;">
+          {{ $label }}
+        </button>
+        @endforeach
+      </div>
+    </div>
+
+    {{-- Data rows --}}
+    <div style="margin-bottom:16px;">
+      <label style="color:#eeeef8;font-size:13px;font-weight:600;display:block;margin-bottom:6px;">
+        Data Rows <span style="color:#ff6b6b">*</span>
+        <span style="color:#44445a;font-size:11px">(one row per line, values separated by commas)</span>
+      </label>
+      <textarea id="tbl-rows" rows="8"
+        placeholder="12/05/2026, Transfer In, , 300000, 1500000
+13/05/2026, Utility Bill, 50000, , 1450000
+14/05/2026, Salary, , 500000, 1950000
+19/05/2026, Withdrawal, 300000, , 1650000
+19/05/2026, Interest, , 200000, 1850000"
+        style="width:100%;padding:14px 16px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#eeeef8;font-size:13px;font-family:'Inter',monospace;resize:vertical;line-height:1.7;"></textarea>
+      <div style="color:#44445a;font-size:11px;margin-top:5px;">Tip: Leave a cell empty with a comma (e.g. <code style="color:#9898ff">,300000,</code>) · Numbers are auto-totalled</div>
+    </div>
+
+    {{-- Footer note --}}
+    <div style="margin-bottom:4px;">
+      <label style="color:#eeeef8;font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Footer Note <span style="color:#44445a;font-size:11px">(optional)</span></label>
+      <input id="tbl-footer" type="text" placeholder="e.g. All amounts in BDT. Statement generated by system."
+        style="width:100%;padding:11px 14px;background:#16162a;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#eeeef8;font-size:13px;font-family:'Inter',sans-serif;">
     </div>
   </div>
 
@@ -167,6 +242,19 @@
 
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+let currentMode = 'document';
+
+function setMode(mode) {
+    currentMode = mode;
+    const isDoc = mode === 'document';
+    document.getElementById('mode-document').style.display = isDoc ? 'block' : 'none';
+    document.getElementById('mode-table').style.display    = isDoc ? 'none'  : 'block';
+    document.getElementById('tab-doc').style.background = isDoc ? 'rgba(91,92,255,.2)' : 'transparent';
+    document.getElementById('tab-doc').style.color      = isDoc ? '#9898ff' : '#8888a8';
+    document.getElementById('tab-tbl').style.background = isDoc ? 'transparent' : 'rgba(91,92,255,.2)';
+    document.getElementById('tab-tbl').style.color      = isDoc ? '#8888a8' : '#9898ff';
+    document.getElementById('gen-btn').textContent = isDoc ? '✨ Generate PDF with AI' : '📊 Generate Table PDF';
+}
 
 // Char counter
 document.getElementById('topic').addEventListener('input', function() {
@@ -187,28 +275,41 @@ document.querySelectorAll('.theme-btn').forEach(btn => {
 });
 
 async function generatePdf() {
-    const topic = document.getElementById('topic').value.trim();
-    if (topic.length < 10) {
-        alert('Please enter at least 10 characters.');
-        return;
-    }
-
-    const theme = document.querySelector('input[name="theme"]:checked')?.value || 'professional';
-    const btn   = document.getElementById('gen-btn');
+    const theme  = document.querySelector('input[name="theme"]:checked')?.value || 'professional';
+    const btn    = document.getElementById('gen-btn');
     const result = document.getElementById('result');
+
+    const formData = new FormData();
+    formData.append('theme', theme);
+    formData.append('_token', CSRF);
+    formData.append('mode', currentMode);
+
+    if (currentMode === 'table') {
+        const title   = document.getElementById('tbl-title').value.trim();
+        const columns = document.getElementById('tbl-columns').value.trim();
+        const rows    = document.getElementById('tbl-rows').value.trim();
+        if (!title)   { alert('Please enter a document title.'); return; }
+        if (!columns) { alert('Please enter column names.'); return; }
+        if (!rows)    { alert('Please enter at least one data row.'); return; }
+        formData.append('title',       title);
+        formData.append('subtitle',    document.getElementById('tbl-subtitle').value.trim());
+        formData.append('columns',     columns);
+        formData.append('rows',        rows);
+        formData.append('footer_note', document.getElementById('tbl-footer').value.trim());
+    } else {
+        const topic = document.getElementById('topic').value.trim();
+        if (topic.length < 10) { alert('Please enter at least 10 characters.'); return; }
+        formData.append('topic', topic);
+    }
 
     btn.disabled = true;
     btn.textContent = '⏳ Generating...';
     result.style.display = 'block';
 
     let secs = 0;
-    result.innerHTML = '<div style="color:#8888a8;padding:20px">🤖 AI is designing your PDF... <span id="timer">0s</span></div>';
+    const label = currentMode === 'table' ? '📊 Building your table PDF...' : '🤖 AI is designing your PDF...';
+    result.innerHTML = `<div style="color:#8888a8;padding:20px">${label} <span id="timer">0s</span></div>`;
     const interval = setInterval(() => { secs++; const t = document.getElementById('timer'); if(t) t.textContent = secs+'s'; }, 1000);
-
-    const formData = new FormData();
-    formData.append('topic', topic);
-    formData.append('theme', theme);
-    formData.append('_token', CSRF);
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 120000);
@@ -253,7 +354,7 @@ async function generatePdf() {
         result.innerHTML = `<div style="color:#ff6b6b;padding:16px;">${e.name === 'AbortError' ? 'Request timed out. Please try again.' : 'Connection error. Please try again.'}</div>`;
     } finally {
         btn.disabled = false;
-        btn.textContent = '✨ Generate PDF with AI';
+        btn.textContent = currentMode === 'table' ? '📊 Generate Table PDF' : '✨ Generate PDF with AI';
     }
 }
 </script>
