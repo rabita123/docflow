@@ -254,17 +254,29 @@ function downloadPdf() {
 ${paragraphs}
 <div class="footer">Translated by PDFTash AI · pdftash.com</div>
 </div>
-<script>
-  // Wait for fonts then print
-  document.fonts.ready.then(() => { setTimeout(() => { window.print(); }, 400); });
-<\/script>
 </body>
 </html>`;
 
-    const win = window.open('', '_blank', 'width=800,height=900');
-    if (!win) { alert('Please allow popups for this site to download PDF.'); return; }
-    win.document.write(html);
-    win.document.close();
+    // Use a hidden iframe so popup blockers don't interfere
+    let iframe = document.getElementById('_print_frame');
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = '_print_frame';
+        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
+        document.body.appendChild(iframe);
+    }
+    iframe.onload = () => {
+        // Wait for fonts to load then print
+        const iframeDoc = iframe.contentWindow.document;
+        if (iframeDoc.fonts && iframeDoc.fonts.ready) {
+            iframeDoc.fonts.ready.then(() => setTimeout(() => iframe.contentWindow.print(), 600));
+        } else {
+            setTimeout(() => iframe.contentWindow.print(), 1200);
+        }
+    };
+    // Write content into iframe
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    iframe.src = URL.createObjectURL(blob);
 }
 </script>
 @endsection
