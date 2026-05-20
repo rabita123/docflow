@@ -189,82 +189,82 @@ function downloadTxt() {
     URL.revokeObjectURL(url);
 }
 
-async function downloadPdf() {
+function downloadPdf() {
     const text = window._translatedText || '';
     const lang = window._translatedLang || 'Translated';
     const name = window._translatedOrigName || 'document';
     if (!text) return;
 
-    // Load pdf-lib if not already loaded
-    if (!window.PDFLib) {
-        await new Promise((res, rej) => {
-            const s = document.createElement('script');
-            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
-            s.onload = res; s.onerror = rej;
-            document.head.appendChild(s);
-        });
-    }
+    const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const paragraphs = escaped.split('\n')
+        .map(p => p.trim())
+        .filter(p => p)
+        .map(p => `<p>${p}</p>`)
+        .join('');
 
-    const { PDFDocument, StandardFonts, rgb } = PDFLib;
-    const doc  = await PDFDocument.create();
-    const font = await doc.embedFont(StandardFonts.Helvetica);
-    const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${name} — ${lang}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Noto Sans Bengali','Noto Sans Arabic','Noto Sans Devanagari','Noto Sans',Arial,sans-serif;
+    font-size: 12pt;
+    line-height: 1.9;
+    color: #1e293b;
+    background: #fff;
+  }
+  .cover {
+    background: #1e40af;
+    color: white;
+    padding: 40px 50px 30px;
+  }
+  .cover-label { font-size:9pt; opacity:.6; margin-bottom:8px; text-transform:uppercase; letter-spacing:.1em; }
+  .cover h1 { font-size:22pt; font-weight:700; margin-bottom:6px; }
+  .cover-sub { font-size:12pt; opacity:.8; }
+  .cover-date { font-size:9pt; opacity:.45; margin-top:10px; }
+  .body { padding: 40px 50px; }
+  p { margin-bottom: 14px; text-align: justify; }
+  .footer {
+    margin-top: 40px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 9pt;
+    color: #94a3b8;
+    text-align: center;
+  }
+  @media print {
+    @page { margin: 0; size: A4; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="cover-label">PDFTash · AI Translation</div>
+  <h1>${name}</h1>
+  <div class="cover-sub">Translated to ${lang}</div>
+  <div class="cover-date">Generated ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div>
+</div>
+<div class="body">
+${paragraphs}
+<div class="footer">Translated by PDFTash AI · pdftash.com</div>
+</div>
+<script>
+  // Wait for fonts then print
+  document.fonts.ready.then(() => { setTimeout(() => { window.print(); }, 400); });
+<\/script>
+</body>
+</html>`;
 
-    const W = 595, H = 842, margin = 50, lineH = 16, fontSize = 11;
-
-    // Helper: add a new page
-    function newPage() {
-        const p = doc.addPage([W, H]);
-        return { page: p, y: H - margin };
-    }
-
-    // Split text into lines that fit the page width
-    function wrapLine(str, fnt, size, maxW) {
-        const words = str.split(' ');
-        const lines = [];
-        let cur = '';
-        for (const w of words) {
-            const test = cur ? cur + ' ' + w : w;
-            const tw = fnt.widthOfTextAtSize(test, size);
-            if (tw > maxW && cur) { lines.push(cur); cur = w; }
-            else cur = test;
-        }
-        if (cur) lines.push(cur);
-        return lines.length ? lines : [''];
-    }
-
-    // Cover header
-    let { page, y } = newPage();
-    page.drawRectangle({ x:0, y:H-100, width:W, height:100, color:rgb(0.118,0.251,0.686) });
-    page.drawText('PDFTash · AI Translation', { x:margin, y:H-30, size:9, font, color:rgb(1,1,1) });
-    page.drawText(name, { x:margin, y:H-58, size:18, font:bold, color:rgb(1,1,1), maxWidth:W-margin*2 });
-    page.drawText(`Translated to ${lang}`, { x:margin, y:H-80, size:11, font, color:rgb(0.8,0.85,1) });
-    y = H - 120;
-
-    const textW = W - margin * 2;
-    const paragraphs = text.split('\n');
-
-    for (const para of paragraphs) {
-        const trimmed = para.trim();
-        if (!trimmed) { y -= lineH * 0.5; continue; }
-
-        const lines = wrapLine(trimmed, font, fontSize, textW);
-        for (const line of lines) {
-            if (y < margin + lineH) {
-                ({ page, y } = newPage());
-            }
-            page.drawText(line, { x:margin, y, size:fontSize, font, color:rgb(0.12,0.16,0.24) });
-            y -= lineH;
-        }
-        y -= lineH * 0.3; // paragraph gap
-    }
-
-    const bytes = await doc.save();
-    const blob  = new Blob([bytes], { type:'application/pdf' });
-    const url   = URL.createObjectURL(blob);
-    const a     = document.createElement('a');
-    a.href = url; a.download = name + '-' + lang.toLowerCase() + '.pdf'; a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 5000);
+    const win = window.open('', '_blank', 'width=800,height=900');
+    if (!win) { alert('Please allow popups for this site to download PDF.'); return; }
+    win.document.write(html);
+    win.document.close();
 }
 </script>
 @endsection
