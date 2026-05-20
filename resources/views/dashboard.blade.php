@@ -420,28 +420,17 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <div class="tool-title">Watermark Remover</div>
         <div class="tool-sub">Remove text and image watermarks from PDF</div>
       </div>
-      <div class="tool-panel">
-        <div class="panel-header">
-          <span class="panel-label">📄 INPUT</span>
-          <div class="panel-actions">
-            <button class="panel-btn" onclick="document.getElementById('wm-input').click()">Choose File</button>
-            <input type="file" id="wm-input" accept=".pdf" style="display:none" onchange="handleWatermark(this)">
-          </div>
+      <div class="tool-panel" style="padding:48px 40px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">🚫</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:10px;">Watermark Remover</div>
+        <div style="font-size:14px;color:var(--text2);margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;">
+          Auto-detects DRAFT, CONFIDENTIAL, SAMPLE and diagonal text watermarks. Manual erase mode for image watermarks. 100% browser-based — nothing uploaded.
         </div>
-        <div id="wm-drop" style="padding:40px;text-align:center;color:var(--text3);cursor:pointer;" onclick="document.getElementById('wm-input').click()">
-          <div style="font-size:36px;margin-bottom:10px">🚫</div>
-          <div style="font-size:14px;">Drop PDF here or click to browse</div>
-          <div style="font-size:12px;margin-top:4px;">Removes text &amp; image watermarks</div>
-        </div>
-        <div id="wm-options" style="display:none;padding:16px 18px;border-top:1px solid var(--border);">
-          <label style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Watermark text to remove (optional)</label>
-          <input type="text" id="wm-text" placeholder="e.g. CONFIDENTIAL, DRAFT — leave blank to remove all" style="width:100%;max-width:400px;padding:9px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;outline:none;">
-        </div>
+        <a href="/watermark-remover" target="_blank"
+           style="display:inline-block;padding:14px 36px;background:var(--accent);color:#fff;border-radius:99px;text-decoration:none;font-size:15px;font-weight:700;">
+          Open Watermark Remover →
+        </a>
       </div>
-      <div class="tool-actions">
-        <button class="action-btn action-btn-primary" onclick="runWatermark()">🚫 Remove Watermark</button>
-      </div>
-      <div id="wm-result"></div>
     </div>
 
     <!-- Chat Section -->
