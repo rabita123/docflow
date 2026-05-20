@@ -490,8 +490,9 @@ textarea.tool-input::placeholder{color:var(--text3);}
         </div>
         <div id="translate-output" style="display:none;padding:18px;border-top:1px solid var(--border);font-size:14px;color:var(--text);line-height:1.7;max-height:400px;overflow-y:auto;white-space:pre-wrap;"></div>
       </div>
-      <div class="tool-actions">
+      <div class="tool-actions" style="display:flex;gap:10px;flex-wrap:wrap;">
         <button class="action-btn action-btn-primary" onclick="runTranslate()">🌐 Translate PDF</button>
+        <button id="translate-download-btn" class="action-btn" onclick="downloadTranslatePdf()" style="display:none;background:var(--accent2);color:#000;">⬇ Download as PDF</button>
       </div>
       <div id="translate-result"></div>
     </div>
@@ -816,20 +817,62 @@ async function sendChatMsg(){
 
 // ── Translate ──────────────────────────────────────────────────────────────
 let translateFile = null;
+let _translateText = '', _translateLang = '', _translateName = '';
 function handleTranslate(input){
     translateFile = input.files[0];
     document.getElementById('translate-drop').innerHTML = `<div style="font-size:14px;color:var(--accent2)">✅ ${translateFile.name}</div>`;
+    document.getElementById('translate-download-btn').style.display = 'none';
 }
 async function runTranslate(){
     if(!translateFile) return alert('Please select a PDF first.');
     showResult('translate-result', resultLoading('Translating with AI...'));
-    const fd = new FormData(); fd.append('file', translateFile); fd.append('language', document.getElementById('translate-lang').value);
+    const lang = document.getElementById('translate-lang').value;
+    const fd = new FormData(); fd.append('file', translateFile); fd.append('language', lang);
     try {
         const r = await fetch('/api/ai/translate',{method:'POST',body:fd});
-        updateUsageAfterCall(r);
-        if(r.ok){ const d=await r.json(); document.getElementById('translate-output').style.display='block'; document.getElementById('translate-output').textContent=d.translation||d.text||''; showResult('translate-result',''); }
-        else { const d=await r.json(); showResult('translate-result', resultError(d.error||'Translation failed')); }
+        if(r.ok){
+            const d = await r.json();
+            const text = d.translation || d.text || '';
+            document.getElementById('translate-output').style.display = 'block';
+            document.getElementById('translate-output').textContent = text;
+            document.getElementById('translate-download-btn').style.display = 'inline-block';
+            _translateText = text;
+            _translateLang = lang;
+            _translateName = translateFile.name.replace(/\.pdf$/i,'');
+            showResult('translate-result','');
+        } else {
+            const d = await r.json();
+            showResult('translate-result', resultError(d.error||'Translation failed'));
+        }
     } catch(e){ showResult('translate-result', resultError('Connection error.')); }
+}
+function downloadTranslatePdf(){
+    if(!_translateText) return;
+    const escaped = _translateText.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const paragraphs = escaped.split('\n').filter(p=>p.trim()).map(p=>`<p>${p}</p>`).join('');
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Sans+Bengali:wght@400;700&family=Noto+Sans+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<style>*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans Bengali','Noto Sans Arabic','Noto Sans Devanagari','Noto Sans',Arial,sans-serif;font-size:12pt;line-height:1.9;color:#1e293b;}
+.cover{background:#1e40af;color:white;padding:40px 50px 30px;}
+.cover h1{font-size:20pt;font-weight:700;margin-bottom:6px;}
+.cover-sub{font-size:11pt;opacity:.8;}
+.cover-date{font-size:9pt;opacity:.45;margin-top:8px;}
+.body{padding:40px 50px;}
+p{margin-bottom:14px;text-align:justify;}
+.footer{margin-top:30px;padding-top:10px;border-top:1px solid #e2e8f0;font-size:9pt;color:#94a3b8;text-align:center;}
+@media print{@page{margin:0;size:A4;}body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style></head><body>
+<div class="cover"><div style="font-size:9pt;opacity:.6;margin-bottom:8px;text-transform:uppercase;letter-spacing:.1em;">PDFTash · AI Translation</div>
+<h1>${_translateName}</h1><div class="cover-sub">Translated to ${_translateLang}</div>
+<div class="cover-date">${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div></div>
+<div class="body">${paragraphs}<div class="footer">Translated by PDFTash AI · pdftash.com</div></div>
+<script>if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(()=>window.print(),500));}else{window.onload=()=>setTimeout(()=>window.print(),1000);}<\/script>
+</body></html>`;
+    const win = window.open('','_blank');
+    if(!win){alert('Allow popups for pdftash.com then click Download as PDF again.');return;}
+    win.document.write(html);
+    win.document.close();
 }
 
 // ── Summarize ──────────────────────────────────────────────────────────────
