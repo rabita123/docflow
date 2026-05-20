@@ -148,17 +148,15 @@ async function processTranslate() {
             result.innerHTML = `
                 <div style="background:#0a1a0a;border:1px solid #00e5a0;border-radius:12px;padding:20px;margin-bottom:16px;text-align:left;">
                     <div style="color:#00e5a0;font-size:18px;font-weight:700;margin-bottom:12px">✅ Translated in ${secs}s!</div>
-                    <div id="translated-output" style="color:#eeeef8;font-size:14px;line-height:1.7;white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin-bottom:16px;">${translatedText}</div>
+                    <div id="translated-output" style="color:#eeeef8;font-size:14px;line-height:1.7;white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin-bottom:16px;">${escapeHtml(translatedText)}</div>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button onclick="downloadTxt()" style="flex:1;min-width:160px;padding:12px 20px;background:#5b5cff;color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:600;cursor:pointer;">⬇ Download as TXT</button>
                         <button onclick="downloadPdf()" style="flex:1;min-width:160px;padding:12px 20px;background:#00e5a0;color:#000;border:none;border-radius:99px;font-size:14px;font-weight:600;cursor:pointer;">⬇ Download as PDF</button>
                     </div>
                 </div>
                 <button onclick="location.reload()" style="background:transparent;color:#8888a8;border:1px solid rgba(255,255,255,.15);padding:10px 20px;border-radius:99px;cursor:pointer;font-size:14px">Translate Another</button>`;
-
-            // Store for download functions
-            window._translatedText = translatedText;
-            window._translatedLang = lang;
+            window._translatedText     = translatedText;
+            window._translatedLang     = lang;
             window._translatedOrigName = origName;
         } else if (data.error === 'pro_required' || data.error === 'free_limit_reached') {
             result.style.display = 'none';
@@ -176,6 +174,10 @@ async function processTranslate() {
     }
 }
 
+function escapeHtml(t) {
+    return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 function downloadTxt() {
     const text = window._translatedText || '';
     const lang = window._translatedLang || 'translated';
@@ -183,42 +185,86 @@ function downloadTxt() {
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
-    a.href     = url;
-    a.download = name + '_' + lang.toLowerCase() + '.txt';
-    a.click();
+    a.href = url; a.download = name + '-' + lang.toLowerCase() + '.txt'; a.click();
     URL.revokeObjectURL(url);
 }
 
-function downloadPdf() {
+async function downloadPdf() {
     const text = window._translatedText || '';
     const lang = window._translatedLang || 'Translated';
     const name = window._translatedOrigName || 'document';
+    if (!text) return;
 
-    // Build a minimal printable HTML page and open print dialog
-    const html = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Translated PDF — PDFTash</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali&family=Noto+Sans:wght@400;700&display=swap');
-  body { font-family: 'Noto Sans Bengali', 'Noto Sans', Arial, sans-serif; font-size: 13pt; line-height: 1.8; margin: 40px; color: #111; }
-  h2   { font-size: 16pt; margin-bottom: 24px; color: #1a1a2e; }
-  pre  { white-space: pre-wrap; word-break: break-word; }
-</style>
-</head>
-<body>
-<h2>${name} — ${lang} Translation</h2>
-<pre>${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
-</body>
-</html>`;
+    // Load pdf-lib if not already loaded
+    if (!window.PDFLib) {
+        await new Promise((res, rej) => {
+            const s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+            s.onload = res; s.onerror = rej;
+            document.head.appendChild(s);
+        });
+    }
 
-    const win = window.open('', '_blank');
-    win.document.write(html);
-    win.document.close();
-    win.addEventListener('load', () => {
-        setTimeout(() => { win.focus(); win.print(); }, 500);
-    });
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const doc  = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    const bold = await doc.embedFont(StandardFonts.HelveticaBold);
+
+    const W = 595, H = 842, margin = 50, lineH = 16, fontSize = 11;
+
+    // Helper: add a new page
+    function newPage() {
+        const p = doc.addPage([W, H]);
+        return { page: p, y: H - margin };
+    }
+
+    // Split text into lines that fit the page width
+    function wrapLine(str, fnt, size, maxW) {
+        const words = str.split(' ');
+        const lines = [];
+        let cur = '';
+        for (const w of words) {
+            const test = cur ? cur + ' ' + w : w;
+            const tw = fnt.widthOfTextAtSize(test, size);
+            if (tw > maxW && cur) { lines.push(cur); cur = w; }
+            else cur = test;
+        }
+        if (cur) lines.push(cur);
+        return lines.length ? lines : [''];
+    }
+
+    // Cover header
+    let { page, y } = newPage();
+    page.drawRectangle({ x:0, y:H-100, width:W, height:100, color:rgb(0.118,0.251,0.686) });
+    page.drawText('PDFTash · AI Translation', { x:margin, y:H-30, size:9, font, color:rgb(1,1,1) });
+    page.drawText(name, { x:margin, y:H-58, size:18, font:bold, color:rgb(1,1,1), maxWidth:W-margin*2 });
+    page.drawText(`Translated to ${lang}`, { x:margin, y:H-80, size:11, font, color:rgb(0.8,0.85,1) });
+    y = H - 120;
+
+    const textW = W - margin * 2;
+    const paragraphs = text.split('\n');
+
+    for (const para of paragraphs) {
+        const trimmed = para.trim();
+        if (!trimmed) { y -= lineH * 0.5; continue; }
+
+        const lines = wrapLine(trimmed, font, fontSize, textW);
+        for (const line of lines) {
+            if (y < margin + lineH) {
+                ({ page, y } = newPage());
+            }
+            page.drawText(line, { x:margin, y, size:fontSize, font, color:rgb(0.12,0.16,0.24) });
+            y -= lineH;
+        }
+        y -= lineH * 0.3; // paragraph gap
+    }
+
+    const bytes = await doc.save();
+    const blob  = new Blob([bytes], { type:'application/pdf' });
+    const url   = URL.createObjectURL(blob);
+    const a     = document.createElement('a');
+    a.href = url; a.download = name + '-' + lang.toLowerCase() + '.pdf'; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
 </script>
 @endsection
