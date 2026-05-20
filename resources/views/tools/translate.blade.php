@@ -189,7 +189,7 @@ function downloadTxt() {
     URL.revokeObjectURL(url);
 }
 
-function downloadPdf() {
+function downloadPdf() { // must stay sync — window.open needs direct user gesture
     const text = window._translatedText || '';
     const lang = window._translatedLang || 'Translated';
     const name = window._translatedOrigName || 'document';
@@ -254,29 +254,18 @@ function downloadPdf() {
 ${paragraphs}
 <div class="footer">Translated by PDFTash AI · pdftash.com</div>
 </div>
+<script>
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(()=>window.print(),500));}
+  else{window.onload=()=>setTimeout(()=>window.print(),800);}
+<\/script>
 </body>
 </html>`;
 
-    // Use a hidden iframe so popup blockers don't interfere
-    let iframe = document.getElementById('_print_frame');
-    if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.id = '_print_frame';
-        iframe.style.cssText = 'position:fixed;top:-9999px;left:-9999px;width:0;height:0;border:none;';
-        document.body.appendChild(iframe);
-    }
-    iframe.onload = () => {
-        // Wait for fonts to load then print
-        const iframeDoc = iframe.contentWindow.document;
-        if (iframeDoc.fonts && iframeDoc.fonts.ready) {
-            iframeDoc.fonts.ready.then(() => setTimeout(() => iframe.contentWindow.print(), 600));
-        } else {
-            setTimeout(() => iframe.contentWindow.print(), 1200);
-        }
-    };
-    // Write content into iframe
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    iframe.src = URL.createObjectURL(blob);
+    const win = window.open('', '_blank');
+    if (!win) { alert('Allow popups for pdftash.com, then click Download as PDF again.'); return; }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
 }
 </script>
 @endsection
