@@ -27,7 +27,8 @@ class CheckFreeTierLimit
 
         // AI tools — require active Pro subscription
         if (str_contains($path, 'api/ai')) {
-            if (Auth::check() && Auth::user()->plan === 'pro') {
+            $user = Auth::guard('web')->user();
+            if ($user && $user->plan === 'pro') {
                 return $next($request);
             }
 
