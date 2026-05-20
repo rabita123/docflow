@@ -114,29 +114,50 @@ class SummarizeController extends Controller
             throw new \Exception('ANTHROPIC_API_KEY not set in .env file');
         }
 
-        $ch = curl_init('https://api.anthropic.com/v1/messages');
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_HTTPHEADER     => [
-                'x-api-key: ' . $apiKey,
-                'anthropic-version: 2023-06-01',
-                'content-type: application/json',
-            ],
-            CURLOPT_POSTFIELDS => json_encode([
-                'model'      => $this->model,
-                'max_tokens' => $maxTokens,
-                'messages'   => [['role' => 'user', 'content' => $prompt]],
-            ]),
+        $payload = json_encode([
+            'model'      => $this->model,
+            'max_tokens' => $maxTokens,
+            'messages'   => [['role' => 'user', 'content' => $prompt]],
         ]);
 
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $maxAttempts = 3;
+        $response = null;
+        $httpCode  = 0;
+
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            $ch = curl_init('https://api.anthropic.com/v1/messages');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_TIMEOUT        => 120,
+                CURLOPT_HTTPHEADER     => [
+                    'x-api-key: ' . $apiKey,
+                    'anthropic-version: 2023-06-01',
+                    'content-type: application/json',
+                ],
+                CURLOPT_POSTFIELDS => $payload,
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            // Retry on overload (529) or server error (500/503)
+            if (in_array($httpCode, [429, 500, 503, 529]) && $attempt < $maxAttempts) {
+                sleep($attempt * 3); // 3s, then 6s
+                continue;
+            }
+
+            break;
+        }
 
         if ($httpCode !== 200) {
             $err = json_decode($response, true);
-            throw new \Exception($err['error']['message'] ?? 'API error ' . $httpCode);
+            $msg = $err['error']['message'] ?? 'API error ' . $httpCode;
+            if (in_array($httpCode, [429, 529])) {
+                $msg = 'AI is busy right now. Please try again in a moment.';
+            }
+            throw new \Exception($msg);
         }
 
         $data = json_decode($response, true);
