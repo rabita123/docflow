@@ -250,8 +250,9 @@ async function handleFile(file) {
   document.getElementById('fields-list').innerHTML    = '';
 
   await waitForLibs();
-  pdfBytes = await file.arrayBuffer();
-  pdfJsDoc = await pdfjsLib.getDocument({ data: pdfBytes.slice(0) }).promise;
+  // Store as Uint8Array so pdf.js worker transfer never detaches the buffer
+  pdfBytes = new Uint8Array(await file.arrayBuffer());
+  pdfJsDoc = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
 
   detectedFields = await detectAllFields();
 
@@ -469,8 +470,8 @@ async function runFill() {
     await waitForLibs();
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
-    // Load a fresh copy — never flatten, just draw text over field areas
-    const doc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+    // Load a fresh independent copy so pdf.js worker state doesn't affect it
+    const doc = await PDFDocument.load(pdfBytes.slice(), { ignoreEncryption: true });
     const font = await doc.embedFont(StandardFonts.Helvetica);
     const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
 
