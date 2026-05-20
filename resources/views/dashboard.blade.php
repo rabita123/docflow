@@ -510,27 +510,17 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <button onclick="window.location.href='/payment/checkout'" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
       </div>
       @else
-      <div class="tool-panel">
-        <div class="panel-header">
-          <span class="panel-label">📋 UPLOAD FORM PDF</span>
-          <div class="panel-actions">
-            <button class="panel-btn" onclick="document.getElementById('ff-input').click()">Choose File</button>
-            <input type="file" id="ff-input" accept=".pdf" style="display:none" onchange="handleFormFill(this)">
-          </div>
+      <div class="tool-panel" style="padding:48px 40px;text-align:center;">
+        <div style="font-size:56px;margin-bottom:16px;">📋</div>
+        <div style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:10px;">AI Form Filler</div>
+        <div style="font-size:14px;color:var(--text2);margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6;">
+          Upload any PDF form — job application, lease, contract — and AI fills all fields automatically from your details.
         </div>
-        <div id="ff-drop" style="padding:40px;text-align:center;color:var(--text3);cursor:pointer;" onclick="document.getElementById('ff-input').click()">
-          <div style="font-size:36px;margin-bottom:10px">📋</div>
-          <div style="font-size:14px;">Upload a PDF form to auto-fill</div>
-        </div>
-        <div id="ff-options" style="display:none;padding:16px 18px;border-top:1px solid var(--border);">
-          <label style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Your information (AI will fill matching fields)</label>
-          <textarea id="ff-data" rows="5" placeholder="Name: John Smith&#10;Date of Birth: 1990-05-15&#10;Address: 123 Main St&#10;Phone: +1-555-0100&#10;Email: john@example.com" style="width:100%;padding:12px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;outline:none;resize:vertical;font-family:inherit;line-height:1.6;"></textarea>
-        </div>
+        <a href="/ai-form-fill" target="_blank"
+           style="display:inline-block;padding:14px 36px;background:var(--accent);color:#fff;border-radius:99px;text-decoration:none;font-size:15px;font-weight:700;">
+          Open AI Form Filler →
+        </a>
       </div>
-      <div class="tool-actions">
-        <button class="action-btn action-btn-primary" onclick="runFormFill()">📋 Fill Form with AI</button>
-      </div>
-      <div id="ff-result"></div>
       @endif
     </div>
 
