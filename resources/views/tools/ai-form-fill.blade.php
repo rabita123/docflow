@@ -468,8 +468,9 @@ async function runFill() {
     /* Step 2 — apply fills with pdf-lib */
     await waitForLibs();
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
-    const doc = await PDFDocument.load(pdfBytes);
 
+    // Load a fresh copy — never flatten, just draw text over field areas
+    const doc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
     const font = await doc.embedFont(StandardFonts.Helvetica);
     const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
 
@@ -481,33 +482,29 @@ async function runFill() {
         if (!value?.trim()) continue;
 
         const pdfPage = doc.getPage(field.pageNum - 1);
-        const { dims, scale: sc } = field;
 
         if (field.source === 'acroform' && field.pdfRect) {
-          // AcroForm: PDF rect coords are already in PDF point space
+          // Cover the existing field widget with white, then draw text on top
           const [x1,y1,x2,y2] = field.pdfRect;
           const rx = Math.min(x1,x2), ry = Math.min(y1,y2);
           const rw = Math.abs(x2-x1), rh = Math.abs(y2-y1);
-          pdfPage.drawRectangle({ x:rx, y:ry, width:rw, height:rh, color:rgb(1,1,1) });
-          const fs = Math.max(7, Math.min(rh*0.6, 13));
-          pdfPage.drawText(value.slice(0, 80), {
-            x: rx+3, y: ry + (rh-fs)/2, size:fs, font, color:rgb(0,0,0), maxWidth:rw-6
+          const fs = Math.max(7, Math.min(rh * 0.55, 12));
+          pdfPage.drawRectangle({ x:rx, y:ry, width:rw, height:rh, color:rgb(1,1,1), opacity:1 });
+          pdfPage.drawText(value.slice(0, 100), {
+            x: rx + 3, y: ry + (rh - fs) / 2 + 1,
+            size: fs, font, color: rgb(0,0,0), maxWidth: rw - 6,
           });
+          placedCount++;
         } else if (field.fillPdfX !== undefined) {
-          // Visual: coordinates already in PDF point space — use directly, no conversion
           pdfPage.drawText(value.slice(0, 80), {
-            x      : field.fillPdfX,
-            y      : field.fillPdfY,   // baseline (PDF y-up)
-            size   : field.fillPdfFs,
-            font,
-            color  : rgb(0, 0, 0),
-            maxWidth: field.fillPdfW,
+            x: field.fillPdfX, y: field.fillPdfY,
+            size: field.fillPdfFs, font, color: rgb(0,0,0), maxWidth: field.fillPdfW,
           });
+          placedCount++;
         }
-        placedCount++;
       }
     } else {
-      // No detected fields — write fills as a block on page 1
+      // No detected fields — write fills as a summary block on page 1
       const page = doc.getPage(0);
       const { width:pw, height:ph } = page.getSize();
       let curY = ph - 50;
@@ -521,7 +518,7 @@ async function runFill() {
       }
     }
 
-    filledPdfBytes = await doc.save();
+    filledPdfBytes = await doc.save({ useObjectStreams: false });
 
     /* Step 3 — show result */
     showPanel('fill-result');
