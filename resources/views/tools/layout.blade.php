@@ -110,16 +110,70 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
       @endforeach
     </div>
 
+    @auth
     <a href="/#pricing" style="display:block;padding:15px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border-radius:12px;text-decoration:none;font-size:16px;font-weight:800;margin-bottom:12px;box-shadow:0 4px 20px rgba(91,92,255,.4);">
       Upgrade to Pro — $9/month →
     </a>
+    @else
+    <button onclick="closeProModal();showAuthModal()" style="display:block;width:100%;padding:15px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;margin-bottom:12px;box-shadow:0 4px 20px rgba(91,92,255,.4);cursor:pointer;">
+      Sign in to Upgrade — $9/month →
+    </button>
+    @endauth
     <button onclick="closeProModal()" style="background:transparent;color:#44445a;border:none;font-size:13px;cursor:pointer;padding:4px;">
       Continue with free tools
     </button>
   </div>
 </div>
 
+{{-- Auth Modal (sign in / register on tool pages) --}}
+<div id="auth-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;max-width:400px;width:100%;padding:36px 32px;position:relative;">
+    <button onclick="closeAuthModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:#666;font-size:22px;cursor:pointer;line-height:1;">×</button>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+      <div style="width:32px;height:32px;background:#5b5cff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>
+      <span style="font-size:16px;font-weight:700;color:#fff;">PDFTash</span>
+    </div>
+    <div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;" id="auth-title">Sign in</div>
+    <div style="font-size:13px;color:#888;margin-bottom:24px;" id="auth-sub">Sign in to upgrade to Pro</div>
+
+    {{-- Google --}}
+    <a href="/auth/google?next=pricing" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:11px;background:#2a2a3e;color:#eee;border:1px solid rgba(255,255,255,.12);border-radius:10px;text-decoration:none;font-weight:500;font-size:14px;margin-bottom:20px;box-sizing:border-box;" onmouseover="this.style.background='#33334a'" onmouseout="this.style.background='#2a2a3e'">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-3.59-13.46-8.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continue with Google
+    </a>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+      <span style="font-size:12px;color:#555;">OR</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.08);"></div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <input type="email" id="auth-email" placeholder="Email address" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+    <div style="margin-bottom:14px;" id="auth-name-wrap" style="display:none;">
+      <input type="text" id="auth-name" placeholder="Full name" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+    <div style="margin-bottom:14px;">
+      <input type="password" id="auth-password" placeholder="Password" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+    <div style="margin-bottom:14px;display:none;" id="auth-confirm-wrap">
+      <input type="password" id="auth-confirm" placeholder="Confirm password" style="width:100%;padding:11px 14px;background:#0f0f1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#eee;font-size:14px;box-sizing:border-box;outline:none;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.12)'">
+    </div>
+
+    <div id="auth-error" style="color:#ff6b6b;font-size:13px;margin-bottom:10px;text-align:center;display:none;"></div>
+
+    <button id="auth-submit" onclick="submitAuth()" style="width:100%;padding:13px;background:#5b5cff;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:16px;">Sign In</button>
+
+    <div style="text-align:center;font-size:13px;color:#666;" id="auth-toggle">
+      Don't have an account? <a href="#" onclick="switchAuthMode(event)" style="color:#5b5cff;text-decoration:none;font-weight:600;">Create account</a>
+    </div>
+  </div>
+</div>
+
 <script>
+// ── Pro Modal ──────────────────────────────────────────────────────────────
 function showProModal() {
     const m = document.getElementById('pro-modal');
     m.style.display = 'flex';
@@ -129,13 +183,102 @@ function closeProModal() {
     document.getElementById('pro-modal').style.display = 'none';
     document.body.style.overflow = '';
 }
-// Close on backdrop click
 document.getElementById('pro-modal').addEventListener('click', function(e) {
     if (e.target === this) closeProModal();
 });
+
+// ── Auth Modal ─────────────────────────────────────────────────────────────
+let authMode = 'login';
+
+function showAuthModal() {
+    authMode = 'login';
+    setAuthMode('login');
+    const m = document.getElementById('auth-modal');
+    m.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeAuthModal() {
+    document.getElementById('auth-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+function switchAuthMode(e) {
+    e.preventDefault();
+    authMode = authMode === 'login' ? 'register' : 'login';
+    setAuthMode(authMode);
+}
+function setAuthMode(mode) {
+    const isLogin = mode === 'login';
+    document.getElementById('auth-title').textContent   = isLogin ? 'Sign in' : 'Create account';
+    document.getElementById('auth-sub').textContent     = isLogin ? 'Sign in to upgrade to Pro' : 'Create account to upgrade to Pro';
+    document.getElementById('auth-submit').textContent  = isLogin ? 'Sign In' : 'Create Account';
+    document.getElementById('auth-name-wrap').style.display    = isLogin ? 'none' : 'block';
+    document.getElementById('auth-confirm-wrap').style.display = isLogin ? 'none' : 'block';
+    document.getElementById('auth-toggle').innerHTML = isLogin
+        ? 'Don\'t have an account? <a href="#" onclick="switchAuthMode(event)" style="color:#5b5cff;text-decoration:none;font-weight:600;">Create account</a>'
+        : 'Already have an account? <a href="#" onclick="switchAuthMode(event)" style="color:#5b5cff;text-decoration:none;font-weight:600;">Sign in</a>';
+    document.getElementById('auth-error').style.display = 'none';
+}
+document.getElementById('auth-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeAuthModal();
+});
+
+async function submitAuth() {
+    const email    = document.getElementById('auth-email').value.trim();
+    const password = document.getElementById('auth-password').value;
+    const csrf     = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const errEl    = document.getElementById('auth-error');
+    const btn      = document.getElementById('auth-submit');
+
+    errEl.style.display = 'none';
+    if (!email || !password) { showAuthError('Please enter your email and password.'); return; }
+
+    const body = { email, password };
+
+    if (authMode === 'register') {
+        const name    = document.getElementById('auth-name').value.trim();
+        const confirm = document.getElementById('auth-confirm').value;
+        if (!name)              { showAuthError('Please enter your full name.'); return; }
+        if (password !== confirm) { showAuthError('Passwords do not match.'); return; }
+        body.name = name;
+        body.password_confirmation = confirm;
+    }
+
+    btn.disabled = true;
+    btn.textContent = authMode === 'register' ? 'Creating account…' : 'Signing in…';
+
+    try {
+        // Store intended URL so after login user goes to pricing
+        const endpoint = authMode === 'register' ? '/auth/register' : '/auth/login';
+        const resp = await fetch(endpoint, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+            body: JSON.stringify({ ...body, intended: '/#pricing' }),
+        });
+        const data = await resp.json();
+        if (data.success) {
+            window.location.href = data.redirect || '/#pricing';
+        } else {
+            const msg = data.errors ? Object.values(data.errors).flat().join(' ') : (data.message || 'Something went wrong.');
+            showAuthError(msg);
+            btn.disabled = false;
+            btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
+        }
+    } catch(e) {
+        showAuthError('Connection error. Please try again.');
+        btn.disabled = false;
+        btn.textContent = authMode === 'register' ? 'Create Account' : 'Sign In';
+    }
+}
+function showAuthError(msg) {
+    const el = document.getElementById('auth-error');
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
 // Close on Escape
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeProModal();
+    if (e.key === 'Escape') { closeProModal(); closeAuthModal(); }
 });
 </script>
 </body>

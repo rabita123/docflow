@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -101,13 +102,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth');
 
-// ── Google OAuth Routes ──────────────────────────────────────────────────────
-Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoogle']);
+// ── Auth Routes ───────────────────────────────────────────────────────────────
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login',    [AuthController::class, 'login']);
+// Named 'login' so Laravel's auth middleware can redirect guests here
+Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoogle'])->name('login');
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 Route::post('/logout',              [SocialiteController::class, 'logout'])->name('logout');
 
 // ── Payment Routes (Lemon Squeezy) ───────────────────────────────────────────
-Route::post('/payment/checkout',         [PaymentController::class, 'checkout']);
+Route::get('/payment/checkout',          [PaymentController::class, 'checkout'])->middleware('auth');
 Route::get('/payment/success',           [PaymentController::class, 'success']);
 Route::get('/payment/cancel',            [PaymentController::class, 'cancel']);
 Route::post('/payment/webhook',          [PaymentController::class, 'webhook'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);

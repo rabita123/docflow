@@ -9,8 +9,14 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirectToGoogle(\Illuminate\Http\Request $request)
     {
+        // If user clicked "Upgrade to Pro" while not logged in, send them to
+        // pricing after login so they can complete checkout.
+        if ($request->query('next') === 'pricing') {
+            session(['url.intended' => '/#pricing']);
+        }
+
         return Socialite::driver('google')
             ->with(['redirect_uri' => url('/auth/google/callback')])
             ->redirect();
@@ -36,7 +42,7 @@ class SocialiteController extends Controller
 
             Auth::login($user, true);
 
-            return redirect('/dashboard');
+            return redirect()->intended('/dashboard');
 
         } catch (\Exception $e) {
             \Log::error('Google login error: ' . $e->getMessage());

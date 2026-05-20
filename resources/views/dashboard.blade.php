@@ -123,6 +123,9 @@ textarea.tool-input::placeholder{color:var(--text3);}
     <a class="nav-item" href="#" onclick="showSection('sign',this)">
       <span class="icon">✍️</span> Sign PDF
     </a>
+    <a class="nav-item" href="#" onclick="showSection('watermark',this)">
+      <span class="icon">🚫</span> Watermark Remover
+    </a>
 
     <div class="nav-section">AI Tools</div>
     <a class="nav-item" href="#" onclick="showSection('chat',this)">
@@ -133,6 +136,12 @@ textarea.tool-input::placeholder{color:var(--text3);}
     </a>
     <a class="nav-item" href="#" onclick="showSection('summarize',this)">
       <span class="icon">📝</span> Summarize
+    </a>
+    <a class="nav-item" href="#" onclick="showSection('formfill',this)">
+      <span class="icon">📋</span> AI Form Fill
+    </a>
+    <a class="nav-item" href="#" onclick="showSection('generator',this)">
+      <span class="icon">✨</span> AI PDF Generator
     </a>
 
     <div class="nav-section">Account</div>
@@ -171,7 +180,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <div class="words-fill" id="ai-fill" style="width:0%"></div>
       </div>
     </div>
-    <button class="upgrade-btn" onclick="window.location.href='/#pricing'">
+    <button class="upgrade-btn" onclick="window.location.href='/payment/checkout'">
       ⚡ Upgrade to Pro
     </button>
     @endif
@@ -208,7 +217,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
     <div class="topbar-title" id="topbar-title">Overview</div>
     <div style="display:flex;align-items:center;gap:12px;">
       @if(auth()->user()->plan !== 'pro')
-      <button onclick="window.location.href='/#pricing'" style="display:flex;align-items:center;gap:6px;padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">
+      <button onclick="window.location.href='/payment/checkout'" style="display:flex;align-items:center;gap:6px;padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">
         ⚡ Upgrade plan
       </button>
       @endif
@@ -248,23 +257,41 @@ textarea.tool-input::placeholder{color:var(--text3);}
           <div class="tool-card-desc">Add digital signature to PDF</div>
           <span class="tool-card-badge badge-free">FREE</span>
         </div>
+        <div class="tool-card" onclick="showSection('watermark',null)">
+          <div class="tool-card-icon">🚫</div>
+          <div class="tool-card-name">Watermark Remover</div>
+          <div class="tool-card-desc">Remove watermarks from PDF</div>
+          <span class="tool-card-badge badge-free">FREE</span>
+        </div>
         <div class="tool-card" onclick="showSection('chat',null)">
           <div class="tool-card-icon">💬</div>
           <div class="tool-card-name">Chat with PDF</div>
           <div class="tool-card-desc">Ask questions using AI</div>
-          <span class="tool-card-badge badge-ai">AI</span>
+          <span class="tool-card-badge badge-ai">AI · Pro</span>
         </div>
         <div class="tool-card" onclick="showSection('translate',null)">
           <div class="tool-card-icon">🌐</div>
           <div class="tool-card-name">Translate PDF</div>
           <div class="tool-card-desc">Translate to 12+ languages</div>
-          <span class="tool-card-badge badge-ai">AI</span>
+          <span class="tool-card-badge badge-ai">AI · Pro</span>
         </div>
         <div class="tool-card" onclick="showSection('summarize',null)">
           <div class="tool-card-icon">📝</div>
           <div class="tool-card-name">Summarize PDF</div>
           <div class="tool-card-desc">Get key points with AI</div>
-          <span class="tool-card-badge badge-ai">AI</span>
+          <span class="tool-card-badge badge-ai">AI · Pro</span>
+        </div>
+        <div class="tool-card" onclick="showSection('formfill',null)">
+          <div class="tool-card-icon">📋</div>
+          <div class="tool-card-name">AI Form Fill</div>
+          <div class="tool-card-desc">Auto-fill PDF forms with AI</div>
+          <span class="tool-card-badge badge-ai">AI · Pro</span>
+        </div>
+        <div class="tool-card" onclick="showSection('generator',null)">
+          <div class="tool-card-icon">✨</div>
+          <div class="tool-card-name">AI PDF Generator</div>
+          <div class="tool-card-desc">Generate documents &amp; statements</div>
+          <span class="tool-card-badge badge-ai">AI · Pro</span>
         </div>
       </div>
     </div>
@@ -387,6 +414,36 @@ textarea.tool-input::placeholder{color:var(--text3);}
       <div id="sign-result"></div>
     </div>
 
+    <!-- Watermark Section -->
+    <div id="section-watermark" style="display:none;">
+      <div class="tool-header">
+        <div class="tool-title">Watermark Remover</div>
+        <div class="tool-sub">Remove text and image watermarks from PDF</div>
+      </div>
+      <div class="tool-panel">
+        <div class="panel-header">
+          <span class="panel-label">📄 INPUT</span>
+          <div class="panel-actions">
+            <button class="panel-btn" onclick="document.getElementById('wm-input').click()">Choose File</button>
+            <input type="file" id="wm-input" accept=".pdf" style="display:none" onchange="handleWatermark(this)">
+          </div>
+        </div>
+        <div id="wm-drop" style="padding:40px;text-align:center;color:var(--text3);cursor:pointer;" onclick="document.getElementById('wm-input').click()">
+          <div style="font-size:36px;margin-bottom:10px">🚫</div>
+          <div style="font-size:14px;">Drop PDF here or click to browse</div>
+          <div style="font-size:12px;margin-top:4px;">Removes text &amp; image watermarks</div>
+        </div>
+        <div id="wm-options" style="display:none;padding:16px 18px;border-top:1px solid var(--border);">
+          <label style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Watermark text to remove (optional)</label>
+          <input type="text" id="wm-text" placeholder="e.g. CONFIDENTIAL, DRAFT — leave blank to remove all" style="width:100%;max-width:400px;padding:9px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;outline:none;">
+        </div>
+      </div>
+      <div class="tool-actions">
+        <button class="action-btn action-btn-primary" onclick="runWatermark()">🚫 Remove Watermark</button>
+      </div>
+      <div id="wm-result"></div>
+    </div>
+
     <!-- Chat Section -->
     <div id="section-chat" style="display:none;">
       <div class="tool-header">
@@ -448,6 +505,69 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <button class="action-btn action-btn-primary" onclick="runTranslate()">🌐 Translate PDF</button>
       </div>
       <div id="translate-result"></div>
+    </div>
+
+    <!-- AI Form Fill Section -->
+    <div id="section-formfill" style="display:none;">
+      <div class="tool-header">
+        <div class="tool-title">AI Form Fill</div>
+        <div class="tool-sub">Auto-fill PDF form fields using AI · Pro feature</div>
+      </div>
+      @if(auth()->user()->plan !== 'pro')
+      <div style="background:rgba(91,92,255,.08);border:1px solid rgba(91,92,255,.3);border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;">
+        <div style="font-size:36px;margin-bottom:10px;">🔒</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Pro Feature</div>
+        <div style="color:var(--text2);font-size:14px;margin-bottom:20px;">Upgrade to Pro to use AI Form Fill and all other AI tools.</div>
+        <button onclick="window.location.href='/payment/checkout'" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
+      </div>
+      @else
+      <div class="tool-panel">
+        <div class="panel-header">
+          <span class="panel-label">📋 UPLOAD FORM PDF</span>
+          <div class="panel-actions">
+            <button class="panel-btn" onclick="document.getElementById('ff-input').click()">Choose File</button>
+            <input type="file" id="ff-input" accept=".pdf" style="display:none" onchange="handleFormFill(this)">
+          </div>
+        </div>
+        <div id="ff-drop" style="padding:40px;text-align:center;color:var(--text3);cursor:pointer;" onclick="document.getElementById('ff-input').click()">
+          <div style="font-size:36px;margin-bottom:10px">📋</div>
+          <div style="font-size:14px;">Upload a PDF form to auto-fill</div>
+        </div>
+        <div id="ff-options" style="display:none;padding:16px 18px;border-top:1px solid var(--border);">
+          <label style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:8px;">Your information (AI will fill matching fields)</label>
+          <textarea id="ff-data" rows="5" placeholder="Name: John Smith&#10;Date of Birth: 1990-05-15&#10;Address: 123 Main St&#10;Phone: +1-555-0100&#10;Email: john@example.com" style="width:100%;padding:12px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-size:14px;outline:none;resize:vertical;font-family:inherit;line-height:1.6;"></textarea>
+        </div>
+      </div>
+      <div class="tool-actions">
+        <button class="action-btn action-btn-primary" onclick="runFormFill()">📋 Fill Form with AI</button>
+      </div>
+      <div id="ff-result"></div>
+      @endif
+    </div>
+
+    <!-- AI PDF Generator Section -->
+    <div id="section-generator" style="display:none;">
+      <div class="tool-header">
+        <div class="tool-title">AI PDF Generator</div>
+        <div class="tool-sub">Generate professional documents &amp; table statements with AI · Pro feature</div>
+      </div>
+      @if(auth()->user()->plan !== 'pro')
+      <div style="background:rgba(91,92,255,.08);border:1px solid rgba(91,92,255,.3);border-radius:14px;padding:28px;text-align:center;margin-bottom:20px;">
+        <div style="font-size:36px;margin-bottom:10px;">🔒</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Pro Feature</div>
+        <div style="color:var(--text2);font-size:14px;margin-bottom:20px;">Upgrade to Pro to generate AI-powered PDFs, invoices, bank statements, and more.</div>
+        <button onclick="window.location.href='/payment/checkout'" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
+      </div>
+      @else
+      <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:28px;text-align:center;">
+        <div style="font-size:48px;margin-bottom:16px;">✨</div>
+        <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Full AI PDF Generator</div>
+        <div style="color:var(--text2);font-size:14px;margin-bottom:20px;line-height:1.6;">
+          The AI PDF Generator has an advanced interface with Document mode, Table mode,<br>bank statements, invoices, salary sheets, and more.
+        </div>
+        <a href="/ai-pdf-generator" target="_blank" style="display:inline-block;padding:12px 28px;background:var(--accent);color:#fff;border-radius:99px;text-decoration:none;font-size:14px;font-weight:700;">Open AI PDF Generator →</a>
+      </div>
+      @endif
     </div>
 
     <!-- Summarize Section -->
@@ -517,8 +637,8 @@ function updateUsageAfterCall(resp){
 }
 
 // ── Navigation ─────────────────────────────────────────────────────────────
-const sections = ['overview','compress','merge','split','sign','chat','translate','summarize'];
-const titles = {overview:'Overview',compress:'Compress PDF',merge:'Merge PDF',split:'Split PDF',sign:'Sign PDF',chat:'Chat with PDF',translate:'Translate PDF',summarize:'Summarize PDF'};
+const sections = ['overview','compress','merge','split','sign','watermark','chat','translate','summarize','formfill','generator'];
+const titles = {overview:'Overview',compress:'Compress PDF',merge:'Merge PDF',split:'Split PDF',sign:'Sign PDF',watermark:'Watermark Remover',chat:'Chat with PDF',translate:'Translate PDF',summarize:'Summarize PDF',formfill:'AI Form Fill',generator:'AI PDF Generator'};
 
 function showSection(name, el){
     sections.forEach(s => {
@@ -633,6 +753,49 @@ async function runSign(){
         if(r.ok){ const b=await r.blob(); showResult('sign-result', resultSuccess('Signed successfully!', URL.createObjectURL(b), 'signed.pdf')); }
         else { const d=await r.json(); showResult('sign-result', resultError(d.error||'Sign failed')); }
     } catch(e){ showResult('sign-result', resultError('Connection error.')); }
+}
+
+// ── Watermark ─────────────────────────────────────────────────────────────
+let wmFile = null;
+function handleWatermark(input){
+    wmFile = input.files[0];
+    document.getElementById('wm-drop').innerHTML = `<div style="font-size:14px;color:var(--accent2)">✅ ${wmFile.name}</div>`;
+    document.getElementById('wm-options').style.display='block';
+}
+async function runWatermark(){
+    if(!wmFile) return alert('Please select a PDF first.');
+    showResult('wm-result', resultLoading('Removing watermark...'));
+    const fd = new FormData();
+    fd.append('file', wmFile);
+    const wmText = document.getElementById('wm-text')?.value?.trim();
+    if(wmText) fd.append('watermark_text', wmText);
+    try {
+        const r = await fetch('/api/pdf/watermark', {method:'POST', body:fd});
+        if(r.ok){ const b=await r.blob(); showResult('wm-result', resultSuccess('Watermark removed!', URL.createObjectURL(b), 'no-watermark.pdf')); }
+        else { const d=await r.json(); showResult('wm-result', resultError(d.error||'Removal failed')); }
+    } catch(e){ showResult('wm-result', resultError('Connection error.')); }
+}
+
+// ── Form Fill ─────────────────────────────────────────────────────────────
+let ffFile = null;
+function handleFormFill(input){
+    ffFile = input.files[0];
+    document.getElementById('ff-drop').innerHTML = `<div style="font-size:14px;color:var(--accent2)">✅ ${ffFile.name}</div>`;
+    document.getElementById('ff-options').style.display='block';
+}
+async function runFormFill(){
+    if(!ffFile) return alert('Please select a PDF form first.');
+    const userData = document.getElementById('ff-data')?.value?.trim();
+    if(!userData) return alert('Please enter your information for the AI to fill in.');
+    showResult('ff-result', resultLoading('AI is filling the form...'));
+    const fd = new FormData();
+    fd.append('file', ffFile);
+    fd.append('user_data', userData);
+    try {
+        const r = await fetch('/api/ai/form-fill', {method:'POST', body:fd});
+        if(r.ok){ const b=await r.blob(); showResult('ff-result', resultSuccess('Form filled successfully!', URL.createObjectURL(b), 'filled-form.pdf')); }
+        else { const d=await r.json(); showResult('ff-result', resultError(d.error||'Form fill failed')); }
+    } catch(e){ showResult('ff-result', resultError('Connection error.')); }
 }
 
 // ── Chat ───────────────────────────────────────────────────────────────────
