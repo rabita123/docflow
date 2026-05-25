@@ -76,7 +76,7 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 </nav>
 @yield('content')
 <div class="footer">
-  <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a></p>
+  <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a> · <a href="/blog">Blog</a></p>
 </div>
 
 {{-- Pro Upgrade Modal (shown when AI feature is accessed without Pro plan) --}}

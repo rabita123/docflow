@@ -459,6 +459,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   <div class="nav-links">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
+    <a href="/blog">Blog</a>
   </div>
   <div class="nav-right">
     @auth
@@ -730,11 +731,13 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 
 <footer>
   <div class="foot-logo">PDFTash</div>
-  <div class="foot-links"><a href="#">About</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
+  <div class="foot-links"><a href="#">About</a><a href="/blog">Blog</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
   <div style="margin:14px 0 4px;font-size:0.82rem;color:#44445a;">
     <a href="/pdf-translator-bengali" style="color:#44445a;text-decoration:none;">📖 PDF to Bengali Translation</a>
     &nbsp;·&nbsp;
     <a href="/sejda-alternative" style="color:#44445a;text-decoration:none;">Sejda Alternative</a>
+    &nbsp;·&nbsp;
+    <a href="/blog" style="color:#44445a;text-decoration:none;">📝 PDF Tips & Guides</a>
   </div>
   <div class="foot-copy">© 2026 PDFTash</div>
 </footer>
