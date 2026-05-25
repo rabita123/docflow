@@ -160,33 +160,145 @@ Route::get('/pdf-translator-bengali', function () {
     return view('pages.pdf-translator-bengali');
 });
 
+// ── SEO Pages: AI Tools ──────────────────────────────────────────────────────
+Route::get('/chatpdf-alternative',          fn() => view('pages.chatpdf-alternative'));
+Route::get('/summarize-pdf',                fn() => view('pages.summarize-pdf'));
+Route::get('/free-pdf-tools-no-signup',     fn() => view('pages.free-pdf-tools-no-signup'));
+Route::get('/text-to-pdf',                  fn() => view('pages.text-to-pdf'));
+Route::get('/invoice-pdf-generator',        fn() => view('pages.invoice-pdf-generator'));
+Route::get('/report-pdf-generator',         fn() => view('pages.report-pdf-generator'));
+Route::get('/ai-document-generator',        fn() => view('pages.ai-document-generator'));
+Route::get('/create-pdf-from-text',         fn() => view('pages.create-pdf-from-text'));
+
+// ── SEO Pages: Merge variants ────────────────────────────────────────────────
+Route::get('/merge-pdf-files-online',       fn() => view('pages.merge-pdf-files-online'));
+Route::get('/merge-pdf-for-email',          fn() => view('pages.merge-pdf-for-email'));
+Route::get('/merge-large-pdf-files',        fn() => view('pages.merge-large-pdf-files'));
+Route::get('/combine-pdf-pages',            fn() => view('pages.combine-pdf-pages'));
+
+// ── SEO Pages: Split / extract / remove ─────────────────────────────────────
+Route::get('/extract-pages-from-pdf',       fn() => view('pages.extract-pages-from-pdf'));
+Route::get('/remove-pages-from-pdf',        fn() => view('pages.remove-pages-from-pdf'));
+Route::get('/split-pdf-into-multiple-files',fn() => view('pages.split-pdf-into-multiple-files'));
+
+// ── SEO Pages: Sign variants ─────────────────────────────────────────────────
+Route::get('/electronic-signature-pdf',     fn() => view('pages.electronic-signature-pdf'));
+Route::get('/sign-pdf-online-free',         fn() => view('pages.sign-pdf-online-free'));
+
+// ── SEO Pages: Compress variants ─────────────────────────────────────────────
+Route::get('/compress-pdf-without-losing-quality', fn() => view('pages.compress-pdf-without-losing-quality'));
+Route::get('/compress-scanned-pdf',         fn() => view('pages.compress-scanned-pdf'));
+Route::get('/compress-large-pdf-files',     fn() => view('pages.compress-large-pdf-files'));
+
+// ── SEO Pages: Competitor alternatives ──────────────────────────────────────
+Route::get('/adobe-acrobat-alternative',    fn() => view('pages.adobe-acrobat-alternative'));
+Route::get('/pdf24-alternative',            fn() => view('pages.pdf24-alternative'));
+Route::get('/foxit-alternative',            fn() => view('pages.foxit-alternative'));
+
+// ── SEO Pages: Industry / professional ──────────────────────────────────────
+Route::get('/pdf-tools-for-students',       fn() => view('pages.pdf-tools-for-students'));
+Route::get('/pdf-tools-for-lawyers',        fn() => view('pages.pdf-tools-for-lawyers'));
+Route::get('/pdf-tools-for-teachers',       fn() => view('pages.pdf-tools-for-teachers'));
+Route::get('/pdf-tools-for-accountants',    fn() => view('pages.pdf-tools-for-accountants'));
+
+// ── Blog ─────────────────────────────────────────────────────────────────────
+Route::get('/blog',                                         fn() => view('blog.index'));
+Route::get('/blog/how-to-compress-pdf',                    fn() => view('blog.how-to-compress-pdf'));
+Route::get('/blog/how-to-translate-pdf-to-bengali',        fn() => view('blog.how-to-translate-pdf-to-bengali'));
+Route::get('/blog/best-free-pdf-tools',                    fn() => view('blog.best-free-pdf-tools'));
+Route::get('/blog/how-to-merge-pdf',                       fn() => view('blog.how-to-merge-pdf'));
+Route::get('/blog/ilovepdf-vs-smallpdf-vs-pdftash',        fn() => view('blog.ilovepdf-vs-smallpdf-vs-pdftash'));
+Route::get('/blog/how-to-remove-watermark-from-pdf',       fn() => view('blog.how-to-remove-watermark-from-pdf'));
+
+// ── SEO Pages: Translate language variants ───────────────────────────────────
+Route::get('/translate-pdf-to-spanish',     fn() => view('pages.translate-pdf-to-spanish'));
+Route::get('/translate-pdf-to-hindi',       fn() => view('pages.translate-pdf-to-hindi'));
+Route::get('/translate-pdf-to-arabic',      fn() => view('pages.translate-pdf-to-arabic'));
+Route::get('/translate-pdf-to-french',      fn() => view('pages.translate-pdf-to-french'));
+Route::get('/translate-pdf-to-portuguese',  fn() => view('pages.translate-pdf-to-portuguese'));
+Route::get('/translate-pdf-to-chinese',     fn() => view('pages.translate-pdf-to-chinese'));
+Route::get('/translate-pdf-to-german',      fn() => view('pages.translate-pdf-to-german'));
+Route::get('/translate-pdf-to-japanese',    fn() => view('pages.translate-pdf-to-japanese'));
+Route::get('/translate-pdf-to-urdu',        fn() => view('pages.translate-pdf-to-urdu'));
+Route::get('/translate-english-pdf-to-bengali', fn() => view('pages.translate-english-pdf-to-bengali'));
+
 Route::get('/sitemap.xml', function () {
     $today = date('Y-m-d');
     $urls = [
         ['loc' => 'https://pdftash.com',                          'priority' => '1.0', 'changefreq' => 'daily'],
+        // Core tools
         ['loc' => 'https://pdftash.com/compress-pdf',             'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/merge-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/split-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/chat-with-pdf',            'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/translate-pdf',            'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/sign-pdf',                 'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/pdf-translator-bengali',   'priority' => '0.95','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ai-pdf-generator',         'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/pdf-text-editor',          'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/ai-form-fill',            'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/watermark-remover',       'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ai-form-fill',             'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/watermark-remover',        'priority' => '0.9', 'changefreq' => 'weekly'],
+        // Competitor alternatives
         ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/free-sejda-alternative',             'priority' => '0.7', 'changefreq' => 'monthly'],
-        ['loc' => 'https://pdftash.com/sejda-alternative-free',             'priority' => '0.7', 'changefreq' => 'monthly'],
-        // Programmatic SEO pages
-        ['loc' => 'https://pdftash.com/compress-pdf-to-200kb',             'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/compress-pdf-to-1mb',               'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/compress-pdf-for-email',            'priority' => '0.85','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/reduce-pdf-size-for-whatsapp',      'priority' => '0.85','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/smallpdf-alternative',              'priority' => '0.9', 'changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/ilovepdf-alternative',              'priority' => '0.85','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/pdf-to-word',                       'priority' => '0.95','changefreq' => 'weekly'],
-        ['loc' => 'https://pdftash.com/pdf-to-jpg',                        'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/smallpdf-alternative',     'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ilovepdf-alternative',     'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/chatpdf-alternative',      'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/adobe-acrobat-alternative','priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf24-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/foxit-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
+        // Compress variants
+        ['loc' => 'https://pdftash.com/compress-pdf-to-200kb',              'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-to-1mb',                'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-for-email',             'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/reduce-pdf-size-for-whatsapp',       'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-without-losing-quality','priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-scanned-pdf',               'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-large-pdf-files',           'priority' => '0.85','changefreq' => 'weekly'],
+        // Merge / split / sign variants
+        ['loc' => 'https://pdftash.com/merge-pdf-files-online',    'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/merge-pdf-for-email',        'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/merge-large-pdf-files',      'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/combine-pdf-pages',          'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/extract-pages-from-pdf',     'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/remove-pages-from-pdf',      'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/split-pdf-into-multiple-files','priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/electronic-signature-pdf',   'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/sign-pdf-online-free',       'priority' => '0.85','changefreq' => 'weekly'],
+        // Conversion tools
+        ['loc' => 'https://pdftash.com/pdf-to-word',               'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-jpg',                'priority' => '0.95','changefreq' => 'weekly'],
+        // AI / text creation cluster
+        ['loc' => 'https://pdftash.com/summarize-pdf',             'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/text-to-pdf',               'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/invoice-pdf-generator',     'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/report-pdf-generator',      'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ai-document-generator',     'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/create-pdf-from-text',      'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/free-pdf-tools-no-signup',  'priority' => '0.85','changefreq' => 'weekly'],
+        // Industry pages
+        ['loc' => 'https://pdftash.com/pdf-tools-for-students',    'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-tools-for-lawyers',     'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-tools-for-teachers',    'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-tools-for-accountants', 'priority' => '0.8', 'changefreq' => 'weekly'],
+        // Translate language variants
+        ['loc' => 'https://pdftash.com/pdf-translator-bengali',         'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-english-pdf-to-bengali','priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-spanish',        'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-hindi',          'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-arabic',         'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-french',         'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-portuguese',     'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-chinese',        'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-german',         'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-japanese',       'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/translate-pdf-to-urdu',           'priority' => '0.85','changefreq' => 'weekly'],
+        // Blog
+        ['loc' => 'https://pdftash.com/blog',                                        'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-compress-pdf',                    'priority' => '0.75','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-translate-pdf-to-bengali',        'priority' => '0.75','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/best-free-pdf-tools',                    'priority' => '0.75','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-merge-pdf',                       'priority' => '0.75','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/ilovepdf-vs-smallpdf-vs-pdftash',        'priority' => '0.75','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-remove-watermark-from-pdf',       'priority' => '0.75','changefreq' => 'monthly'],
     ];
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
@@ -205,6 +317,23 @@ Route::get('/sitemap.xml', function () {
 });
 
 
+
+// ── Admin: Users List ────────────────────────────────────────────────────────
+Route::get('/admin/users', function (\Illuminate\Http\Request $request) {
+    // Simple secret-key protection — set ADMIN_SECRET in .env
+    $secret = env('ADMIN_SECRET', 'pdftash-admin-2026');
+    if ($request->query('key') !== $secret) {
+        abort(403, 'Forbidden — add ?key=YOUR_SECRET to the URL');
+    }
+
+    $users    = \App\Models\User::orderBy('created_at', 'desc')->get();
+    $total    = $users->count();
+    $proCount = $users->where('plan', 'pro')->count();
+    $freeCount = $total - $proCount;
+    $todayCount = $users->filter(fn($u) => \Carbon\Carbon::parse($u->created_at)->isToday())->count();
+
+    return view('admin-users', compact('users', 'total', 'proCount', 'freeCount', 'todayCount'));
+});
 
 // ── Tool Test Route (development only) ───────────────────────────────────────
 // Route::get('/test-tools', function () {

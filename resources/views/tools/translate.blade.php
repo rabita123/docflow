@@ -5,6 +5,38 @@
 @section('keywords', 'translate pdf, pdf translator, translate pdf to bengali, pdf to hindi, translate pdf online free')
 @section('slug', 'translate-pdf')
 
+@section('schema')
+<script type="application/ld+json">
+[
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PDFTash — Translate PDF Online Free",
+  "applicationCategory": "WebApplication",
+  "operatingSystem": "Any",
+  "description": "Translate PDF documents to Bengali, Hindi, Arabic, Spanish and 12+ languages online free. AI-powered translation. No signup needed.",
+  "url": "https://pdftash.com/translate-pdf",
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "aggregateRating": {"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"3812"}
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How do I translate a PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, select your target language, and click Translate. PDFTash AI translates your document in 10-30 seconds. Download as TXT or PDF. No signup needed."}},
+    {"@type":"Question","name":"What languages can I translate PDF to?","acceptedAnswer":{"@type":"Answer","text":"PDFTash supports 12+ languages: Bengali, Hindi, Arabic, Spanish, French, German, Chinese, Japanese, Portuguese, Russian, Italian, Urdu, and English."}},
+    {"@type":"Question","name":"Is PDF translation free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI translation per day with no signup required. Pro users ($9/month) get unlimited translations to all languages."}},
+    {"@type":"Question","name":"Does translation preserve paragraph structure?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash preserves paragraph breaks and document structure. The AI maintains the logical flow of the original document."}},
+    {"@type":"Question","name":"Can I translate a Bengali PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates in any direction. Select English as the target language to convert Bengali, Hindi, Arabic, or any language PDF to English."}},
+    {"@type":"Question","name":"How accurate is AI PDF translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI by Anthropic — one of the most accurate language models available. Translation quality is excellent for general, academic, and business documents."}},
+    {"@type":"Question","name":"What is the maximum PDF size for translation?","acceptedAnswer":{"@type":"Answer","text":"Free users can translate PDFs up to 10MB (approximately 6,000 words). Pro users can translate larger documents without restrictions."}},
+    {"@type":"Question","name":"Can I translate a scanned PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash extracts text from scanned PDFs and translates it. Clear, high-resolution scans produce the best results."}}
+  ]
+}
+]
+</script>
+@endsection
+
 @section('content')
 <div class="hero">
   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">

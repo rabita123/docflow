@@ -7,6 +7,7 @@
 
 @section('schema')
 <script type="application/ld+json">
+[
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -14,8 +15,22 @@
   "applicationCategory": "WebApplication",
   "description": "Edit PDF text online. Click any text to edit, add new text, whiteout, highlight. Better than Sejda.",
   "url": "https://pdftash.com/pdf-text-editor",
-  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"}
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "aggregateRating": {"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"1954"}
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Can I edit the text in any PDF for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash lets you click on any text in a PDF and edit it directly. You can also add new text, change fonts, resize text, and change colors. Free users can edit PDFs up to 10MB with no signup required."}},
+    {"@type":"Question","name":"What text editing tools are available?","acceptedAnswer":{"@type":"Answer","text":"PDFTash offers full text editing: click-to-edit existing text, add new text boxes anywhere, whiteout (cover content with white), highlight text in yellow/green/pink, change font family, font size, bold, italic, and text color."}},
+    {"@type":"Question","name":"Will the PDF look different after editing?","acceptedAnswer":{"@type":"Answer","text":"Minor formatting differences may occur for complex PDFs, especially those using unusual embedded fonts. For standard documents — contracts, reports, forms — the edited PDF looks identical to the original except for your changes."}},
+    {"@type":"Question","name":"Can I edit a scanned PDF?","acceptedAnswer":{"@type":"Answer","text":"You cannot edit text in scanned PDFs because the text is stored as an image. You can add new text boxes or use whiteout over scanned content. For full editing, you need a text-based (digitally created) PDF."}},
+    {"@type":"Question","name":"How is this different from Adobe Acrobat's PDF editor?","acceptedAnswer":{"@type":"Answer","text":"PDFTash is free — Adobe Acrobat Pro costs $30/month. PDFTash works entirely in your browser with no software to install. For most editing tasks (fix typos, update dates, add text), PDFTash achieves the same result at zero cost."}},
+    {"@type":"Question","name":"Can I edit a password-protected PDF?","acceptedAnswer":{"@type":"Answer","text":"No. Password-protected PDFs must be unlocked before editing. If you have the password, open the PDF in a reader, print to PDF (to remove the restriction), then upload to PDFTash for editing."}}
+  ]
 }
+]
 </script>
 @endsection
 

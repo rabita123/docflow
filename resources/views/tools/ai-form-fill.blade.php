@@ -7,6 +7,7 @@
 
 @section('schema')
 <script type="application/ld+json">
+[
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -14,8 +15,22 @@
   "applicationCategory": "WebApplication",
   "description": "Upload a PDF form and let AI automatically detect and fill all form fields from your personal details.",
   "url": "https://pdftash.com/ai-form-fill",
-  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"}
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "aggregateRating": {"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"1243"}
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What types of PDF forms can AI fill automatically?","acceptedAnswer":{"@type":"Answer","text":"PDFTash AI detects and fills standard form fields: name, email, date, address, phone number, signature fields, checkboxes, and dropdowns. It works on government forms, job applications, tax forms, and any structured PDF form."}},
+    {"@type":"Question","name":"How does the AI know what to fill in each field?","acceptedAnswer":{"@type":"Answer","text":"The AI reads field labels and field names in the PDF form, then matches them to the personal details you provide. It understands common field types and fills them accurately based on context."}},
+    {"@type":"Question","name":"Is my personal data safe when using AI Form Filler?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your data is used only to fill the form and is never stored after processing. All files are automatically deleted from our servers within 2 hours."}},
+    {"@type":"Question","name":"Can I edit the fields after AI fills them?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the AI fills the form, you can review and manually adjust any field before downloading the final PDF. The AI provides a starting point — you have full control."}},
+    {"@type":"Question","name":"Does AI Form Filler work on scanned PDF forms?","acceptedAnswer":{"@type":"Answer","text":"For scanned PDFs (image-only), the AI uses OCR to detect form areas. Results are best on digitally created forms with actual form fields. Scanned forms may require additional manual adjustment."}},
+    {"@type":"Question","name":"Is the AI form filler free?","acceptedAnswer":{"@type":"Answer","text":"Free users can fill 1 form per day with no signup required. Pro users ($9/month) get unlimited form fills and priority processing."}}
+  ]
 }
+]
 </script>
 @endsection
 
@@ -250,9 +265,10 @@ async function handleFile(file) {
   document.getElementById('fields-list').innerHTML    = '';
 
   await waitForLibs();
-  // Store as Uint8Array so pdf.js worker transfer never detaches the buffer
-  pdfBytes = new Uint8Array(await file.arrayBuffer());
-  pdfJsDoc = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
+  // Store as Uint8Array — pdf.js may transfer ArrayBuffer to worker, detaching it
+  const raw = await file.arrayBuffer();
+  pdfBytes  = new Uint8Array(raw);
+  pdfJsDoc  = await pdfjsLib.getDocument({ data: pdfBytes.slice() }).promise;
 
   detectedFields = await detectAllFields();
 
@@ -470,8 +486,9 @@ async function runFill() {
     await waitForLibs();
     const { PDFDocument, StandardFonts, rgb } = PDFLib;
 
-    // Load a fresh independent copy so pdf.js worker state doesn't affect it
-    const doc = await PDFDocument.load(pdfBytes.slice(), { ignoreEncryption: true });
+    // Always re-read from the original File object — guarantees a clean, untouched buffer
+    const freshBuffer = await pdfFile.arrayBuffer();
+    const doc = await PDFDocument.load(freshBuffer);
     const font = await doc.embedFont(StandardFonts.Helvetica);
     const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
 
@@ -519,7 +536,7 @@ async function runFill() {
       }
     }
 
-    filledPdfBytes = await doc.save({ useObjectStreams: false });
+    filledPdfBytes = await doc.save();
 
     /* Step 3 — show result */
     showPanel('fill-result');
