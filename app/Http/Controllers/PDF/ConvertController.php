@@ -49,17 +49,26 @@ public function imagesToPdf(Request $request)
     $files = $request->file('files');
     if (!$files) return $this->err('No images uploaded.');
 
+    // Normalize: single file uploaded without [] notation
+    if (!is_array($files)) $files = [$files];
+
     $inputs = [];
+    $errors = [];
     $output = $this->outputPath('pdf');
 
     foreach ($files as $file) {
-        if ($file && $file->isValid()) {
-            $inputs[] = $this->saveUpload($file);
+        if (!$file) continue;
+        if ($file->getError() !== UPLOAD_ERR_OK) {
+            $errors[] = $file->getClientOriginalName() . ' (upload error ' . $file->getError() . ')';
+            continue;
         }
+        $inputs[] = $this->saveUpload($file);
     }
 
     if (empty($inputs)) {
-        return $this->err('No valid images found.');
+        $msg = 'No valid images found.';
+        if (!empty($errors)) $msg .= ' Errors: ' . implode(', ', $errors);
+        return $this->err($msg);
     }
 
     $inputPaths = implode(' ', array_map('escapeshellarg', $inputs));
