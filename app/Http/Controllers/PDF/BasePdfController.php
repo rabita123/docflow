@@ -47,14 +47,20 @@ abstract class BasePdfController extends Controller
         return 'pdftk';
     }
 
-   protected function magick(): string
-{
-    if (PHP_OS_FAMILY === 'Windows') {
-        $path = 'C:\\Program Files\\ImageMagick-7.1.2-Q16-HDRI\\magick.exe';
-        if (file_exists($path)) return '"' . $path . '"';
+    protected function magick(): string
+    {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $path = 'C:\\Program Files\\ImageMagick-7.1.2-Q16-HDRI\\magick.exe';
+            if (file_exists($path)) return '"' . $path . '"';
+            return 'magick';
+        }
+        // Linux: try `magick` (ImageMagick 7) then fall back to `convert` (ImageMagick 6)
+        exec('which magick 2>/dev/null', $out, $code);
+        if ($code === 0 && !empty($out[0])) return 'magick';
+        exec('which convert 2>/dev/null', $out2, $code2);
+        if ($code2 === 0 && !empty($out2[0])) return 'convert';
+        return 'magick'; // last resort — will surface a clear error
     }
-    return 'magick';
-}
 
     protected function getPdftotextCmd(): string
     {
