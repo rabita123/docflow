@@ -151,46 +151,98 @@ async function processOcr() {
     const timerEl = document.getElementById('timer');
     const timerInterval = setInterval(() => { secs++; if(timerEl) timerEl.textContent = secs + 's'; }, 1000);
 
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('lang', document.getElementById('lang').value);
-    formData.append('_token', CSRF);
+    // Step 1: get JSON preview
+    const fd = new FormData();
+    fd.append('file', selectedFile);
+    fd.append('lang', document.getElementById('lang').value);
+    fd.append('format', 'json');
+    fd.append('_token', CSRF);
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 300000); // 5 min for large scans
+    const timeout = setTimeout(() => controller.abort(), 300000);
 
     try {
-        const resp = await fetch('/api/pdf/ocr', { method: 'POST', body: formData, signal: controller.signal });
+        const resp = await fetch('/api/pdf/ocr', { method: 'POST', body: fd, signal: controller.signal });
         clearTimeout(timeout);
         clearInterval(timerInterval);
 
         if (resp.ok) {
-            const text = await resp.text();
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const url  = URL.createObjectURL(blob);
+            const data = await resp.json();
+            const text = data.text || '';
+            const pages = data.pages || 1;
             const origName = selectedFile.name.replace(/\.pdf$/i, '');
+            window._ocrText = text;
+            window._ocrLang = document.getElementById('lang').value;
+            window._ocrName = origName;
+            window._ocrFile = selectedFile;
 
             result.innerHTML = `
                 <div style="background:#0a1a0a;border:1px solid #00e5a0;border-radius:12px;padding:20px;margin-bottom:16px;text-align:left;">
-                    <div style="color:#00e5a0;font-size:18px;font-weight:700;margin-bottom:12px">✅ OCR Complete in ${secs}s!</div>
-                    <div style="color:#eeeef8;font-size:14px;line-height:1.7;white-space:pre-wrap;max-height:300px;overflow-y:auto;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin-bottom:16px;">${escapeHtml(text.slice(0, 2000))}${text.length > 2000 ? '\n\n[... download for full text ...]' : ''}</div>
-                    <a href="${url}" download="${origName}-ocr.txt" style="display:inline-block;padding:12px 24px;background:#5b5cff;color:#fff;border-radius:99px;text-decoration:none;font-weight:600;font-size:14px;">⬇ Download Full Text (TXT)</a>
+                    <div style="color:#00e5a0;font-size:18px;font-weight:700;margin-bottom:4px">✅ OCR Complete in ${secs}s!</div>
+                    <div style="color:#8888a8;font-size:13px;margin-bottom:14px">${pages} page${pages>1?'s':''} processed</div>
+                    <div id="ocr-preview" style="color:#eeeef8;font-size:14px;line-height:1.7;white-space:pre-wrap;max-height:280px;overflow-y:auto;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:14px;margin-bottom:20px;">${escapeHtml(text.slice(0, 2000))}${text.length > 2000 ? '\n\n[... download for full text ...]' : ''}</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <button onclick="downloadTxt()" style="padding:13px 10px;background:#5b5cff;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;">
+                            📄 Plain Text (.TXT)<br><span style="font-size:11px;font-weight:400;opacity:.75">Just text, no layout</span>
+                        </button>
+                        <button onclick="downloadPdf(this)" style="padding:13px 10px;background:#00e5a0;color:#000;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;">
+                            🔍 Searchable PDF<br><span style="font-size:11px;font-weight:400;opacity:.7">Text can be searched &amp; copied</span>
+                        </button>
+                    </div>
                 </div>
                 <div style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-                    <a href="/translate-pdf" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;">🌐 Translate this PDF</a>
-                    <a href="/chat-with-pdf" style="padding:10px 18px;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;">💬 Chat with PDF</a>
-                    <button onclick="location.reload()" style="padding:10px 18px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#8888a8;font-size:13px;cursor:pointer;">OCR Another</button>
+                    <a href="/translate-pdf" style="padding:9px 16px;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;">🌐 Translate PDF</a>
+                    <a href="/chat-with-pdf" style="padding:9px 16px;background:#0f0f1a;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;">💬 Chat with PDF</a>
+                    <button onclick="location.reload()" style="padding:9px 16px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:99px;color:#8888a8;font-size:13px;cursor:pointer;">OCR Another</button>
                 </div>`;
         } else {
-            const data = await resp.json().catch(() => ({}));
-            result.innerHTML = `<div style="color:#ff6b6b">Error: ${data.error || 'Something went wrong'}</div>`;
+            const d = await resp.json().catch(() => ({}));
+            result.innerHTML = `<div style="color:#ff6b6b">Error: ${d.error || 'Something went wrong'}</div>`;
         }
     } catch(e) {
         clearTimeout(timeout);
         clearInterval(timerInterval);
-        const msg = e.name === 'AbortError' ? 'Request timed out. Try fewer pages.' : 'Connection error. Please try again.';
-        result.innerHTML = `<div style="color:#ff6b6b">${msg}</div>`;
+        result.innerHTML = `<div style="color:#ff6b6b">${e.name === 'AbortError' ? 'Request timed out. Try fewer pages.' : 'Connection error. Please try again.'}</div>`;
     }
+}
+
+function downloadTxt() {
+    const text = window._ocrText || '';
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = (window._ocrName || 'document') + '-ocr.txt';
+    a.click();
+}
+
+async function downloadPdf(btn) {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '⏳ Generating...';
+    btn.disabled = true;
+
+    const fd = new FormData();
+    fd.append('file', window._ocrFile);
+    fd.append('lang', window._ocrLang || 'eng');
+    fd.append('format', 'pdf');
+    fd.append('_token', CSRF);
+
+    try {
+        const resp = await fetch('/api/pdf/ocr', { method: 'POST', body: fd });
+        if (resp.ok) {
+            const blob = await resp.blob();
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = (window._ocrName || 'document') + '-searchable.pdf';
+            a.click();
+        } else {
+            const d = await resp.json().catch(() => ({}));
+            alert('Error: ' + (d.error || 'Could not generate searchable PDF'));
+        }
+    } catch(e) {
+        alert('Connection error. Please try again.');
+    }
+    btn.innerHTML = orig;
+    btn.disabled = false;
 }
 
 function escapeHtml(t) {
