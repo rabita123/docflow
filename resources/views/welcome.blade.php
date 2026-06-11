@@ -587,6 +587,11 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
           <div class="qt-name">Remove Watermark</div>
           <div class="qt-desc">Erase watermarks</div>
         </div>
+        <div class="qt-card" onclick="window.location='/ocr-pdf'">
+          <div class="qt-icon">🔍</div>
+          <div class="qt-name">OCR PDF</div>
+          <div class="qt-desc">Scanned PDF to text</div>
+        </div>
       </div>
       <div class="qt-more">
         <a href="#tools" onclick="event.preventDefault();document.getElementById('tools').scrollIntoView({behavior:'smooth'})">See all 20+ tools ↓</a>
@@ -611,6 +616,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     <button class="ttab" onclick="filterTools('security',this)">🔒 Security</button>
   </div>
   <div class="tools-grid" id="tools-grid">
+    <div class="tc" data-c="ai" onclick="window.location='/ocr-pdf'"><div class="tc-icon">🔍</div><div class="tc-name">OCR PDF</div><div class="tc-desc">Extract text from scanned PDFs</div><span class="tc-badge bnew">NEW</span></div>
     <div class="tc" data-c="security" onclick="window.location='/watermark-remover'"><div class="tc-icon">🚫</div><div class="tc-name">Watermark Remover</div><div class="tc-desc">Remove watermarks from PDF</div><span class="tc-badge bnew">NEW</span></div>
     <div class="tc" data-c="ai" onclick="window.location='/ai-form-fill'"><div class="tc-icon">📋</div><div class="tc-name">AI Form Filler</div><div class="tc-desc">Auto-fill PDF forms with AI</div><span class="tc-badge bnew">NEW</span></div>
     <div class="tc" data-c="ai" onclick="window.location='/ai-pdf-generator'"><div class="tc-icon">✨</div><div class="tc-name">AI PDF Generator</div><div class="tc-desc">Text to beautiful PDF with AI</div><span class="tc-badge bnew">NEW</span></div>
