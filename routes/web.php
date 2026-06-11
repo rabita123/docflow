@@ -129,6 +129,7 @@ Route::get('/ai-pdf-generator', fn() => view('tools.pdf-generator'))->name('tool
 Route::get('/pdf-text-editor', fn() => view('tools.pdf-text-editor'))->name('tool.pdf-text-editor');
 Route::get('/ai-form-fill',       fn() => view('tools.ai-form-fill'))->name('tool.ai-form-fill');
 Route::get('/watermark-remover',  fn() => view('tools.watermark-remover'))->name('tool.watermark-remover');
+Route::get('/ocr-pdf',            fn() => view('tools.ocr'))->name('tool.ocr');
 
 Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
 
@@ -237,6 +238,7 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/pdf-text-editor',          'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ai-form-fill',             'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/watermark-remover',        'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ocr-pdf',                   'priority' => '0.9', 'changefreq' => 'weekly'],
         // Competitor alternatives
         ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/smallpdf-alternative',     'priority' => '0.9', 'changefreq' => 'weekly'],

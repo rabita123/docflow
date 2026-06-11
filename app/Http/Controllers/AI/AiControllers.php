@@ -30,10 +30,12 @@ abstract class BaseAIController extends Controller
         return $this->uploadDir . '/' . $filename;
     }
 
-    /** Extract text from PDF using pdftotext system command */
+    /** Extract text from PDF — tries pdftotext first, falls back to Tesseract OCR for scanned PDFs */
     protected function extractText(string $pdfPath, int $maxPages = 15): string
     {
         $txt = $this->uploadDir . '/' . Str::random(10) . '.txt';
+
+        // 1. Try pdftotext (fast, works on digital PDFs)
         exec("pdftotext -l {$maxPages} " . escapeshellarg($pdfPath) . " " . escapeshellarg($txt) . " 2>/dev/null");
 
         if (!file_exists($txt)) {
@@ -43,7 +45,51 @@ abstract class BaseAIController extends Controller
 
         $text = file_exists($txt) ? file_get_contents($txt) : '';
         @unlink($txt);
-        return substr(trim($text), 0, 20000); // max 20K chars to API
+        $text = trim($text);
+
+        // 2. If text is too short, this is likely a scanned PDF — try Tesseract OCR
+        if (strlen($text) < 50) {
+            $text = $this->extractTextWithOcr($pdfPath, $maxPages);
+        }
+
+        return substr($text, 0, 20000);
+    }
+
+    /** OCR fallback using Tesseract for scanned/image-based PDFs */
+    protected function extractTextWithOcr(string $pdfPath, int $maxPages = 10): string
+    {
+        // Check tesseract is available
+        exec('which tesseract 2>/dev/null', $out, $code);
+        if ($code !== 0) return '';
+
+        $parts    = [];
+        $tmpFiles = [];
+        $pages    = min($maxPages, 10); // cap OCR at 10 pages for AI tools
+
+        for ($page = 1; $page <= $pages; $page++) {
+            $imgPath = $this->uploadDir . '/' . Str::random(10) . '_p' . $page . '.png';
+            $tmpFiles[] = $imgPath;
+
+            // Convert page to image
+            exec('convert -density 200 ' . escapeshellarg($pdfPath . '[' . ($page - 1) . ']')
+                . ' -colorspace Gray ' . escapeshellarg($imgPath) . ' 2>/dev/null');
+
+            if (!file_exists($imgPath)) continue;
+
+            $ocrBase    = $this->uploadDir . '/' . Str::random(10) . '_ocr';
+            $ocrTxt     = $ocrBase . '.txt';
+            $tmpFiles[] = $ocrTxt;
+
+            exec('tesseract ' . escapeshellarg($imgPath) . ' ' . escapeshellarg($ocrBase) . ' 2>/dev/null');
+
+            if (file_exists($ocrTxt)) {
+                $parts[] = trim(file_get_contents($ocrTxt));
+            }
+        }
+
+        foreach ($tmpFiles as $f) @unlink($f);
+
+        return implode("\n\n", array_filter($parts));
     }
 
     protected function err(string $msg, int $code = 400)

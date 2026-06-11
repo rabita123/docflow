@@ -23,6 +23,7 @@ use App\Http\Controllers\AI\PdfGeneratorController;
 use App\Http\Controllers\AI\FormFillController;
 use App\Http\Controllers\PDF\PdfTextEditorController;
 use App\Http\Controllers\PDF\SignController;
+use App\Http\Controllers\PDF\OcrController;
 use App\Http\Middleware\CheckFreeTierLimit;
 use App\Http\Middleware\GuardApiOrigin;
 
@@ -70,6 +71,7 @@ Route::middleware([GuardApiOrigin::class, 'throttle:30,1', CheckFreeTierLimit::c
         Route::post('/grayscale',     [ConvertController::class,     'grayscale']);
         Route::post('/extract-imgs',  [ConvertController::class,     'extractImages']);
         Route::post('/images-to-pdf', [ConvertController::class,     'imagesToPdf']);
+        Route::post('/ocr',           [OcrController::class,         'handle']);
         Route::post('/protect',       [SecurityController::class,    'protect']);
         Route::post('/unlock',        [SecurityController::class,    'unlock']);
         Route::post('/sign',          [SignController::class,        'handle']);
