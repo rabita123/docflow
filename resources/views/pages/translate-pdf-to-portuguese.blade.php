@@ -44,7 +44,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item"><h3>Does PDFTash support Brazilian Portuguese?</h3><p>Yes. The AI produces natural Brazilian Portuguese (PT-BR) by default, including common Brazilian vocabulary and phrasing.</p></div>
   <div class="faq-item"><h3>How do I download the Portuguese translation?</h3><p>After translation completes, click "Download TXT" to save the translated text file, or "Download PDF" to get a formatted printable PDF.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on the free plan. Pro ($9/month) gives unlimited translations.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on the free plan. Pro ($2/month) gives unlimited translations.</p></div>
 </div>
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';

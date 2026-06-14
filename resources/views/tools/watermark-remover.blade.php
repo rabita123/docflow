@@ -27,7 +27,7 @@
     {"@type":"Question","name":"Can I remove a logo or image watermark?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use manual erase mode — draw a rectangle over the watermark on each page where it appears. This works for image watermarks, logos, and any visual element you want to remove."}},
     {"@type":"Question","name":"Will removing the watermark affect the rest of the PDF?","acceptedAnswer":{"@type":"Answer","text":"No. Only the watermark layer is removed. All text, images, formatting, and document structure remain completely intact."}},
     {"@type":"Question","name":"Does watermark removal work on scanned PDFs?","acceptedAnswer":{"@type":"Answer","text":"For scanned PDFs (image-based), watermarks are part of the page image and cannot be removed by PDFTash. The tool works best on digitally created PDFs where the watermark is a separate layer."}},
-    {"@type":"Question","name":"Is the watermark remover completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, removing watermarks from PDFs up to 10MB is free with no signup. Pro users ($9/month) can process larger files up to 200MB and remove watermarks from unlimited PDFs per day."}}
+    {"@type":"Question","name":"Is the watermark remover completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes, removing watermarks from PDFs up to 10MB is free with no signup. Pro users ($2/month) can process larger files up to 200MB and remove watermarks from unlimited PDFs per day."}}
   ]
 }
 ]

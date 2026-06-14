@@ -34,7 +34,7 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Is the PDF summarizer completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash summarizes PDFs for free with no signup required. Free users get 1 AI summary per day. Pro users ($9/month) get unlimited summaries."}},
+    {"@type":"Question","name":"Is the PDF summarizer completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash summarizes PDFs for free with no signup required. Free users get 1 AI summary per day. Pro users ($2/month) get unlimited summaries."}},
     {"@type":"Question","name":"How accurate is the AI PDF summary?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI (Anthropic) — one of the most accurate large language models available. Summaries preserve key facts, quotes, and data points faithfully."}},
     {"@type":"Question","name":"Can I summarize a 100-page research paper?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash processes up to 200MB PDFs. For very long documents, the AI intelligently samples key sections to produce a comprehensive summary."}},
     {"@type":"Question","name":"Can I ask follow-up questions after the summary?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the Chat with PDF tool to ask specific follow-up questions after reviewing your summary."}},

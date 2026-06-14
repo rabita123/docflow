@@ -25,7 +25,7 @@
   "mainEntity": [
     {"@type":"Question","name":"How do I translate a PDF online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF, select your target language, and click Translate. PDFTash AI translates your document in 10-30 seconds. Download as TXT or PDF. No signup needed."}},
     {"@type":"Question","name":"What languages can I translate PDF to?","acceptedAnswer":{"@type":"Answer","text":"PDFTash supports 12+ languages: Bengali, Hindi, Arabic, Spanish, French, German, Chinese, Japanese, Portuguese, Russian, Italian, Urdu, and English."}},
-    {"@type":"Question","name":"Is PDF translation free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI translation per day with no signup required. Pro users ($9/month) get unlimited translations to all languages."}},
+    {"@type":"Question","name":"Is PDF translation free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI translation per day with no signup required. Pro users ($2/month) get unlimited translations to all languages."}},
     {"@type":"Question","name":"Does translation preserve paragraph structure?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash preserves paragraph breaks and document structure. The AI maintains the logical flow of the original document."}},
     {"@type":"Question","name":"Can I translate a Bengali PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates in any direction. Select English as the target language to convert Bengali, Hindi, Arabic, or any language PDF to English."}},
     {"@type":"Question","name":"How accurate is AI PDF translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI by Anthropic — one of the most accurate language models available. Translation quality is excellent for general, academic, and business documents."}},
@@ -121,7 +121,7 @@
   </div>
   <div class="faq-item">
     <h3>How much does PDF translation cost?</h3>
-    <p>Free users get 1 PDF translation per day. Pro users ($9/mo) get unlimited translations to all 12+ languages.</p>
+    <p>Free users get 1 PDF translation per day. Pro users ($2/mo) get unlimited translations to all 12+ languages.</p>
   </div>
 </div>
 

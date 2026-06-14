@@ -116,7 +116,7 @@
   </div>
   <div class="faq-item">
     <h3>How many PDFs can I translate per day?</h3>
-    <p>Free users get 1 AI translation per day. Pro users ($9/month) get unlimited translations across all 12+ supported languages.</p>
+    <p>Free users get 1 AI translation per day. Pro users ($2/month) get unlimited translations across all 12+ supported languages.</p>
   </div>
 </div>
 

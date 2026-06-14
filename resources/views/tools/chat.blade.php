@@ -13,7 +13,7 @@
   "mainEntity": [
     {"@type":"Question","name":"How does Chat with PDF work?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF to PDFTash. Our AI reads the document and you can then ask any question about its content. The AI answers instantly based on the document text."}},
     {"@type":"Question","name":"What kinds of questions can I ask about my PDF?","acceptedAnswer":{"@type":"Answer","text":"You can ask anything — summarize this document, what are the key points, explain section 3, what does this contract say about payment terms, find all dates mentioned, and more."}},
-    {"@type":"Question","name":"Is Chat with PDF free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI chat session per day. Pro users ($9/month) get unlimited AI chats with larger PDF files up to 200MB."}},
+    {"@type":"Question","name":"Is Chat with PDF free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 AI chat session per day. Pro users ($2/month) get unlimited AI chats with larger PDF files up to 200MB."}},
     {"@type":"Question","name":"Is PDFTash a good ChatPDF alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash offers the same AI chat functionality as ChatPDF — completely free with no signup. Plus PDF tools like compress, merge, translate and sign."}},
     {"@type":"Question","name":"What languages can I chat in?","acceptedAnswer":{"@type":"Answer","text":"You can ask questions in any language including English, Bengali, Hindi, Arabic, Spanish and more. The AI understands and responds in your language."}}
   ]
@@ -129,7 +129,7 @@
   </div>
   <div class="faq-item">
     <h3>Is PDF AI chat free?</h3>
-    <p>Yes! Free users get 1 AI chat per day. Pro users ($9/mo) get unlimited AI chat with any PDF documents.</p>
+    <p>Yes! Free users get 1 AI chat per day. Pro users ($2/mo) get unlimited AI chat with any PDF documents.</p>
   </div>
   <div class="faq-item">
     <h3>How is this different from ChatGPT?</h3>

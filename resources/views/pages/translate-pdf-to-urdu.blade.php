@@ -10,7 +10,7 @@
 {"@type":"Question","name":"Can I translate a PDF to Urdu for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates any PDF to Urdu free with no signup. Free users get 1 translation per day."}},
 {"@type":"Question","name":"Does the Urdu translation support right-to-left text?","acceptedAnswer":{"@type":"Answer","text":"Yes. The AI outputs proper Urdu script (Nastaliq/Naskh) with right-to-left formatting. The result displays correctly in the browser and text file."}},
 {"@type":"Question","name":"Can I translate an Urdu PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language."}},
-{"@type":"Question","name":"How many PDFs can I translate per day for free?","acceptedAnswer":{"@type":"Answer","text":"1 per day on free plan. Pro ($9/month) gives unlimited translations."}}
+{"@type":"Question","name":"How many PDFs can I translate per day for free?","acceptedAnswer":{"@type":"Answer","text":"1 per day on free plan. Pro ($2/month) gives unlimited translations."}}
 ]}]
 </script>
 @endsection
@@ -45,7 +45,7 @@
   <h2>Frequently Asked Questions — PDF to Urdu</h2>
   <div class="faq-item"><h3>Does the output show correct Urdu script?</h3><p>Yes. The AI outputs proper Urdu in Naskh/Nastaliq Unicode script with correct right-to-left directionality. The text displays correctly in any modern browser or text editor.</p></div>
   <div class="faq-item"><h3>Can I translate government or official documents to Urdu?</h3><p>Yes. PDFTash works well for official documents, educational materials, and business content. For certified legal translations, use a licensed translator.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($9/month) gives unlimited translations to all 12+ supported languages.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($2/month) gives unlimited translations to all 12+ supported languages.</p></div>
 </div>
 <script>
 const CSRF=document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')||'';let selectedFile=null;

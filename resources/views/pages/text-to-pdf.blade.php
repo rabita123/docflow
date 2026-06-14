@@ -77,6 +77,6 @@
   <div class="faq-item"><h3>How do I convert text to PDF online for free?</h3><p>Go to our <a href="/ai-pdf-generator" style="color:#5b5cff">AI PDF Generator</a>, type or paste your text, and click Generate. Your formatted PDF downloads instantly — no signup, no watermark.</p></div>
   <div class="faq-item"><h3>What's the difference between text-to-PDF and a regular PDF editor?</h3><p>PDFTash's text-to-PDF uses AI to format your raw text into a professional document — adding headings, structure, and a cover page. A regular editor just lets you view or edit existing PDFs.</p></div>
   <div class="faq-item"><h3>Can I use my own formatting in the text?</h3><p>Yes. Use markdown-style formatting in your text (# for heading, ## for subheading, - for bullet points) and the AI will apply professional styling in the output PDF.</p></div>
-  <div class="faq-item"><h3>Is there a word limit for text-to-PDF conversion?</h3><p>Free users can convert up to 2,000 words per PDF. Pro users ($9/month) can generate unlimited-length PDFs.</p></div>
+  <div class="faq-item"><h3>Is there a word limit for text-to-PDF conversion?</h3><p>Free users can convert up to 2,000 words per PDF. Pro users ($2/month) can generate unlimited-length PDFs.</p></div>
 </div>
 @endsection

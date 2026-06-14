@@ -111,7 +111,7 @@
                         <td>Pro price</td>
                         <td>$7 / mo</td>
                         <td>$12 / mo</td>
-                        <td>$9 / mo</td>
+                        <td>$2 / mo</td>
                     </tr>
                 </tbody>
             </table>
@@ -294,7 +294,7 @@
                     </tr>
                     <tr>
                         <td><strong>PDFTash Pro</strong></td>
-                        <td>$9 / mo</td>
+                        <td>$2 / mo</td>
                         <td>Unlimited tasks, 200 MB file size, unlimited AI translate / chat / summarize / generate. Full tool suite.</td>
                     </tr>
                     <tr>
@@ -371,7 +371,7 @@
             </li>
             <li>
                 <strong>If you have very large files (50 MB+) on a regular basis:</strong> All three tools require
-                a paid plan for this. PDFTash at $9/mo gives you the most for the money, including unlimited AI.
+                a paid plan for this. PDFTash at $2/mo gives you the most for the money, including unlimited AI.
             </li>
         </ul>
 

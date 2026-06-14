@@ -248,7 +248,7 @@
   </div>
   <div class="faq-item">
     <h3>Can I split a large PDF file that is over 10MB?</h3>
-    <p>Free users are limited to 10MB per upload. For larger files, you have two options: (1) Compress the PDF first using our <a href="/compress-pdf" style="color:#5b5cff">Compress PDF</a> tool to bring it under 10MB, then split. (2) Upgrade to Pro for $9/month to upload files up to 200MB with no daily task limits.</p>
+    <p>Free users are limited to 10MB per upload. For larger files, you have two options: (1) Compress the PDF first using our <a href="/compress-pdf" style="color:#5b5cff">Compress PDF</a> tool to bring it under 10MB, then split. (2) Upgrade to Pro for $2/month to upload files up to 200MB with no daily task limits.</p>
   </div>
 </div>
 

@@ -26,7 +26,7 @@
     {"@type":"Question","name":"What is the best free alternative to Smallpdf?","acceptedAnswer":{"@type":"Answer","text":"PDFTash is the best free Smallpdf alternative in 2026. It offers all the same core tools — compress, merge, split, translate PDF — with no daily limits (Smallpdf restricts free users to 2 tasks/hour), no signup required, and additional AI features like chat with PDF and AI form fill."}},
     {"@type":"Question","name":"Why do people look for Smallpdf alternatives?","acceptedAnswer":{"@type":"Answer","text":"Smallpdf's free tier is heavily restricted: only 2 tasks per hour, requires signup, and many features are paywalled. Users switch to PDFTash because it's completely free with no task limits and no signup needed."}},
     {"@type":"Question","name":"Does PDFTash have the same tools as Smallpdf?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash covers compress PDF, merge PDF, split PDF, translate PDF, sign PDF, and more. PDFTash also adds AI-specific tools Smallpdf doesn't offer: chat with PDF, AI PDF generator, AI form fill, and watermark remover."}},
-    {"@type":"Question","name":"Is PDFTash really free or does it have hidden costs?","acceptedAnswer":{"@type":"Answer","text":"The core tools (compress, merge, split, sign, translate) are completely free with no usage limits. AI tools (chat with PDF, AI PDF generator) are free for 1 use per day; Pro users ($9/month) get unlimited AI usage."}},
+    {"@type":"Question","name":"Is PDFTash really free or does it have hidden costs?","acceptedAnswer":{"@type":"Answer","text":"The core tools (compress, merge, split, sign, translate) are completely free with no usage limits. AI tools (chat with PDF, AI PDF generator) are free for 1 use per day; Pro users ($2/month) get unlimited AI usage."}},
     {"@type":"Question","name":"Can I use PDFTash without creating an account?","acceptedAnswer":{"@type":"Answer","text":"Yes. All tools work without any account or signup. Pro features require an account but the core toolkit is always free and anonymous."}}
   ]
 }
@@ -57,7 +57,7 @@
     @foreach([
       ['⏱️','2 tasks per hour limit on free tier','Smallpdf restricts free users to just 2 tasks every 60 minutes. If you need to compress 5 files, you wait 2+ hours.'],
       ['📧','Signup required','Smallpdf now requires email signup even for basic use — and pushes hard to convert you to paid.'],
-      ['💳','Most tools paywalled at $9/month','PDF to Word, OCR, eSign, and batch processing are Pro-only features on Smallpdf. PDFTash offers these free.'],
+      ['💳','Most tools paywalled at $2/month','PDF to Word, OCR, eSign, and batch processing are Pro-only features on Smallpdf. PDFTash offers these free.'],
       ['🐌','Slow upload speeds','Smallpdf\'s free tier gets deprioritized server resources, making uploads slower than paid accounts.'],
       ['📢','Aggressive upselling','Every free task is followed by pricing prompts and "upgrade" pop-ups, interrupting workflow.'],
     ] as $p)
@@ -81,7 +81,7 @@
         <tr style="background:#0f0f1a;">
           <th style="padding:14px 16px;text-align:left;color:#8888a8;border-bottom:1px solid rgba(255,255,255,.1);min-width:200px;">Feature</th>
           <th style="padding:14px 16px;text-align:center;color:#9898ff;font-weight:800;border-bottom:1px solid rgba(255,255,255,.1);">PDFTash ✓<br><span style="font-size:11px;font-weight:400;color:#5b5cff">Always Free</span></th>
-          <th style="padding:14px 16px;text-align:center;color:#8888a8;border-bottom:1px solid rgba(255,255,255,.1);">Smallpdf<br><span style="font-size:11px;color:#ff6b6b">$9/mo for full access</span></th>
+          <th style="padding:14px 16px;text-align:center;color:#8888a8;border-bottom:1px solid rgba(255,255,255,.1);">Smallpdf<br><span style="font-size:11px;color:#ff6b6b">$2/mo for full access</span></th>
         </tr>
       </thead>
       <tbody>
@@ -100,7 +100,7 @@
           ['No Signup Required','✅ Always','❌ Required now'],
           ['No Daily Limit','✅ Unlimited','❌ 2 tasks/hour free'],
           ['No Watermark on Output','✅ Never','✅ Never'],
-          ['Price','✅ Free forever','$9/month Pro'],
+          ['Price','✅ Free forever','$2/month Pro'],
         ] as $row)
         <tr style="border-bottom:1px solid rgba(255,255,255,.04);">
           <td style="padding:11px 16px;color:#eeeef8;">{{ $row[0] }}</td>
@@ -149,7 +149,7 @@
       ['"Switched from Smallpdf after they limited me to 2 tasks per hour. PDFTash has no limits and even has AI translation!"','★★★★★','Arif H.','Student, Bangladesh'],
       ['"Finally a PDF tool that doesn\'t beg me to upgrade every 5 seconds. Works perfectly."','★★★★★','Priya M.','HR Manager, India'],
       ['"The AI form fill and PDF translation are incredible features — I haven\'t seen these anywhere else for free."','★★★★★','Daniel K.','Freelancer, UK'],
-      ['"Compressed a 15MB presentation to 2MB in seconds. Smallpdf wanted $9/month for the same thing."','★★★★☆','Sohel R.','Small Business Owner'],
+      ['"Compressed a 15MB presentation to 2MB in seconds. Smallpdf wanted $2/month for the same thing."','★★★★☆','Sohel R.','Small Business Owner'],
     ] as $t)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;">
       <div style="color:#eeeef8;font-size:13px;line-height:1.6;margin-bottom:12px;font-style:italic;">{{ $t[0] }}</div>
@@ -169,7 +169,7 @@
   </div>
   <div class="faq-item">
     <h3>Is PDFTash completely free or is there a catch?</h3>
-    <p>Core tools (compress, merge, split, sign, translate) are 100% free with no usage limits. AI tools (chat with PDF, AI PDF generator) are free for 1 use per day. Pro plan ($9/month) unlocks unlimited AI usage. There are no hidden fees on the free tier.</p>
+    <p>Core tools (compress, merge, split, sign, translate) are 100% free with no usage limits. AI tools (chat with PDF, AI PDF generator) are free for 1 use per day. Pro plan ($2/month) unlocks unlimited AI usage. There are no hidden fees on the free tier.</p>
   </div>
   <div class="faq-item">
     <h3>Does PDFTash work on mobile like Smallpdf?</h3>

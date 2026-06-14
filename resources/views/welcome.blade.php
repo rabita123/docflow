@@ -100,11 +100,11 @@
     {
       "@type": "Offer",
       "name": "Pro Plan",
-      "price": "9",
+      "price": "2",
       "priceCurrency": "USD",
       "priceSpecification": {
         "@type": "UnitPriceSpecification",
-        "price": "9",
+        "price": "2",
         "priceCurrency": "USD",
         "unitCode": "MON"
       },
@@ -129,7 +129,7 @@
       "name": "Is PDFTash free to use?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. PDFTash is free to use with no signup needed. Free users get 3 PDF tool tasks and 1 AI task per day. Pro users get unlimited access for $9/month."
+        "text": "Yes. PDFTash is free to use with no signup needed. Free users get 3 PDF tool tasks and 1 AI task per day. Pro users get unlimited access for $2/month."
       }
     },
     {
@@ -674,7 +674,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     </div>
     <div class="price-card feat">
       <div class="pname">Pro</div>
-      <div class="pamount">$9<sub>/mo</sub></div>
+      <div class="pamount">$2<sub>/mo</sub></div>
       <div class="pdesc">For power users</div>
       <hr class="phr">
       <ul class="pfeats">
@@ -696,7 +696,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
         <tr style="border-bottom:1px solid var(--border2);">
           <th style="text-align:left;padding:12px 16px;color:var(--text2);font-weight:600;">Feature</th>
           <th style="text-align:center;padding:12px 16px;color:var(--text2);font-weight:600;">Free</th>
-          <th style="text-align:center;padding:12px 16px;color:var(--accent);font-weight:700;">Pro $9/mo</th>
+          <th style="text-align:center;padding:12px 16px;color:var(--accent);font-weight:700;">Pro $2/mo</th>
         </tr>
       </thead>
       <tbody>
@@ -1638,7 +1638,7 @@ function showToast(msg, icon='✅'){
         <div>✅ PDF Translation (12 languages)</div>
         <div>✅ 2GB document storage</div>
       </div>
-      <div style="margin-top:16px;font-size:32px;font-weight:700;color:var(--text)">$9<span style="font-size:14px;font-weight:400;color:var(--text2)">/month</span></div>
+      <div style="margin-top:16px;font-size:32px;font-weight:700;color:var(--text)">$2<span style="font-size:14px;font-weight:400;color:var(--text2)">/month</span></div>
     </div>
     <button onclick="window.location.href='#pricing'" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:10px;">Upgrade to Pro →</button>
     <button onclick="closeUpgradeModal()" style="width:100%;padding:10px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:99px;font-size:13px;cursor:pointer;">Maybe later</button>

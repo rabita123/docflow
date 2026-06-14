@@ -28,7 +28,7 @@
     {"@type":"Question","name":"Can I extract specific pages from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Yes! Enter any combination of pages such as 1, 3, 5-10 and PDFTash will extract exactly those pages into a new PDF."}},
     {"@type":"Question","name":"What page range format does PDFTash support?","acceptedAnswer":{"@type":"Answer","text":"Use comma-separated values and ranges. For example: 1-3, 5, 7-9 will extract pages 1, 2, 3, 5, 7, 8, and 9."}},
     {"@type":"Question","name":"Is PDFTash better than Smallpdf for splitting PDFs?","acceptedAnswer":{"@type":"Answer","text":"PDFTash offers the same PDF splitting as Smallpdf and Sejda — completely free with no signup. Plus AI features like PDF translation and chat."}},
-    {"@type":"Question","name":"How many pages can I extract from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Free users can extract any number of pages from PDFs up to 10MB. Pro users ($9/month) can split PDFs up to 200MB."}}
+    {"@type":"Question","name":"How many pages can I extract from a PDF?","acceptedAnswer":{"@type":"Answer","text":"Free users can extract any number of pages from PDFs up to 10MB. Pro users ($2/month) can split PDFs up to 200MB."}}
   ]
 }
 </script>
@@ -149,7 +149,7 @@
   </div>
   <div class="faq-item">
     <h3>How many pages can I extract?</h3>
-    <p>Free users can extract any pages from PDFs up to 10MB. Pro users ($9/month) can split PDFs up to 200MB.</p>
+    <p>Free users can extract any pages from PDFs up to 10MB. Pro users ($2/month) can split PDFs up to 200MB.</p>
   </div>
 </div>
 

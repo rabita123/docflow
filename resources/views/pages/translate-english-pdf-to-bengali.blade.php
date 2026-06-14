@@ -11,7 +11,7 @@
 {"@type":"Question","name":"Does it support both Bangladesh Bengali and West Bengal Bengali?","acceptedAnswer":{"@type":"Answer","text":"Yes. The AI outputs standard Bengali (বাংলা) which is understood in both Bangladesh and West Bengal, India."}},
 {"@type":"Question","name":"Can I translate Bengali PDF back to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the Translate PDF tool and select English as the target language to convert Bengali PDFs to English."}},
 {"@type":"Question","name":"Is this useful for BUET, DU or HSC students?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash is widely used by Bangladeshi students to translate English textbooks, research papers, and lecture notes to Bengali for easier study."}},
-{"@type":"Question","name":"How many PDFs can I translate per day?","acceptedAnswer":{"@type":"Answer","text":"Free users get 1 translation per day. Pro users ($9/month) get unlimited Bengali translations and access to all 12+ languages."}}
+{"@type":"Question","name":"How many PDFs can I translate per day?","acceptedAnswer":{"@type":"Answer","text":"Free users get 1 translation per day. Pro users ($2/month) get unlimited Bengali translations and access to all 12+ languages."}}
 ]}]
 </script>
 @endsection

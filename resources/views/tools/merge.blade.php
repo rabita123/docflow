@@ -25,7 +25,7 @@
   "@type": "FAQPage",
   "mainEntity": [
     {"@type":"Question","name":"How to merge PDF files online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDFs to PDFTash, arrange them in your desired order, and click Merge PDF. Download the combined file instantly with no signup required."}},
-    {"@type":"Question","name":"How many PDF files can I merge at once?","acceptedAnswer":{"@type":"Answer","text":"Free users can merge multiple PDF files per session. Pro users ($9/month) get unlimited merging with larger file sizes up to 200MB."}},
+    {"@type":"Question","name":"How many PDF files can I merge at once?","acceptedAnswer":{"@type":"Answer","text":"Free users can merge multiple PDF files per session. Pro users ($2/month) get unlimited merging with larger file sizes up to 200MB."}},
     {"@type":"Question","name":"Will quality be affected when merging PDFs?","acceptedAnswer":{"@type":"Answer","text":"No. PDFTash merges PDF files without any quality loss. Your documents look exactly the same after merging."}},
     {"@type":"Question","name":"Is PDFTash better than ILovePDF for merging?","acceptedAnswer":{"@type":"Answer","text":"PDFTash offers the same PDF merging as ILovePDF and Smallpdf — completely free with no signup. Plus unique AI features like PDF translation and chat."}},
     {"@type":"Question","name":"Can I merge PDFs on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash works fully on mobile browsers. Upload and merge PDF files from your phone or tablet without installing any app."}}
@@ -132,7 +132,7 @@
   </div>
   <div class="faq-item">
     <h3>How many PDF files can I merge at once?</h3>
-    <p>You can merge multiple PDF files in one session. Pro users ($9/month) get unlimited merging with files up to 200MB.</p>
+    <p>You can merge multiple PDF files in one session. Pro users ($2/month) get unlimited merging with files up to 200MB.</p>
   </div>
   <div class="faq-item">
     <h3>Will merging affect PDF quality?</h3>

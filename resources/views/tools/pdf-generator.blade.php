@@ -326,7 +326,7 @@
   </div>
   <div class="faq-item">
     <h3>How many PDFs can I generate for free?</h3>
-    <p>Free users get 1 AI PDF generation per day. Pro users ($9/month) get unlimited generations.</p>
+    <p>Free users get 1 AI PDF generation per day. Pro users ($2/month) get unlimited generations.</p>
   </div>
 </div>
 

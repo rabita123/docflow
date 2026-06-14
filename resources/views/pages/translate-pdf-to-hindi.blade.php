@@ -53,7 +53,7 @@
   <div class="faq-item"><h3>How do I translate a PDF to Hindi online?</h3><p>Upload your PDF above, the AI translates to Hindi in 10–30 seconds, and you download the translation as TXT or PDF. No account needed.</p></div>
   <div class="faq-item"><h3>Is the Hindi output in Devanagari script?</h3><p>Yes. The AI outputs proper Devanagari script (not Roman transliteration). The downloadable PDF uses Google Noto Sans Devanagari font for perfect rendering on all devices.</p></div>
   <div class="faq-item"><h3>Can I translate UPSC study material to Hindi?</h3><p>Yes. PDFTash works for educational PDFs, government circulars, UPSC notes, and Hindi-medium study material. It preserves paragraph structure for easy reading.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day?</h3><p>Free users get 1 AI translation per day. Pro users ($9/month) get unlimited translations across all 12+ supported languages.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day?</h3><p>Free users get 1 AI translation per day. Pro users ($2/month) get unlimited translations across all 12+ supported languages.</p></div>
 </div>
 
 <script>

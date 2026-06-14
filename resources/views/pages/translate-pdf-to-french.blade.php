@@ -46,7 +46,7 @@
   <div class="faq-item"><h3>How do I translate a PDF to French online?</h3><p>Upload your PDF above, wait 10–30 seconds for AI processing, and download your French translation. No account or software needed.</p></div>
   <div class="faq-item"><h3>Does the translation include French accents correctly?</h3><p>Yes. Claude AI correctly applies French diacritics (é, è, ê, ç, à, ù, etc.) and proper punctuation conventions (guillemets « »).</p></div>
   <div class="faq-item"><h3>Can I translate Canadian French or Belgian French?</h3><p>The AI produces standard French (Français standard) which is universally understood. Localized dialect variants are not separately supported.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>Free users get 1 translation per day. Pro users ($9/month) get unlimited translations to all 12+ languages.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>Free users get 1 translation per day. Pro users ($2/month) get unlimited translations to all 12+ languages.</p></div>
 </div>
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';

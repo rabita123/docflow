@@ -58,6 +58,6 @@
   <h2>Frequently Asked Questions — Report PDF Generator</h2>
   <div class="faq-item"><h3>How do I generate a report PDF?</h3><p>Go to <a href="/ai-pdf-generator" style="color:#5b5cff">AI PDF Generator</a>, type your report details or paste raw data, and click Generate. The AI formats everything into a clean, professional PDF with cover page and structured sections.</p></div>
   <div class="faq-item"><h3>Can I paste a table of numbers to generate a financial report?</h3><p>Yes. Paste your data as a table or list and specify the report type (e.g., "Q3 financial summary"). The AI formats it with proper sections, totals, and a summary narrative.</p></div>
-  <div class="faq-item"><h3>Is there a length limit for generated reports?</h3><p>Free users can generate reports up to 2,000 words. Pro users ($9/month) can generate unlimited-length reports with no restrictions.</p></div>
+  <div class="faq-item"><h3>Is there a length limit for generated reports?</h3><p>Free users can generate reports up to 2,000 words. Pro users ($2/month) can generate unlimited-length reports with no restrictions.</p></div>
 </div>
 @endsection

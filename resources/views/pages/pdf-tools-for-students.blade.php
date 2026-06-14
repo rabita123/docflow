@@ -153,7 +153,7 @@
       </thead>
       <tbody>
         @foreach([
-          ['Price','Free','$9/mo+','$19.99/mo+'],
+          ['Price','Free','$2/mo+','$19.99/mo+'],
           ['No Account Required','✅','❌','❌'],
           ['Summarize Papers (AI)','✅','❌','❌'],
           ['Translate PDFs (AI)','✅','❌','❌'],

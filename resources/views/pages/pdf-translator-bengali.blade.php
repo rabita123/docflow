@@ -565,7 +565,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0f172a;min-height:100
                 ],
                 [
                     'What is the maximum PDF size I can translate?',
-                    'Free users can translate PDFs up to 10MB. Pro users ($9/month) can translate files up to 200MB with unlimited daily translations.'
+                    'Free users can translate PDFs up to 10MB. Pro users ($2/month) can translate files up to 200MB with unlimited daily translations.'
                 ],
             ] as $i => $faq)
             <div class="bn-faq{{ $i === 0 ? ' open' : '' }}">

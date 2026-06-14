@@ -44,7 +44,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item"><h3>Does the German translation use correct grammar?</h3><p>Yes. The AI produces grammatically correct German including proper case (Nominativ, Akkusativ, Dativ, Genitiv), umlauts (ä, ö, ü, ß), and formal register.</p></div>
   <div class="faq-item"><h3>Can I use this for business document translation?</h3><p>Yes. PDFTash works well for business reports, contracts, and correspondence. For certified translations (beglaubigte Übersetzung), a licensed translator is required.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($9/month) gives unlimited translations.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($2/month) gives unlimited translations.</p></div>
 </div>
 <script>
 const CSRF=document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')||'';let selectedFile=null;

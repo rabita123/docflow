@@ -87,7 +87,7 @@
       </thead>
       <tbody>
         @foreach([
-          ['Monthly Price','Free (Pro: $9/mo)','$19.99–$29.99/mo'],
+          ['Monthly Price','Free (Pro: $2/mo)','$19.99–$29.99/mo'],
           ['Desktop Install Required','❌ Browser-based','✅ 1.5GB install'],
           ['Account Required','❌ No account','✅ Adobe ID required'],
           ['Compress PDF','✅','✅'],

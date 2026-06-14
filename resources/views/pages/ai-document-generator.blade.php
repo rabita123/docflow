@@ -63,7 +63,7 @@
           ['Free Tier','✅ 1/day','⚠️ Limited credits','⚠️ Limited'],
           ['PDF Toolkit Included','✅','❌','❌'],
           ['AI Model','Claude AI','Unknown','GPT-4'],
-          ['Price (Full)','$9/month','$15/month','$20/month'],
+          ['Price (Full)','$2/month','$15/month','$20/month'],
         ] as $row)
         <tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:11px 16px;color:#eeeef8;">{{ $row[0] }}</td><td style="padding:11px 16px;text-align:center;color:#00e5a0;font-weight:600;">{{ $row[1] }}</td><td style="padding:11px 16px;text-align:center;color:#8888a8;">{{ $row[2] }}</td><td style="padding:11px 16px;text-align:center;color:#8888a8;">{{ $row[3] }}</td></tr>
         @endforeach

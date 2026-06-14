@@ -15,7 +15,7 @@
     {"@type":"Question","name":"Is an electronic signature on PDFTash legally valid?","acceptedAnswer":{"@type":"Answer","text":"Electronic signatures are legally recognized in most countries under laws like eIDAS (EU) and ESIGN Act (USA). PDFTash signatures are valid for most business documents."}},
     {"@type":"Question","name":"Can I sign a PDF on my phone?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash works fully on mobile. Sign PDFs from your phone or tablet by drawing your signature with your finger."}},
     {"@type":"Question","name":"Is PDFTash a good free DocuSign alternative?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash lets you sign PDFs for free without a subscription. For simple document signing, it works just as well as DocuSign or Adobe Sign at no cost."}},
-    {"@type":"Question","name":"What is the maximum PDF size for signing?","acceptedAnswer":{"@type":"Answer","text":"Free users can sign PDFs up to 10MB. Pro users ($9/month) can sign files up to 200MB."}}
+    {"@type":"Question","name":"What is the maximum PDF size for signing?","acceptedAnswer":{"@type":"Answer","text":"Free users can sign PDFs up to 10MB. Pro users ($2/month) can sign files up to 200MB."}}
   ]
 }
 </script>

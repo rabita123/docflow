@@ -46,7 +46,7 @@
   <div class="faq-item"><h3>How do I translate a PDF to Arabic online?</h3><p>Upload your PDF above, wait 10–30 seconds, and download the Arabic translation. Proper Arabic script with right-to-left formatting. No account needed.</p></div>
   <div class="faq-item"><h3>Does the output use correct Arabic script?</h3><p>Yes. The AI outputs Modern Standard Arabic (فصحى) in proper Arabic Unicode script, not transliteration. The PDF download uses Noto Sans Arabic font.</p></div>
   <div class="faq-item"><h3>Can I translate legal or business documents to Arabic?</h3><p>Yes. PDFTash works well for contracts, reports, and business documents. For certified legal translations, use a licensed translator.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day?</h3><p>Free users get 1 translation per day. Pro users ($9/month) get unlimited translations.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day?</h3><p>Free users get 1 translation per day. Pro users ($2/month) get unlimited translations.</p></div>
 </div>
 <script>
 const CSRF = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';

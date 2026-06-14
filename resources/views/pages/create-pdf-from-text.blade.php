@@ -56,7 +56,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item"><h3>What types of text can I turn into a PDF?</h3><p>Any text — meeting notes, research summaries, essays, blog posts, letters, reports, study notes, proposals. If you can write or paste it, we can make it into a professional PDF.</p></div>
   <div class="faq-item"><h3>Does the PDF include a cover page?</h3><p>Yes. The AI adds a professionally styled cover page with document title, date, and branding. The body pages have clean typography and proper paragraph spacing.</p></div>
-  <div class="faq-item"><h3>Is there a limit to how much text I can convert?</h3><p>Free users can convert up to 2,000 words per PDF. Pro users ($9/month) have no limit.</p></div>
+  <div class="faq-item"><h3>Is there a limit to how much text I can convert?</h3><p>Free users can convert up to 2,000 words per PDF. Pro users ($2/month) have no limit.</p></div>
   <div class="faq-item"><h3>Can I use markdown formatting in my text?</h3><p>Yes. Use # for main heading, ## for subheadings, - for bullet lists, and **bold** for emphasis. The AI applies proper formatting styles in the output PDF.</p></div>
 </div>
 @endsection

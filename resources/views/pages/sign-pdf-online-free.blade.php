@@ -136,7 +136,7 @@
       </thead>
       <tbody>
         @foreach([
-          ['Price','Free','$10/mo+','$9/mo+'],
+          ['Price','Free','$10/mo+','$2/mo+'],
           ['No Account Required','✅','❌','❌'],
           ['No Watermark','✅','✅','✅'],
           ['Unlimited Free Signs','✅','❌ 3 only','❌ Limited'],

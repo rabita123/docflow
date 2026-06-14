@@ -134,7 +134,7 @@
       </thead>
       <tbody>
         @foreach([
-          ['Price','Free','$19.99/mo+','$9/mo+'],
+          ['Price','Free','$19.99/mo+','$2/mo+'],
           ['AI Worksheet Generator','✅','❌','❌'],
           ['Translate Materials (AI)','✅','❌','❌'],
           ['Merge PDF','✅','✅','✅'],

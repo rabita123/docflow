@@ -44,7 +44,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item"><h3>Does PDFTash support Simplified and Traditional Chinese?</h3><p>Yes. The AI defaults to Simplified Chinese (简体字). You can also specify Traditional Chinese (繁體字) in the translate tool's language selector.</p></div>
   <div class="faq-item"><h3>How do I translate a Chinese PDF to English?</h3><p>Use our <a href="/translate-pdf" style="color:#5b5cff">Translate PDF</a> tool, select English as the target, and upload your Chinese PDF.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($9/month) gives unlimited translations.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($2/month) gives unlimited translations.</p></div>
 </div>
 <script>
 const CSRF=document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')||'';let selectedFile=null;

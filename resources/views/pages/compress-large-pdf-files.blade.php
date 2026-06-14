@@ -7,7 +7,7 @@
 <script type="application/ld+json">
 [{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — Compress Large PDF Files","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free online tool to compress large PDF files with no size limit. Reduce 50MB, 100MB, and 200MB PDFs quickly without losing quality.","url":"https://pdftash.com/compress-large-pdf-files","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"2054"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Is there a file size limit for PDF compression?","acceptedAnswer":{"@type":"Answer","text":"Free users can upload PDFs up to 10MB. Pro users ($9/month) can upload up to 200MB with no daily limits. Very large PDFs may take 30-60 seconds to compress."}},
+{"@type":"Question","name":"Is there a file size limit for PDF compression?","acceptedAnswer":{"@type":"Answer","text":"Free users can upload PDFs up to 10MB. Pro users ($2/month) can upload up to 200MB with no daily limits. Very large PDFs may take 30-60 seconds to compress."}},
 {"@type":"Question","name":"Can I compress a 100MB PDF online?","acceptedAnswer":{"@type":"Answer","text":"Yes with a Pro account. Large PDFs (50MB+) often compress to 5-15MB — a 70-90% reduction — especially if they are scanned documents or contain many embedded images."}},
 {"@type":"Question","name":"Why is my PDF so large?","acceptedAnswer":{"@type":"Answer","text":"Large PDFs typically contain many high-resolution images, embedded fonts, scanned pages, or duplicate embedded data. PDFTash addresses all of these in one compression pass."}},
 {"@type":"Question","name":"How long does compressing a large PDF take?","acceptedAnswer":{"@type":"Answer","text":"Depends on size and content. A 10MB PDF takes 5-10 seconds. A 100MB scanned PDF may take 30-60 seconds. A progress indicator shows while processing."}}
@@ -62,7 +62,7 @@
 
 <div class="faq">
   <h2>Frequently Asked Questions — Large PDF Compression</h2>
-  <div class="faq-item"><h3>Can I compress a 100MB PDF for free?</h3><p>Free users can upload up to 10MB. For 100MB PDFs, upgrade to Pro ($9/month) which supports files up to 200MB. Pro users also get priority processing which is faster for large files.</p></div>
+  <div class="faq-item"><h3>Can I compress a 100MB PDF for free?</h3><p>Free users can upload up to 10MB. For 100MB PDFs, upgrade to Pro ($2/month) which supports files up to 200MB. Pro users also get priority processing which is faster for large files.</p></div>
   <div class="faq-item"><h3>How much will my large PDF shrink?</h3><p>Scanned PDFs typically shrink 70–90%. Image-heavy presentations shrink 50–70%. Text-only reports shrink 20–40%. The result depends heavily on what's embedded in your specific PDF.</p></div>
   <div class="faq-item"><h3>How long does compressing a large PDF take?</h3><p>A 5MB PDF compresses in 5–10 seconds. A 50MB scanned document may take 30–60 seconds. Progress is shown during processing. Very large files (100MB+) can take 1–2 minutes.</p></div>
   <div class="faq-item"><h3>Should I split my large PDF before compressing?</h3><p>Splitting first can speed up compression for very large files. Use our <a href="/split-pdf" style="color:#5b5cff">Split PDF</a> tool to break it into sections, compress each, then <a href="/merge-pdf" style="color:#5b5cff">merge</a> back together.</p></div>

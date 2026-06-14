@@ -28,7 +28,7 @@
     {"@type":"Question","name":"How to compress a PDF file online for free?","acceptedAnswer":{"@type":"Answer","text":"Upload your PDF to PDFTash, the tool automatically compresses it and you download the smaller file instantly. No signup required."}},
     {"@type":"Question","name":"Will compressing a PDF reduce quality?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses smart compression that reduces file size while maintaining the best possible visual quality. Most PDFs look identical after compression."}},
     {"@type":"Question","name":"How much can PDFTash compress a PDF?","acceptedAnswer":{"@type":"Answer","text":"Depending on the PDF content, PDFTash can reduce file size by 20% to 90%. PDFs with many images compress the most."}},
-    {"@type":"Question","name":"What is the maximum PDF size for free compression?","acceptedAnswer":{"@type":"Answer","text":"Free users can compress PDFs up to 10MB. Pro users ($9/month) can compress files up to 200MB."}},
+    {"@type":"Question","name":"What is the maximum PDF size for free compression?","acceptedAnswer":{"@type":"Answer","text":"Free users can compress PDFs up to 10MB. Pro users ($2/month) can compress files up to 200MB."}},
     {"@type":"Question","name":"Is PDFTash a good free alternative to Smallpdf?","acceptedAnswer":{"@type":"Answer","text":"Yes! PDFTash offers the same compression quality as Smallpdf and Sejda — completely free with no signup needed. Plus AI features."}}
   ]
 }
@@ -152,7 +152,7 @@
   </div>
   <div class="faq-item">
     <h3>What is the maximum file size I can compress for free?</h3>
-    <p>Free users can compress PDFs up to 10MB. Pro users ($9/month) can compress files up to 200MB with unlimited daily compressions.</p>
+    <p>Free users can compress PDFs up to 10MB. Pro users ($2/month) can compress files up to 200MB with unlimited daily compressions.</p>
   </div>
   <div class="faq-item">
     <h3>Is PDFTash safe? Where do my files go?</h3>

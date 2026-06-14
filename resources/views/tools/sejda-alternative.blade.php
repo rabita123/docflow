@@ -32,7 +32,7 @@
       "name": "Does PDFTash have a daily limit like Sejda?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Basic PDF tools (compress, merge, split, rotate, watermark, page numbers, protect, unlock) have generous free limits. AI-powered features (chat, translate, summarize) have a daily free limit. Pro users at $9/month get unlimited access to all tools."
+        "text": "Basic PDF tools (compress, merge, split, rotate, watermark, page numbers, protect, unlock) have generous free limits. AI-powered features (chat, translate, summarize) have a daily free limit. Pro users at $2/month get unlimited access to all tools."
       }
     },
     {
@@ -72,7 +72,7 @@
       "name": "Is PDFTash completely free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. All basic PDF tools are free with no account required. For unlimited AI features and higher file size limits, PDFTash Pro is $9/month — cheaper than many alternatives."
+        "text": "Yes. All basic PDF tools are free with no account required. For unlimited AI features and higher file size limits, PDFTash Pro is $2/month — cheaper than many alternatives."
       }
     },
     {
@@ -157,7 +157,7 @@
       ['20+','PDF Tools'],
       ['12+','Languages'],
       ['0','Signup needed'],
-      ['$9/mo','Pro plan'],
+      ['$2/mo','Pro plan'],
     ] as $s)
     <div>
       <div style="font-size:26px;font-weight:800;color:#5b5cff;">{{ $s[0] }}</div>
@@ -238,7 +238,7 @@
       ['📄 Images to PDF',         '✅ Free',                  '✅ Free (limited)'],
       ['📱 Mobile friendly',       '✅ Fully responsive',      '⚠️ Partial'],
       ['📁 File size (free)',      '✅ Up to 10MB',            '⚠️ 50MB but 3/day cap'],
-      ['💎 Pro price',             '✅ $9/month',              '⚠️ $7.50/mo (limited)'],
+      ['💎 Pro price',             '✅ $2/month',              '⚠️ $7.50/mo (limited)'],
       ['♾️ Unlimited Pro',         '✅ Truly unlimited',       '⚠️ Still has limits'],
     ];
     @endphp
@@ -274,7 +274,7 @@
       ['🆓','No Frustrating Daily Caps','Sejda\'s free plan cuts you off after 3 tasks per day. PDFTash has no daily limit on core tools like compress, merge, split, rotate, watermark and page numbers. Use as much as you need.'],
       ['🌐','Bengali, Hindi & Arabic Support','PDFTash is the only PDF tool with AI translation to Bengali (বাংলা), Hindi (हिंदी) and Arabic (العربية). Perfect for students, professionals and businesses in South Asia and the Middle East.'],
       ['⚡','Faster & Modern Technology','Built on modern cloud infrastructure, PDFTash processes PDFs quickly with a clean, mobile-friendly interface. No ads, no popups, no upsell traps — just clean tools that work.'],
-      ['💰','Better Value for Pro Users','PDFTash Pro at $9/month gives truly unlimited access to all 20+ tools including all AI features. No hidden restrictions or per-task fees.'],
+      ['💰','Better Value for Pro Users','PDFTash Pro at $2/month gives truly unlimited access to all 20+ tools including all AI features. No hidden restrictions or per-task fees.'],
     ] as $i => $r)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px 24px;display:flex;gap:16px;align-items:flex-start;">
       <div style="width:40px;height:40px;background:rgba(91,92,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">{{ $r[0] }}</div>
@@ -298,7 +298,7 @@
       <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#5b5cff;color:#fff;padding:4px 14px;border-radius:99px;font-size:11px;font-weight:700;white-space:nowrap;">RECOMMENDED</div>
       <div style="font-size:20px;font-weight:800;color:#eeeef8;margin-bottom:4px;">PDFTash</div>
       <div style="font-size:32px;font-weight:800;color:#5b5cff;margin-bottom:4px;">$0 <span style="font-size:14px;color:#8888a8;font-weight:400;">free plan</span></div>
-      <div style="font-size:13px;color:#5b5cff;margin-bottom:20px;">Pro: $9/month — truly unlimited</div>
+      <div style="font-size:13px;color:#5b5cff;margin-bottom:20px;">Pro: $2/month — truly unlimited</div>
       @foreach(['20+ PDF tools free','No daily task limit on basics','AI Chat, Translate & Summarize','12+ language translation','AI PDF Generator','eSign PDF free','Mobile friendly','No signup needed'] as $f)
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:#ccc;">
         <span style="color:#00e5a0;font-size:15px;">✓</span> {{ $f }}
@@ -401,7 +401,7 @@
       ['"Sejda kicked me out after 3 files. PDFTash has no such limit. Switched and never went back."','Dhruv M.','Student, India'],
       ['"Finally a PDF tool that translates to Bengali! Been waiting for this. Works perfectly."','Riana K.','Teacher, Bangladesh'],
       ['"The AI chat feature is incredible. I can ask questions about my PDF and get instant answers. Sejda can\'t do this."','Omar A.','Lawyer, Egypt'],
-      ['"PDFTash Pro is $9/month vs $7.50 for Sejda, but PDFTash gives me AI tools. Much better value."','Yui T.','Designer, Japan'],
+      ['"PDFTash Pro is $2/month vs $7.50 for Sejda, but PDFTash gives me AI tools. Much better value."','Yui T.','Designer, Japan'],
     ] as $t)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;">
       <div style="color:#8888a8;font-size:24px;line-height:1;margin-bottom:8px;">"</div>
@@ -434,7 +434,7 @@
 
   <div class="faq-item">
     <h3>Does PDFTash have any daily limits?</h3>
-    <p>Basic PDF tools (compress, merge, split, rotate, watermark, page numbers, protect, unlock) have generous free limits. AI-powered features (chat, translate, summarize, AI PDF generator) have a daily free limit. Pro users at $9/month get unlimited access to everything.</p>
+    <p>Basic PDF tools (compress, merge, split, rotate, watermark, page numbers, protect, unlock) have generous free limits. AI-powered features (chat, translate, summarize, AI PDF generator) have a daily free limit. Pro users at $2/month get unlimited access to everything.</p>
   </div>
 
   <div class="faq-item">
@@ -464,7 +464,7 @@
 
   <div class="faq-item">
     <h3>Is the PDFTash Pro plan worth it?</h3>
-    <p>PDFTash Pro at $9/month gives truly unlimited access to all 20+ tools including all AI features — no daily caps, no restrictions. If you regularly work with PDFs, especially with AI features, it's excellent value compared to Sejda's $7.50/month plan which still has significant limitations.</p>
+    <p>PDFTash Pro at $2/month gives truly unlimited access to all 20+ tools including all AI features — no daily caps, no restrictions. If you regularly work with PDFs, especially with AI features, it's excellent value compared to Sejda's $7.50/month plan which still has significant limitations.</p>
   </div>
 </div>
 

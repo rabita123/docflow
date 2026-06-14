@@ -27,7 +27,7 @@
     {"@type":"Question","name":"Is my personal data safe when using AI Form Filler?","acceptedAnswer":{"@type":"Answer","text":"Yes. Your data is used only to fill the form and is never stored after processing. All files are automatically deleted from our servers within 2 hours."}},
     {"@type":"Question","name":"Can I edit the fields after AI fills them?","acceptedAnswer":{"@type":"Answer","text":"Yes. After the AI fills the form, you can review and manually adjust any field before downloading the final PDF. The AI provides a starting point — you have full control."}},
     {"@type":"Question","name":"Does AI Form Filler work on scanned PDF forms?","acceptedAnswer":{"@type":"Answer","text":"For scanned PDFs (image-only), the AI uses OCR to detect form areas. Results are best on digitally created forms with actual form fields. Scanned forms may require additional manual adjustment."}},
-    {"@type":"Question","name":"Is the AI form filler free?","acceptedAnswer":{"@type":"Answer","text":"Free users can fill 1 form per day with no signup required. Pro users ($9/month) get unlimited form fills and priority processing."}}
+    {"@type":"Question","name":"Is the AI form filler free?","acceptedAnswer":{"@type":"Answer","text":"Free users can fill 1 form per day with no signup required. Pro users ($2/month) get unlimited form fills and priority processing."}}
   ]
 }
 ]

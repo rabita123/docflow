@@ -112,11 +112,11 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 
     @auth
     <a href="/#pricing" style="display:block;padding:15px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border-radius:12px;text-decoration:none;font-size:16px;font-weight:800;margin-bottom:12px;box-shadow:0 4px 20px rgba(91,92,255,.4);">
-      Upgrade to Pro — $9/month →
+      Upgrade to Pro — $2/month →
     </a>
     @else
     <button onclick="closeProModal();showAuthModal()" style="display:block;width:100%;padding:15px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:800;margin-bottom:12px;box-shadow:0 4px 20px rgba(91,92,255,.4);cursor:pointer;">
-      Sign in to Upgrade — $9/month →
+      Sign in to Upgrade — $2/month →
     </button>
     @endauth
     <button onclick="closeProModal()" style="background:transparent;color:#44445a;border:none;font-size:13px;cursor:pointer;padding:4px;">

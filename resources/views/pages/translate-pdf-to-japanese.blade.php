@@ -44,7 +44,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item"><h3>Does the Japanese translation use proper kanji?</h3><p>Yes. Claude AI outputs natural Japanese using the correct mixture of kanji (漢字), hiragana (ひらがな), and katakana (カタカナ) depending on the content and register.</p></div>
   <div class="faq-item"><h3>Can I translate academic papers to Japanese?</h3><p>Yes. PDFTash works well for research papers, business documents, and technical manuals. Academic Japanese (論文体) is used for formal content.</p></div>
-  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($9/month) gives unlimited translations.</p></div>
+  <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($2/month) gives unlimited translations.</p></div>
 </div>
 <script>
 const CSRF=document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')||'';let selectedFile=null;

@@ -59,7 +59,7 @@
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
     @foreach([
       ['🆓','Free Plan','Up to 10MB per file','Unlimited merges per day','No signup required','Perfect for most documents'],
-      ['⭐','Pro Plan — $9/mo','Up to 200MB per file','Unlimited merges per day','Priority processing','Best for large reports & books'],
+      ['⭐','Pro Plan — $2/mo','Up to 200MB per file','Unlimited merges per day','Priority processing','Best for large reports & books'],
     ] as $tier)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px;">
       <div style="font-size:28px;margin-bottom:10px;">{{ $tier[0] }}</div>
@@ -109,7 +109,7 @@
       ['🔒','Secure Upload','All file transfers are encrypted with HTTPS. Files are stored in isolated environments and deleted after 2 hours.'],
       ['📱','Works on Any Device','The merge tool runs in any browser — Chrome, Safari, Firefox, Edge — on desktop, tablet, or mobile. No app download needed.'],
       ['🔀','Drag to Reorder','Set the exact order of your merged document by dragging file cards before merging. Works with 2 to 50+ files.'],
-      ['⭐','Pro for 200MB+','Need to merge files over 10MB? Upgrade to Pro for $9/month and get up to 200MB per file with priority processing.'],
+      ['⭐','Pro for 200MB+','Need to merge files over 10MB? Upgrade to Pro for $2/month and get up to 200MB per file with priority processing.'],
     ] as $f)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;">
       <div style="font-size:26px;margin-bottom:8px;">{{ $f[0] }}</div>
@@ -178,11 +178,11 @@
   <h2>Frequently Asked Questions — Merge Large PDF Files</h2>
   <div class="faq-item">
     <h3>What is the maximum file size I can upload to merge?</h3>
-    <p>Free users can upload individual PDF files up to 10MB each. Pro users ($9/month) can upload up to 200MB per file. Both plans allow unlimited merges per day with no hourly rate limits.</p>
+    <p>Free users can upload individual PDF files up to 10MB each. Pro users ($2/month) can upload up to 200MB per file. Both plans allow unlimited merges per day with no hourly rate limits.</p>
   </div>
   <div class="faq-item">
     <h3>How do I merge a 100MB PDF file online free?</h3>
-    <p>If your file is over 10MB, you have two options: (1) Compress the large PDF first using our <a href="/compress-pdf" style="color:#5b5cff">Compress PDF</a> tool to bring it under 10MB, then merge. (2) Upgrade to Pro for $9/month which supports files up to 200MB.</p>
+    <p>If your file is over 10MB, you have two options: (1) Compress the large PDF first using our <a href="/compress-pdf" style="color:#5b5cff">Compress PDF</a> tool to bring it under 10MB, then merge. (2) Upgrade to Pro for $2/month which supports files up to 200MB.</p>
   </div>
   <div class="faq-item">
     <h3>Does merging large PDFs reduce their quality?</h3>

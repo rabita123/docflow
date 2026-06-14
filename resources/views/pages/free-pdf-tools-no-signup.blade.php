@@ -145,7 +145,7 @@
           ['AI Chat with PDF','✅','❌','❌'],
           ['AI Translate PDF','✅','❌','⚠️ Basic'],
           ['AI Form Fill','✅','❌','❌'],
-          ['Price','Free','$9/mo','$4/mo'],
+          ['Price','Free','$2/mo','$4/mo'],
         ] as $row)
         <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
           <td style="padding:11px 16px;color:#eeeef8;">{{ $row[0] }}</td>
@@ -167,7 +167,7 @@
   </div>
   <div class="faq-item">
     <h3>Is there a catch? Why is PDFTash free?</h3>
-    <p>PDFTash is free because it's sustained by a Pro plan ($9/month) for power users who need unlimited AI features. The core toolkit will always be free — this isn't a bait-and-switch. We don't limit free users on core tools the way Smallpdf and iLovePDF do.</p>
+    <p>PDFTash is free because it's sustained by a Pro plan ($2/month) for power users who need unlimited AI features. The core toolkit will always be free — this isn't a bait-and-switch. We don't limit free users on core tools the way Smallpdf and iLovePDF do.</p>
   </div>
   <div class="faq-item">
     <h3>Are my files safe if I don't have an account?</h3>

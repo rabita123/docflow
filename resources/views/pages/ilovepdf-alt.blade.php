@@ -145,7 +145,7 @@
   </div>
   <div class="faq-item">
     <h3>Is PDFTash completely free or will it start charging?</h3>
-    <p>Core tools (compress, merge, split, sign, translate) will always be free. AI features have a generous free tier (1 use/day). The Pro plan ($9/month) unlocks unlimited AI usage. We don't plan to paywall the basic tools.</p>
+    <p>Core tools (compress, merge, split, sign, translate) will always be free. AI features have a generous free tier (1 use/day). The Pro plan ($2/month) unlocks unlimited AI usage. We don't plan to paywall the basic tools.</p>
   </div>
   <div class="faq-item">
     <h3>Does PDFTash ever add watermarks?</h3>
@@ -153,7 +153,7 @@
   </div>
   <div class="faq-item">
     <h3>How does PDFTash make money if it's free?</h3>
-    <p>PDFTash monetizes through the Pro plan ($9/month) which gives unlimited AI usage. The core PDF tools (compress, merge, split) will always remain free — they're the foundation that brings users to the platform.</p>
+    <p>PDFTash monetizes through the Pro plan ($2/month) which gives unlimited AI usage. The core PDF tools (compress, merge, split) will always remain free — they're the foundation that brings users to the platform.</p>
   </div>
 </div>
 @endsection
