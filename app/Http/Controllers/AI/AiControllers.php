@@ -5,7 +5,7 @@ namespace App\Http\Controllers\AI;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Anthropic\Laravel\Facades\Anthropic;
+use Anthropic\Client as AnthropicClient;
 
 /**
  * Base AI Controller
@@ -109,7 +109,8 @@ abstract class BaseAIController extends Controller
         ];
         if ($system) $params['system'] = $system;
 
-        $response = Anthropic::messages()->create($params);
+        $client   = new AnthropicClient(env('ANTHROPIC_API_KEY'));
+        $response = $client->messages->create($params);
         return $response->content[0]->text ?? '';
     }
 }
@@ -228,7 +229,8 @@ DOCUMENT CONTENT:
         $history[] = ['role' => 'user', 'content' => $question];
 
         try {
-            $response = \Anthropic\Laravel\Facades\Anthropic::messages()->create([
+            $client   = new AnthropicClient(env('ANTHROPIC_API_KEY'));
+            $response = $client->messages->create([
                 'model'      => $this->model,
                 'max_tokens' => 600,
                 'system'     => $system,

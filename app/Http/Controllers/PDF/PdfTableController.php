@@ -4,7 +4,7 @@ namespace App\Http\Controllers\PDF;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Anthropic\Laravel\Facades\Anthropic;
+use Anthropic\Client as AnthropicClient;
 
 class PdfTableController extends BasePdfController
 {
@@ -124,7 +124,8 @@ class PdfTableController extends BasePdfController
         ];
 
         try {
-            $response = Anthropic::messages()->create([
+            $client   = new AnthropicClient(env('ANTHROPIC_API_KEY'));
+            $response = $client->messages->create([
                 'model'      => $this->model,
                 'max_tokens' => 4000,
                 'messages'   => [['role' => 'user', 'content' => $imageContents]],
@@ -171,7 +172,8 @@ PDF TEXT:
 PROMPT;
 
         try {
-            $response = Anthropic::messages()->create([
+            $client   = new AnthropicClient(env('ANTHROPIC_API_KEY'));
+            $response = $client->messages->create([
                 'model'      => $this->model,
                 'max_tokens' => 4000,
                 'messages'   => [['role' => 'user', 'content' => $prompt]],
