@@ -131,6 +131,7 @@ Route::get('/ai-form-fill',       fn() => view('tools.ai-form-fill'))->name('too
 Route::get('/watermark-remover',  fn() => view('tools.watermark-remover'))->name('tool.watermark-remover');
 Route::get('/ocr-pdf',            fn() => view('tools.ocr'))->name('tool.ocr');
 Route::get('/redact-pdf',         fn() => view('tools.redact'))->name('tool.redact');
+Route::get('/pdf-to-csv',         fn() => view('tools.pdf-table'))->name('tool.pdf-table');
 
 Route::get('/sejda-alternative', fn() => view('tools.sejda-alternative'))->name('tool.sejda');
 
@@ -249,6 +250,7 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/watermark-remover',        'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-pdf',                   'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/redact-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-csv',                'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-pdf-online-free',      'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-scanned-pdf-to-text',  'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/extract-text-from-pdf',    'priority' => '0.9', 'changefreq' => 'weekly'],

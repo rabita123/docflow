@@ -25,6 +25,7 @@ use App\Http\Controllers\PDF\PdfTextEditorController;
 use App\Http\Controllers\PDF\SignController;
 use App\Http\Controllers\PDF\OcrController;
 use App\Http\Controllers\PDF\RedactController;
+use App\Http\Controllers\PDF\PdfTableController;
 use App\Http\Middleware\CheckFreeTierLimit;
 use App\Http\Middleware\GuardApiOrigin;
 
@@ -79,6 +80,7 @@ Route::middleware([GuardApiOrigin::class, 'throttle:30,1', CheckFreeTierLimit::c
         Route::post('/text-editor/extract', [PdfTextEditorController::class, 'extract']);
         Route::post('/text-editor/export',  [PdfTextEditorController::class, 'export']);
         Route::post('/redact',              [RedactController::class,        'handle']);
+        Route::post('/table-extract',       [PdfTableController::class,      'handle']);
     });
 
     // AI routes get extra-tight throttle: 10 req/min — protects API spend
