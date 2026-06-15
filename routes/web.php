@@ -186,6 +186,14 @@ Route::get('/split-pdf-into-multiple-files',fn() => view('pages.split-pdf-into-m
 Route::get('/electronic-signature-pdf',     fn() => view('pages.electronic-signature-pdf'));
 Route::get('/sign-pdf-online-free',         fn() => view('pages.sign-pdf-online-free'));
 
+// ── SEO Pages: OCR cluster ───────────────────────────────────────────────────
+Route::get('/ocr-pdf-online-free',       fn() => view('pages.ocr-pdf-online-free'));
+Route::get('/ocr-scanned-pdf-to-text',   fn() => view('pages.ocr-scanned-pdf-to-text'));
+Route::get('/extract-text-from-pdf',     fn() => view('pages.extract-text-from-pdf'));
+Route::get('/pdf-to-text-converter',     fn() => view('pages.pdf-to-text-converter'));
+Route::get('/ocr-pdf-to-word',           fn() => view('pages.ocr-pdf-to-word'));
+Route::get('/ocr-pdf-bengali',           fn() => view('pages.ocr-pdf-bengali'));
+
 // ── SEO Pages: Compress variants ─────────────────────────────────────────────
 Route::get('/compress-pdf-without-losing-quality', fn() => view('pages.compress-pdf-without-losing-quality'));
 Route::get('/compress-scanned-pdf',         fn() => view('pages.compress-scanned-pdf'));
@@ -239,6 +247,12 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/ai-form-fill',             'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/watermark-remover',        'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-pdf',                   'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ocr-pdf-online-free',      'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ocr-scanned-pdf-to-text',  'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/extract-text-from-pdf',    'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-text-converter',    'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ocr-pdf-to-word',          'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/ocr-pdf-bengali',          'priority' => '0.9', 'changefreq' => 'weekly'],
         // Competitor alternatives
         ['loc' => 'https://pdftash.com/sejda-alternative',        'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/smallpdf-alternative',     'priority' => '0.9', 'changefreq' => 'weekly'],
