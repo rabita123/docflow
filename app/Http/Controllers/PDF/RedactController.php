@@ -29,7 +29,7 @@ class RedactController extends BasePdfController
 
         try {
             return $this->doRedact($request);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->err('Redaction failed: ' . $e->getMessage());
         }
     }
@@ -51,7 +51,9 @@ class RedactController extends BasePdfController
         $result = $this->run($this->getPdftohtmlCmd() . ' -xml -q ' . escapeshellarg($pdfPath) . ' ' . escapeshellarg($xmlBase));
 
         // pdftohtml may append suffixes — find the actual .xml file
-        $possibleXml = glob($xmlBase . '*.xml') ?: [];
+        // Use forward slashes for glob (works on both Windows and Linux)
+        $xmlGlob     = str_replace('\\', '/', $xmlBase);
+        $possibleXml = glob($xmlGlob . '*.xml') ?: [];
         if (!empty($possibleXml)) {
             $xmlFile = $possibleXml[0];
         }
@@ -66,8 +68,8 @@ class RedactController extends BasePdfController
         $parsedPages = $this->parseXml($xmlFile);
         @unlink($xmlFile);
 
-        // Clean up any extra pdftohtml output files
-        foreach (glob($xmlBase . '*') as $f) @unlink($f);
+        // Clean up any extra pdftohtml output files — glob needs forward slashes
+        foreach (glob($xmlGlob . '*') ?: [] as $f) @unlink($f);
 
         if (empty($parsedPages)) {
             @unlink($pdfPath);
@@ -254,7 +256,7 @@ PROMPT;
             $arr   = json_decode(trim($clean), true);
 
             return is_array($arr) ? array_filter($arr, fn($s) => is_string($s) && strlen($s) >= 2) : [];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return [];
         }
     }
