@@ -14,7 +14,7 @@ use Anthropic\Laravel\Facades\Anthropic;
 abstract class BaseAIController extends Controller
 {
     protected string $uploadDir;
-    protected string $model = 'claude-sonnet-4-20250514';
+    protected string $model = 'claude-sonnet-4-6';
 
     public function __construct()
     {

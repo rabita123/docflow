@@ -90,6 +90,20 @@ abstract class BasePdfController extends Controller
         return 'pdfimages';
     }
 
+    protected function getPdftohtmlCmd(): string
+    {
+        if (PHP_OS_FAMILY === 'Windows') {
+            $paths = [
+                'C:\\poppler\\Library\\bin\\pdftohtml.exe',
+                'C:\\poppler\\bin\\pdftohtml.exe',
+            ];
+            foreach ($paths as $p) {
+                if (file_exists($p)) return '"' . $p . '"';
+            }
+        }
+        return 'pdftohtml';
+    }
+
     // ── Run shell command ─────────────────────────────────────────────────────
 
     protected function run(string $command, int $timeout = 120): array

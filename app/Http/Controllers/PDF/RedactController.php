@@ -8,7 +8,7 @@ use Anthropic\Laravel\Facades\Anthropic;
 
 class RedactController extends BasePdfController
 {
-    protected string $model = 'claude-sonnet-4-20250514';
+    protected string $model = 'claude-sonnet-4-6';
 
     /**
      * Redact sensitive information from a PDF.
@@ -23,8 +23,19 @@ class RedactController extends BasePdfController
      */
     public function handle(Request $request)
     {
-        $this->needsFile($request);
+        if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
+            return $this->err('No valid file uploaded.');
+        }
 
+        try {
+            return $this->doRedact($request);
+        } catch (\Exception $e) {
+            return $this->err('Redaction failed: ' . $e->getMessage());
+        }
+    }
+
+    private function doRedact(Request $request)
+    {
         $pdfPath    = $this->saveUpload($request->file('file'));
         $categories = $request->input('categories', ['email', 'phone', 'ssn', 'creditcard', 'address']);
         $customTerms = trim($request->input('custom_terms', ''));
@@ -34,22 +45,21 @@ class RedactController extends BasePdfController
         }
 
         // ── Step 1: Extract text + bounding boxes via pdftohtml ───────────
-        $xmlBase = $this->outputDir . '/' . Str::random(10);
+        $xmlBase = $this->outputDir . DIRECTORY_SEPARATOR . Str::random(10);
         $xmlFile = $xmlBase . '.xml';
 
-        $this->run('pdftohtml -xml -q ' . escapeshellarg($pdfPath) . ' ' . escapeshellarg($xmlBase) . ' 2>/dev/null');
+        $result = $this->run($this->getPdftohtmlCmd() . ' -xml -q ' . escapeshellarg($pdfPath) . ' ' . escapeshellarg($xmlBase));
 
-        // pdftohtml appends _html_s.xml or similar — find it
-        $possibleXml = glob($xmlBase . '*.xml');
-        if (empty($possibleXml) && file_exists($xmlFile)) {
-            // fine
-        } elseif (!empty($possibleXml)) {
+        // pdftohtml may append suffixes — find the actual .xml file
+        $possibleXml = glob($xmlBase . '*.xml') ?: [];
+        if (!empty($possibleXml)) {
             $xmlFile = $possibleXml[0];
         }
 
         if (!file_exists($xmlFile)) {
             @unlink($pdfPath);
-            return $this->err('Could not parse PDF structure. Make sure it is a valid text-based PDF.');
+            $hint = $result['stdout'] ? ' (' . substr($result['stdout'], 0, 200) . ')' : '';
+            return $this->err('Could not parse PDF structure. Make sure it is a valid text-based PDF.' . $hint);
         }
 
         // ── Step 2: Parse XML, extract all text ───────────────────────────
