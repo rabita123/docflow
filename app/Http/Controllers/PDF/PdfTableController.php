@@ -8,7 +8,7 @@ use Anthropic\Laravel\Facades\Anthropic;
 
 class PdfTableController extends BasePdfController
 {
-    protected string $model = 'claude-sonnet-4-6';
+    protected string $model = 'claude-haiku-4-5-20251001';
 
     /**
      * Extract tables from a PDF and return structured JSON.

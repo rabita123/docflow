@@ -8,7 +8,7 @@ use Anthropic\Laravel\Facades\Anthropic;
 
 class RedactController extends BasePdfController
 {
-    protected string $model = 'claude-sonnet-4-6';
+    protected string $model = 'claude-haiku-4-5-20251001';
 
     /**
      * Redact sensitive information from a PDF.
@@ -257,7 +257,9 @@ PROMPT;
 
             return is_array($arr) ? array_filter($arr, fn($s) => is_string($s) && strlen($s) >= 2) : [];
         } catch (\Throwable $e) {
-            return [];
+            // Surface the error so it propagates to handle() try-catch
+            // and returns a proper JSON error instead of empty array
+            throw $e;
         }
     }
 }
