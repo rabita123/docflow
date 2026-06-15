@@ -188,6 +188,14 @@ Route::get('/split-pdf-into-multiple-files',fn() => view('pages.split-pdf-into-m
 Route::get('/electronic-signature-pdf',     fn() => view('pages.electronic-signature-pdf'));
 Route::get('/sign-pdf-online-free',         fn() => view('pages.sign-pdf-online-free'));
 
+// ── SEO Pages: PDF Table / CSV / Excel cluster ───────────────────────────────
+Route::get('/pdf-to-excel-free',         fn() => view('pages.pdf-to-excel-free'));
+Route::get('/extract-table-from-pdf',    fn() => view('pages.extract-table-from-pdf'));
+Route::get('/pdf-to-spreadsheet',        fn() => view('pages.pdf-to-spreadsheet'));
+Route::get('/convert-pdf-to-csv',        fn() => view('pages.convert-pdf-to-csv'));
+Route::get('/pdf-invoice-to-excel',      fn() => view('pages.pdf-invoice-to-excel'));
+Route::get('/pdf-table-extractor',       fn() => view('pages.pdf-table-extractor'));
+
 // ── SEO Pages: OCR cluster ───────────────────────────────────────────────────
 Route::get('/ocr-pdf-online-free',       fn() => view('pages.ocr-pdf-online-free'));
 Route::get('/ocr-scanned-pdf-to-text',   fn() => view('pages.ocr-scanned-pdf-to-text'));
@@ -251,6 +259,12 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/ocr-pdf',                   'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/redact-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/pdf-to-csv',                'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-excel-free',        'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/extract-table-from-pdf',   'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-spreadsheet',       'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/convert-pdf-to-csv',       'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-invoice-to-excel',     'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-table-extractor',      'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-pdf-online-free',      'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/ocr-scanned-pdf-to-text',  'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/extract-text-from-pdf',    'priority' => '0.9', 'changefreq' => 'weekly'],
