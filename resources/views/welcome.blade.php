@@ -238,20 +238,56 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
 
 /* DROP ZONE */
 #drop-section{padding:0 24px 72px;display:flex;justify-content:center;}
-#dropzone{max-width:700px;width:100%;background:var(--bg2);border:2px dashed var(--border2);
-  border-radius:var(--r-xl);padding:52px 36px;text-align:center;cursor:pointer;transition:all .3s;
-  position:relative;overflow:hidden;}
-#dropzone:hover,#dropzone.drag{border-color:var(--accent);background:rgba(91,92,255,.04);}
-.dz-icon{width:68px;height:68px;margin:0 auto 18px;
-  background:linear-gradient(135deg,rgba(91,92,255,.2),rgba(0,229,160,.12));
-  border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;}
-.dz-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;}
-.dz-sub{color:var(--text2);font-size:14px;line-height:1.6;}
-.dz-btn{display:inline-block;margin-top:20px;padding:11px 28px;background:var(--accent);
-  color:#fff;border-radius:99px;font-size:14px;font-weight:600;cursor:pointer;border:none;
-  transition:all .2s;font-family:'Inter',sans-serif;}
-.dz-btn:hover{background:var(--accent-h);transform:translateY(-1px);}
+#dropzone{
+  max-width:760px;width:100%;
+  background:linear-gradient(145deg,#13131f,#0f0f1c);
+  border:1.5px solid rgba(91,92,255,.35);
+  border-radius:24px;padding:60px 40px 44px;text-align:center;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(91,92,255,.08), 0 20px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+}
+#dropzone::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(91,92,255,.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+#dropzone:hover,#dropzone.drag{
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px rgba(91,92,255,.3), 0 20px 60px rgba(0,0,0,.4), 0 0 40px rgba(91,92,255,.15), inset 0 1px 0 rgba(255,255,255,.06);
+}
+#dropzone.drag{background:rgba(91,92,255,.06);}
+.dz-upload-icon{
+  width:88px;height:88px;margin:0 auto 24px;
+  background:linear-gradient(135deg,rgba(91,92,255,.25),rgba(0,229,160,.15));
+  border:1.5px solid rgba(91,92,255,.3);
+  border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;
+  animation:floatIcon 3s ease-in-out infinite;
+  box-shadow:0 8px 32px rgba(91,92,255,.2);
+}
+@keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.dz-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:-.3px;}
+.dz-sub{color:var(--text2);font-size:14px;line-height:1.7;max-width:420px;margin:0 auto;}
+.dz-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:26px;padding:13px 36px;
+  background:linear-gradient(135deg,#5b5cff,#7c3aed);
+  color:#fff;border-radius:99px;font-size:15px;font-weight:700;cursor:pointer;border:none;
+  transition:all .2s;font-family:'Inter',sans-serif;
+  box-shadow:0 4px 20px rgba(91,92,255,.4);
+}
+.dz-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(91,92,255,.5);}
 .dz-formats{margin-top:14px;font-size:12px;color:var(--text3);}
+.dz-tools-preview{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+  margin-top:28px;padding-top:24px;border-top:1px solid var(--border);
+}
+.dz-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;background:rgba(255,255,255,.05);
+  border:1px solid var(--border);border-radius:99px;
+  font-size:11.5px;color:var(--text2);transition:all .2s;cursor:default;
+}
+.dz-chip:hover{background:rgba(91,92,255,.15);border-color:rgba(91,92,255,.4);color:var(--text);}
 .dz-info{display:none;}
 #file-input{display:none;}
 
@@ -272,8 +308,9 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
 .qt-label{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:14px;letter-spacing:.06em;
   text-transform:uppercase;display:flex;align-items:center;gap:10px;}
 .qt-label::before,.qt-label::after{content:'';flex:1;height:1px;background:var(--border);}
-.quick-tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-@media(max-width:480px){.quick-tools-grid{grid-template-columns:repeat(2,1fr);}}
+.quick-tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px;}
+@media(max-width:600px){.quick-tools-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:400px){.quick-tools-grid{grid-template-columns:repeat(2,1fr);}}
 .qt-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
   padding:18px 10px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
 .qt-card::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;
@@ -535,12 +572,28 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     {{-- ── STATE 1: No file selected ── --}}
     <div id="dz-empty">
       <div id="dropzone" onclick="document.getElementById('file-input').click()">
-        <div class="dz-icon">📄</div>
+        <div class="dz-upload-icon">📤</div>
         <div class="dz-title">Drop your PDF here</div>
         <div class="dz-sub">Drag & drop or click to browse · Auto-deleted after 2 hours · No signup needed</div>
-        <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">📂 Choose File</button>
+        <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('file-input').click()">
+          <span>📂</span> Choose File
+        </button>
         <div class="dz-formats">PDF · JPG · PNG · Max 10MB free</div>
         <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="handleGlobalFile(this)">
+        <div class="dz-tools-preview" onclick="event.stopPropagation()">
+          <span class="dz-chip">🗜️ Compress</span>
+          <span class="dz-chip">🔗 Merge</span>
+          <span class="dz-chip">✂️ Split</span>
+          <span class="dz-chip">✍️ eSign</span>
+          <span class="dz-chip">🌐 Translate</span>
+          <span class="dz-chip">💬 AI Chat</span>
+          <span class="dz-chip">📝 Summarize</span>
+          <span class="dz-chip">🔐 Protect</span>
+          <span class="dz-chip">⬛ Redact</span>
+          <span class="dz-chip">🔍 OCR</span>
+          <span class="dz-chip">🔄 Rotate</span>
+          <span class="dz-chip">📊 Tables</span>
+        </div>
       </div>
     </div>
 
@@ -559,7 +612,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
       </div>
 
       {{-- Quick tool picker --}}
-      <div class="qt-label">Pick a tool to apply</div>
+      <div class="qt-label">Choose a tool to apply</div>
       <div class="quick-tools-grid">
         <div class="qt-card" onclick="openTool('compress')">
           <div class="qt-icon">🗜️</div>
@@ -576,10 +629,25 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
           <div class="qt-name">Split</div>
           <div class="qt-desc">Separate pages</div>
         </div>
-        <div class="qt-card" onclick="openTool('chat')">
-          <div class="qt-icon">💬</div>
-          <div class="qt-name">Chat with AI</div>
-          <div class="qt-desc">Ask any question</div>
+        <div class="qt-card" onclick="openTool('rotate')">
+          <div class="qt-icon">🔄</div>
+          <div class="qt-name">Rotate</div>
+          <div class="qt-desc">Fix orientation</div>
+        </div>
+        <div class="qt-card" onclick="openTool('sign')">
+          <div class="qt-icon">✍️</div>
+          <div class="qt-name">eSign</div>
+          <div class="qt-desc">Draw your signature</div>
+        </div>
+        <div class="qt-card" onclick="openTool('protect')">
+          <div class="qt-icon">🔐</div>
+          <div class="qt-name">Protect</div>
+          <div class="qt-desc">Add password</div>
+        </div>
+        <div class="qt-card" onclick="openTool('unlock')">
+          <div class="qt-icon">🔓</div>
+          <div class="qt-name">Unlock PDF</div>
+          <div class="qt-desc">Remove password</div>
         </div>
         <div class="qt-card" onclick="openTool('translate')">
           <div class="qt-icon">🌐</div>
@@ -591,40 +659,60 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
           <div class="qt-name">Summarize</div>
           <div class="qt-desc">Get key points</div>
         </div>
-        <div class="qt-card" onclick="openTool('sign')">
-          <div class="qt-icon">✍️</div>
-          <div class="qt-name">eSign</div>
-          <div class="qt-desc">Add signature</div>
+        <div class="qt-card" onclick="openTool('chat')">
+          <div class="qt-icon">💬</div>
+          <div class="qt-name">Chat with AI</div>
+          <div class="qt-desc">Ask any question</div>
         </div>
-        <div class="qt-card" onclick="openTool('protect')">
-          <div class="qt-icon">🔐</div>
-          <div class="qt-name">Protect</div>
-          <div class="qt-desc">Add password</div>
+        <div class="qt-card" onclick="openTool('extract-data')">
+          <div class="qt-icon">📊</div>
+          <div class="qt-name">Extract Tables</div>
+          <div class="qt-desc">To CSV / Excel</div>
         </div>
-        <div class="qt-card" onclick="openTool('rotate')">
-          <div class="qt-icon">🔄</div>
-          <div class="qt-name">Rotate</div>
-          <div class="qt-desc">Fix orientation</div>
+        <div class="qt-card" onclick="openTool('watermark')">
+          <div class="qt-icon">💧</div>
+          <div class="qt-name">Watermark</div>
+          <div class="qt-desc">Add text overlay</div>
         </div>
-        <div class="qt-card" onclick="window.location='/watermark-remover'">
-          <div class="qt-icon">🚫</div>
-          <div class="qt-name">Remove Watermark</div>
-          <div class="qt-desc">Erase watermarks</div>
+        <div class="qt-card" onclick="openTool('page-numbers')">
+          <div class="qt-icon">#️⃣</div>
+          <div class="qt-name">Page Numbers</div>
+          <div class="qt-desc">Number each page</div>
+        </div>
+        <div class="qt-card" onclick="openTool('delete-pages')">
+          <div class="qt-icon">🗑️</div>
+          <div class="qt-name">Delete Pages</div>
+          <div class="qt-desc">Remove page(s)</div>
+        </div>
+        <div class="qt-card" onclick="openTool('reorder')">
+          <div class="qt-icon">↕️</div>
+          <div class="qt-name">Reorder Pages</div>
+          <div class="qt-desc">New page order</div>
+        </div>
+        <div class="qt-card" onclick="openTool('pdf-to-images')">
+          <div class="qt-icon">🖼️</div>
+          <div class="qt-name">PDF to Images</div>
+          <div class="qt-desc">Export each page</div>
+        </div>
+        <div class="qt-card" onclick="openTool('extract-text')">
+          <div class="qt-icon">📃</div>
+          <div class="qt-name">Extract Text</div>
+          <div class="qt-desc">Get plain .txt file</div>
+        </div>
+        <div class="qt-card" onclick="openTool('grayscale')">
+          <div class="qt-icon">⚫</div>
+          <div class="qt-name">Grayscale</div>
+          <div class="qt-desc">Black & white PDF</div>
         </div>
         <div class="qt-card" onclick="window.location='/ocr-pdf'">
           <div class="qt-icon">🔍</div>
           <div class="qt-name">OCR PDF</div>
-          <div class="qt-desc">Scanned PDF to text</div>
+          <div class="qt-desc">Scanned → searchable</div>
         </div>
         <div class="qt-card" onclick="window.location='/redact-pdf'">
-          <div class="qt-icon">🔒</div>
+          <div class="qt-icon">⬛</div>
           <div class="qt-name">Redact PDF</div>
-          <div class="qt-desc">Auto-blackout sensitive info</div>
-        </div>
-        <div class="qt-card" onclick="window.location='/pdf-to-csv'">
-          <div class="qt-icon">📊</div>
-          <div class="qt-name">PDF to Excel</div>
-          <div class="qt-desc">Extract tables to CSV/Excel</div>
+          <div class="qt-desc">Blackout sensitive info</div>
         </div>
       </div>
       <div class="qt-more">
