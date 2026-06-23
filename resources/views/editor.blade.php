@@ -18,43 +18,55 @@
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px}
 
 /* ── HEADER ── */
+:root{ --header:96px; }   /* 2-row header */
 #header{
-  position:fixed;top:0;left:0;right:0;height:var(--header);
+  position:fixed;top:0;left:0;right:0;
   background:var(--bg2);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;padding:0 16px;z-index:100;
+  z-index:100;display:flex;flex-direction:column;
+}
+/* Row 1: Logo + filename + download */
+#header-top{
+  display:flex;align-items:center;gap:12px;padding:0 16px;height:48px;
+  border-bottom:1px solid var(--border);
 }
 #logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0;text-decoration:none}
-#logo-wrap img{height:30px}
-#logo-wrap span{font-weight:700;font-size:1rem;color:var(--text)}
-
-#toolbar{
-  flex:1;display:flex;align-items:center;gap:4px;
-  overflow-x:auto;scrollbar-width:none;padding:4px 8px;
-}
-#toolbar::-webkit-scrollbar{display:none}
-
-.tool-sep{width:1px;height:28px;background:var(--border);flex-shrink:0;margin:0 4px}
-.tool-group-label{font-size:0.65rem;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-right:2px;flex-shrink:0}
-
-.tool-btn{
-  display:flex;align-items:center;gap:5px;
-  padding:6px 12px;border-radius:8px;border:none;
-  background:transparent;color:var(--text);cursor:pointer;
-  font-size:0.82rem;white-space:nowrap;flex-shrink:0;
-  transition:background .15s,color .15s;
-}
-.tool-btn:hover{background:rgba(124,92,252,.18);color:#fff}
-.tool-btn.active{background:var(--accent);color:#fff}
-.tool-btn .icon{font-size:1rem}
-
-#header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-#file-name{font-size:0.82rem;color:var(--text2);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#logo-wrap img{height:28px}
+#logo-wrap span{font-weight:700;font-size:0.95rem;color:var(--text)}
+#header-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+#file-name{font-size:0.8rem;color:var(--text2);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #btn-download{
-  padding:7px 16px;border-radius:8px;border:none;
+  padding:6px 16px;border-radius:8px;border:none;
   background:var(--accent);color:#fff;cursor:pointer;font-size:0.82rem;font-weight:600;
   transition:background .15s;display:none;
 }
 #btn-download:hover{background:var(--accent2)}
+
+/* Row 2: Full-width toolbar */
+#toolbar{
+  display:flex;align-items:center;gap:2px;
+  height:48px;padding:0 10px;
+  overflow-x:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+#toolbar::-webkit-scrollbar{height:3px}
+#toolbar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
+
+.tool-sep{width:1px;height:26px;background:var(--border);flex-shrink:0;margin:0 6px}
+.tool-group-label{
+  font-size:0.6rem;color:var(--text2);text-transform:uppercase;
+  letter-spacing:.08em;flex-shrink:0;padding:0 4px 0 2px;
+  border-right:1px solid var(--border);margin-right:4px;
+}
+
+.tool-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  padding:4px 10px;border-radius:7px;border:none;
+  background:transparent;color:var(--text);cursor:pointer;
+  font-size:0.72rem;white-space:nowrap;flex-shrink:0;min-width:52px;
+  transition:background .15s,color .15s;
+}
+.tool-btn:hover{background:rgba(124,92,252,.18);color:#fff}
+.tool-btn.active{background:var(--accent);color:#fff}
+.tool-btn .icon{font-size:1.15rem;line-height:1}
 
 /* ── BODY LAYOUT ── */
 #body{
@@ -242,18 +254,20 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 <!-- ── HEADER ── -->
 <header id="header">
-  <a id="logo-wrap" href="/">
-    <img src="/logo.svg" alt="PDFTash">
-    <span>PDFTash</span>
-  </a>
-
-  <div id="toolbar">
-    <!-- JS will render tool buttons here -->
+  <!-- Row 1: Logo + file info -->
+  <div id="header-top">
+    <a id="logo-wrap" href="/">
+      <img src="/logo.svg" alt="PDFTash">
+      <span>PDFTash</span>
+    </a>
+    <div id="header-right">
+      <span id="file-name">{{ $fileName }}</span>
+      <button id="btn-download" onclick="downloadCurrent()">⬇ Download</button>
+    </div>
   </div>
-
-  <div id="header-right">
-    <span id="file-name">{{ $fileName }}</span>
-    <button id="btn-download" onclick="downloadCurrent()">⬇ Download</button>
+  <!-- Row 2: Full-width toolbar -->
+  <div id="toolbar">
+    <!-- JS renders tool buttons -->
   </div>
 </header>
 
@@ -414,12 +428,20 @@ let currentFileName = CURRENT_FILE;
 // ── BUILD TOOLBAR ────────────────────────────────────────────────────────────
 (function buildToolbar() {
   const tb = document.getElementById('toolbar');
+  const shortLabels = {
+    compress:'Compress',rotate:'Rotate',split:'Split','delete-pages':'Del Pages',
+    reorder:'Reorder',crop:'Crop',ocr:'OCR',grayscale:'Grayscale',watermark:'Watermark',
+    'page-numbers':'Page Nos',protect:'Protect',unlock:'Unlock',redact:'Redact',
+    sign:'eSign',
+    'pdf-to-images':'→ Images','extract-text':'Extract Text',
+    info:'PDF Info',
+    summarize:'Summarize',translate:'Translate',chat:'AI Chat',
+    'extract-tables':'Tables','extract-data':'Data Extract',
+    merge:'Merge'
+  };
+
   TOOLBAR_GROUPS.forEach((grp, gi) => {
-    if (gi > 0) {
-      const sep = document.createElement('div');
-      sep.className = 'tool-sep';
-      tb.appendChild(sep);
-    }
+    // Group label as separator
     const lbl = document.createElement('span');
     lbl.className = 'tool-group-label';
     lbl.textContent = grp.label;
@@ -430,23 +452,17 @@ let currentFileName = CURRENT_FILE;
       const btn = document.createElement('button');
       btn.className = 'tool-btn';
       btn.id = 'tbtn-' + key;
-      btn.innerHTML = `<span class="icon">${t.icon}</span><span>${t.title.split(' ').slice(-1)[0] === t.title ? t.title : t.title}</span>`;
-      // Shorten label for toolbar
-      const shortLabel = {
-        compress:'Compress',rotate:'Rotate',split:'Split','delete-pages':'Delete Pgs',
-        reorder:'Reorder',crop:'Crop',ocr:'OCR',grayscale:'Grayscale',watermark:'Watermark',
-        'page-numbers':'Page Nos',protect:'Protect',unlock:'Unlock',redact:'Redact',
-        sign:'eSign',
-        'pdf-to-images':'To Images','extract-text':'Extract Text',
-        info:'PDF Info',
-        summarize:'Summarize',translate:'Translate',chat:'Chat',
-        'extract-tables':'Tables','extract-data':'Data Extract',
-        merge:'Merge'
-      }[key] || t.title;
-      btn.innerHTML = `<span class="icon">${t.icon}</span><span>${shortLabel}</span>`;
+      btn.title = t.title;
+      btn.innerHTML = `<span class="icon">${t.icon}</span><span>${shortLabels[key] || t.title}</span>`;
       btn.addEventListener('click', () => openTool(key));
       tb.appendChild(btn);
     });
+
+    if (gi < TOOLBAR_GROUPS.length - 1) {
+      const sep = document.createElement('div');
+      sep.className = 'tool-sep';
+      tb.appendChild(sep);
+    }
   });
 })();
 
