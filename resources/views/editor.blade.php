@@ -374,15 +374,34 @@ const TOOLS = {
       labels:['Bengali (বাংলা)','Arabic','Spanish','French','German','Hindi','Chinese']}]},
   chat:{title:'Chat with PDF',desc:'Ask questions about your PDF.',icon:'💬',linkTo:'/chat-with-pdf',isAI:true},
   'extract-tables':{title:'Extract Tables',desc:'Extract tables to CSV/Excel.',endpoint:'/api/pdf/table-extract',icon:'📊',isAI:true,tableResult:true},
+  'extract-data':{title:'AI Data Extractor',desc:'Extract structured data (invoice, contact, table) using AI.',endpoint:'/api/ai/extract-data',icon:'🧠',isAI:true,textResult:true,
+    fields:[{type:'select',name:'type',label:'Data Type',opts:['invoice','table','contact'],labels:['Invoice Data','Table / Grid Data','Contact Information']}]},
   merge:{title:'Merge PDFs',desc:'Combine multiple PDFs into one.',endpoint:'/api/pdf/merge',icon:'🔗',multiFile:true},
+  sign:{title:'eSign PDF',desc:'Add your signature to the PDF.',endpoint:'/api/pdf/sign',icon:'✍️',signMode:true},
+  'pdf-to-images':{title:'PDF to Images',desc:'Convert each page to a JPG/PNG image.',endpoint:'/api/pdf/to-images',icon:'🖼️',
+    fields:[
+      {type:'select',name:'format',label:'Format',opts:['jpg','png'],labels:['JPG (smaller)','PNG (transparent)']},
+      {type:'select',name:'dpi',label:'Quality',opts:['96','150','200','300'],labels:['96 DPI (screen)','150 DPI (standard)','200 DPI (high)','300 DPI (print)']}
+    ]},
+  'extract-text':{title:'Extract Text',desc:'Extract all text from PDF as a .txt file.',endpoint:'/api/pdf/to-text',icon:'📃',textResult:true,fields:[]},
+  info:{title:'PDF Info',desc:'View metadata, page count and file details.',endpoint:'/api/pdf/info',icon:'ℹ️',textResult:true,fields:[]},
+  crop:{title:'Crop PDF',desc:'Crop margins from all pages.',endpoint:'/api/pdf/crop',icon:'✂️',
+    fields:[
+      {type:'text',name:'top',label:'Top margin (pt)',placeholder:'50'},
+      {type:'text',name:'bottom',label:'Bottom margin (pt)',placeholder:'50'},
+      {type:'text',name:'left',label:'Left margin (pt)',placeholder:'50'},
+      {type:'text',name:'right',label:'Right margin (pt)',placeholder:'50'}
+    ]},
 };
 
 const TOOLBAR_GROUPS = [
-  {label:'EDIT',   tools:['compress','rotate','split','delete-pages','reorder']},
-  {label:'ENHANCE',tools:['ocr','grayscale','watermark','page-numbers']},
+  {label:'EDIT',    tools:['compress','rotate','split','delete-pages','reorder','crop']},
+  {label:'CONVERT', tools:['pdf-to-images','extract-text','grayscale']},
+  {label:'ENHANCE', tools:['ocr','watermark','page-numbers']},
   {label:'SECURITY',tools:['protect','unlock','redact']},
-  {label:'AI',     tools:['summarize','translate','chat','extract-tables']},
-  {label:'MERGE',  tools:['merge']},
+  {label:'SIGN',    tools:['sign']},
+  {label:'AI',      tools:['summarize','translate','chat','extract-tables','extract-data']},
+  {label:'MERGE',   tools:['merge']},
 ];
 
 // ── STATE ────────────────────────────────────────────────────────────────────
@@ -415,9 +434,13 @@ let currentFileName = CURRENT_FILE;
       // Shorten label for toolbar
       const shortLabel = {
         compress:'Compress',rotate:'Rotate',split:'Split','delete-pages':'Delete Pgs',
-        reorder:'Reorder',ocr:'OCR',grayscale:'Grayscale',watermark:'Watermark',
+        reorder:'Reorder',crop:'Crop',ocr:'OCR',grayscale:'Grayscale',watermark:'Watermark',
         'page-numbers':'Page Nos',protect:'Protect',unlock:'Unlock',redact:'Redact',
-        summarize:'Summarize',translate:'Translate',chat:'Chat','extract-tables':'Tables',
+        sign:'eSign',
+        'pdf-to-images':'To Images','extract-text':'Extract Text',
+        info:'PDF Info',
+        summarize:'Summarize',translate:'Translate',chat:'Chat',
+        'extract-tables':'Tables','extract-data':'Data Extract',
         merge:'Merge'
       }[key] || t.title;
       btn.innerHTML = `<span class="icon">${t.icon}</span><span>${shortLabel}</span>`;
@@ -505,6 +528,44 @@ function openTool(key) {
     fieldsEl.appendChild(grp);
   });
 
+  // Sign special UI
+  if (tool.signMode) {
+    fieldsEl.innerHTML = `
+      <div class="field-group">
+        <label class="field-label">Signature Method</label>
+        <select class="field-select" id="sign-method-sel" onchange="toggleEditorSignMethod()">
+          <option value="draw">Draw Signature</option>
+          <option value="type">Type Signature</option>
+          <option value="upload">Upload Image</option>
+        </select>
+      </div>
+      <div id="ed-sign-draw" class="field-group">
+        <label class="field-label">Draw your signature</label>
+        <canvas id="ed-sig-canvas" width="270" height="90"
+          style="border:1px solid var(--border);border-radius:8px;background:#fff;cursor:crosshair;display:block;touch-action:none;"></canvas>
+        <button type="button" onclick="clearEditorCanvas()"
+          style="margin-top:6px;padding:5px 12px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-size:12px;">Clear</button>
+      </div>
+      <div id="ed-sign-type" class="field-group" style="display:none">
+        <label class="field-label">Type your name</label>
+        <input type="text" id="ed-sig-text" class="field-input" placeholder="Your Name" name="text">
+      </div>
+      <div id="ed-sign-upload" class="field-group" style="display:none">
+        <label class="field-label">Upload signature image (PNG/JPG)</label>
+        <input type="file" id="ed-sig-file" accept=".png,.jpg,.jpeg" class="field-input">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Position</label>
+        <select class="field-select" name="position" id="sign-pos-sel">
+          <option value="bottom-right">Bottom Right</option>
+          <option value="bottom-left">Bottom Left</option>
+          <option value="bottom-center">Bottom Center</option>
+          <option value="top-right">Top Right</option>
+        </select>
+      </div>`;
+    initEditorCanvas();
+  }
+
   // Multi-file
   const mw = document.getElementById('multi-wrap');
   if (tool.multiFile) {
@@ -534,6 +595,45 @@ function closePanel() {
     if (btn) btn.classList.remove('active');
   }
   activeTool = null;
+}
+
+// ── SIGN CANVAS HELPERS ──────────────────────────────────────────────────────
+let edSignDrawing = false, edSignLastX = 0, edSignLastY = 0;
+
+function initEditorCanvas() {
+  setTimeout(() => {
+    const c = document.getElementById('ed-sig-canvas');
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    ctx.strokeStyle = '#1a1a2e';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+
+    const pos = (e) => {
+      const r = c.getBoundingClientRect();
+      return e.touches
+        ? {x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top}
+        : {x: e.clientX - r.left, y: e.clientY - r.top};
+    };
+    c.addEventListener('mousedown',  e => { edSignDrawing=true; const p=pos(e); edSignLastX=p.x; edSignLastY=p.y; });
+    c.addEventListener('touchstart', e => { e.preventDefault(); edSignDrawing=true; const p=pos(e); edSignLastX=p.x; edSignLastY=p.y; });
+    c.addEventListener('mousemove',  e => { if(!edSignDrawing) return; const p=pos(e); ctx.beginPath(); ctx.moveTo(edSignLastX,edSignLastY); ctx.lineTo(p.x,p.y); ctx.stroke(); edSignLastX=p.x; edSignLastY=p.y; });
+    c.addEventListener('touchmove',  e => { e.preventDefault(); if(!edSignDrawing) return; const p=pos(e); ctx.beginPath(); ctx.moveTo(edSignLastX,edSignLastY); ctx.lineTo(p.x,p.y); ctx.stroke(); edSignLastX=p.x; edSignLastY=p.y; });
+    c.addEventListener('mouseup',   () => edSignDrawing=false);
+    c.addEventListener('touchend',  () => edSignDrawing=false);
+  }, 50);
+}
+
+function clearEditorCanvas() {
+  const c = document.getElementById('ed-sig-canvas');
+  if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+}
+
+function toggleEditorSignMethod() {
+  const m = document.getElementById('sign-method-sel')?.value;
+  document.getElementById('ed-sign-draw').style.display   = m==='draw'   ? 'block' : 'none';
+  document.getElementById('ed-sign-type').style.display   = m==='type'   ? 'block' : 'none';
+  document.getElementById('ed-sign-upload').style.display = m==='upload' ? 'block' : 'none';
 }
 
 // ── MULTI-FILE MERGE ─────────────────────────────────────────────────────────
@@ -610,10 +710,30 @@ async function processTool() {
     fd.append('file', pdfBlob, currentFileName);
   }
 
-  // Collect fields
+  // Handle sign mode
+  if (tool.signMode) {
+    const method = document.getElementById('sign-method-sel')?.value || 'draw';
+    fd.append('method', method);
+    fd.append('position', document.getElementById('sign-pos-sel')?.value || 'bottom-right');
+    if (method === 'draw') {
+      const c = document.getElementById('ed-sig-canvas');
+      if (c) {
+        await new Promise(r => c.toBlob(b => { fd.append('signature', b, 'sig.png'); r(); }, 'image/png'));
+      }
+    } else if (method === 'type') {
+      fd.append('text', document.getElementById('ed-sig-text')?.value || '');
+    } else if (method === 'upload') {
+      const f = document.getElementById('ed-sig-file')?.files[0];
+      if (f) fd.append('signature', f, f.name);
+    }
+  }
+
+  // Collect fields (skip sign-specific ones already added)
   const fieldsEl = document.getElementById('panel-fields');
   fieldsEl.querySelectorAll('input,select,textarea').forEach(el => {
     if (!el.name) return;
+    if (['sign-method-sel','sign-pos-sel','ed-sig-text'].includes(el.id)) return;
+    if (el.id === 'ed-sig-file') return;
     if (el.type === 'checkbox') {
       if (el.checked) fd.append(el.name, el.value);
     } else {
@@ -638,9 +758,13 @@ async function processTool() {
 
     if (tool.textResult) {
       const data = await resp.json();
-      const text = data.summary || data.translation || data.text || JSON.stringify(data, null, 2);
+      let text = data.summary || data.translation || data.text || data.result || '';
+      if (!text) {
+        // info / extract-data: format JSON nicely
+        text = Object.entries(data).map(([k,v]) => `${k}: ${typeof v==='object'?JSON.stringify(v,null,2):v}`).join('\n');
+      }
       showProgress(false);
-      showTextResult(text);
+      showTextResult(text || JSON.stringify(data, null, 2));
     } else if (tool.tableResult) {
       const data = await resp.json();
       showProgress(false);
