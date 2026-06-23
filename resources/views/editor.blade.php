@@ -104,15 +104,53 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   background:var(--bg);padding:24px;
   display:flex;flex-direction:column;align-items:center;gap:16px;
   scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent;
+  position:relative;
 }
 #viewer::-webkit-scrollbar{width:6px}
 #viewer::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
 
 .page-wrap{
   background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.6);
-  border-radius:4px;overflow:hidden;flex-shrink:0;
+  border-radius:4px;overflow:hidden;flex-shrink:0;position:relative;
 }
 .page-wrap canvas{display:block}
+
+/* ── DRAGGABLE SIGNATURE ── */
+#sig-drag-box{
+  position:absolute;
+  border:2px dashed #7c5cfc;
+  border-radius:6px;
+  background:rgba(124,92,252,0.08);
+  cursor:grab;
+  user-select:none;
+  z-index:30;
+  min-width:140px;
+  min-height:44px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:6px 14px;
+  box-shadow:0 2px 12px rgba(124,92,252,0.25);
+}
+#sig-drag-box:active{cursor:grabbing;}
+#sig-drag-box.dragging{border-style:solid;background:rgba(124,92,252,0.15);}
+#sig-drag-label{
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  background:#7c5cfc;color:#fff;font-size:10px;padding:2px 10px;
+  border-radius:99px;white-space:nowrap;pointer-events:none;
+}
+#sig-drag-content{pointer-events:none;max-width:200px;max-height:70px;}
+#sig-drag-content canvas,#sig-drag-content img{max-width:100%;max-height:64px;display:block;}
+#sig-drag-content span{font-family:'Segoe Script','Comic Sans MS',cursive;font-size:22px;color:#111;white-space:nowrap;}
+
+/* Sign panel extras */
+#sign-place-btn{
+  width:100%;padding:9px;border-radius:8px;border:2px dashed rgba(124,92,252,.5);
+  background:rgba(124,92,252,.08);color:var(--accent);cursor:pointer;font-size:0.85rem;
+  font-weight:600;transition:all .15s;margin-top:8px;
+}
+#sign-place-btn:hover{background:rgba(124,92,252,.18);border-style:solid;}
+#sign-place-hint{font-size:0.75rem;color:var(--text2);text-align:center;margin-top:6px;}
 
 /* ── UPLOAD ZONE ── */
 #upload-zone{
@@ -544,7 +582,7 @@ function openTool(key) {
     fieldsEl.appendChild(grp);
   });
 
-  // Sign special UI
+  // Sign special UI — drag-to-place approach
   if (tool.signMode) {
     fieldsEl.innerHTML = `
       <div class="field-group">
@@ -556,30 +594,25 @@ function openTool(key) {
         </select>
       </div>
       <div id="ed-sign-draw" class="field-group">
-        <label class="field-label">Draw your signature</label>
+        <label class="field-label">Draw your signature below</label>
         <canvas id="ed-sig-canvas" width="270" height="90"
           style="border:1px solid var(--border);border-radius:8px;background:#fff;cursor:crosshair;display:block;touch-action:none;"></canvas>
         <button type="button" onclick="clearEditorCanvas()"
-          style="margin-top:6px;padding:5px 12px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-size:12px;">Clear</button>
+          style="margin-top:5px;padding:4px 10px;background:transparent;border:1px solid var(--border);color:var(--text2);border-radius:6px;cursor:pointer;font-size:11px;">Clear</button>
       </div>
       <div id="ed-sign-type" class="field-group" style="display:none">
         <label class="field-label">Type your name</label>
-        <input type="text" id="ed-sig-text" class="field-input" placeholder="Your Name" name="text">
+        <input type="text" id="ed-sig-text" class="field-input" placeholder="Your Name" oninput="updateSigDragContent()">
       </div>
       <div id="ed-sign-upload" class="field-group" style="display:none">
         <label class="field-label">Upload signature image (PNG/JPG)</label>
-        <input type="file" id="ed-sig-file" accept=".png,.jpg,.jpeg" class="field-input">
+        <input type="file" id="ed-sig-file" accept=".png,.jpg,.jpeg" class="field-input" onchange="updateSigDragContent()">
       </div>
-      <div class="field-group">
-        <label class="field-label">Position</label>
-        <select class="field-select" name="position" id="sign-pos-sel">
-          <option value="bottom-right">Bottom Right</option>
-          <option value="bottom-left">Bottom Left</option>
-          <option value="bottom-center">Bottom Center</option>
-          <option value="top-right">Top Right</option>
-        </select>
-      </div>`;
+      <button id="sign-place-btn" onclick="placeSigOnPDF()">📌 Place Signature on PDF</button>
+      <p id="sign-place-hint">Click the button above, then drag your signature to any position on the PDF.</p>`;
     initEditorCanvas();
+    // Remove old drag box if exists
+    removeSigDragBox();
   }
 
   // Multi-file
@@ -611,9 +644,10 @@ function closePanel() {
     if (btn) btn.classList.remove('active');
   }
   activeTool = null;
+  removeSigDragBox();
 }
 
-// ── SIGN CANVAS HELPERS ──────────────────────────────────────────────────────
+// ── SIGN — DRAW CANVAS ───────────────────────────────────────────────────────
 let edSignDrawing = false, edSignLastX = 0, edSignLastY = 0;
 
 function initEditorCanvas() {
@@ -621,11 +655,10 @@ function initEditorCanvas() {
     const c = document.getElementById('ed-sig-canvas');
     if (!c) return;
     const ctx = c.getContext('2d');
-    ctx.strokeStyle = '#1a1a2e';
+    ctx.strokeStyle = '#111';
     ctx.lineWidth = 2.5;
     ctx.lineCap = 'round';
-
-    const pos = (e) => {
+    const pos = e => {
       const r = c.getBoundingClientRect();
       return e.touches
         ? {x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top}
@@ -633,16 +666,16 @@ function initEditorCanvas() {
     };
     c.addEventListener('mousedown',  e => { edSignDrawing=true; const p=pos(e); edSignLastX=p.x; edSignLastY=p.y; });
     c.addEventListener('touchstart', e => { e.preventDefault(); edSignDrawing=true; const p=pos(e); edSignLastX=p.x; edSignLastY=p.y; });
-    c.addEventListener('mousemove',  e => { if(!edSignDrawing) return; const p=pos(e); ctx.beginPath(); ctx.moveTo(edSignLastX,edSignLastY); ctx.lineTo(p.x,p.y); ctx.stroke(); edSignLastX=p.x; edSignLastY=p.y; });
+    c.addEventListener('mousemove',  e => { if(!edSignDrawing) return; const p=pos(e); ctx.beginPath(); ctx.moveTo(edSignLastX,edSignLastY); ctx.lineTo(p.x,p.y); ctx.stroke(); edSignLastX=p.x; edSignLastY=p.y; updateSigDragContent(); });
     c.addEventListener('touchmove',  e => { e.preventDefault(); if(!edSignDrawing) return; const p=pos(e); ctx.beginPath(); ctx.moveTo(edSignLastX,edSignLastY); ctx.lineTo(p.x,p.y); ctx.stroke(); edSignLastX=p.x; edSignLastY=p.y; });
-    c.addEventListener('mouseup',   () => edSignDrawing=false);
-    c.addEventListener('touchend',  () => edSignDrawing=false);
+    c.addEventListener('mouseup',   () => { edSignDrawing=false; updateSigDragContent(); });
+    c.addEventListener('touchend',  () => { edSignDrawing=false; updateSigDragContent(); });
   }, 50);
 }
 
 function clearEditorCanvas() {
   const c = document.getElementById('ed-sig-canvas');
-  if (c) c.getContext('2d').clearRect(0, 0, c.width, c.height);
+  if (c) { c.getContext('2d').clearRect(0, 0, c.width, c.height); updateSigDragContent(); }
 }
 
 function toggleEditorSignMethod() {
@@ -650,6 +683,108 @@ function toggleEditorSignMethod() {
   document.getElementById('ed-sign-draw').style.display   = m==='draw'   ? 'block' : 'none';
   document.getElementById('ed-sign-type').style.display   = m==='type'   ? 'block' : 'none';
   document.getElementById('ed-sign-upload').style.display = m==='upload' ? 'block' : 'none';
+  updateSigDragContent();
+}
+
+// ── SIGN — DRAG-TO-PLACE ──────────────────────────────────────────────────────
+let sigDragState = { isDragging:false, startMouseX:0, startMouseY:0, startElX:0, startElY:0 };
+let sigFinalPos  = { pageEl:null, xPct:65, yPct:80 }; // defaults
+
+function placeSigOnPDF() {
+  if (!TOKEN) { alert('Please upload a PDF first.'); return; }
+  const firstPage = document.getElementById('page-wrap-1');
+  if (!firstPage) { alert('PDF not loaded yet.'); return; }
+
+  // Create or re-use drag box inside the first page
+  removeSigDragBox();
+  const box = document.createElement('div');
+  box.id = 'sig-drag-box';
+  box.style.display = 'flex';
+  box.innerHTML = `<div id="sig-drag-label">✋ Drag to position</div><div id="sig-drag-content"></div>`;
+  firstPage.appendChild(box);
+
+  // Default position: bottom-right of page
+  const pw = firstPage.offsetWidth, ph = firstPage.offsetHeight;
+  box.style.left = (pw * 0.60) + 'px';
+  box.style.top  = (ph * 0.82) + 'px';
+
+  updateSigDragContent();
+  makeSigDraggable(box);
+
+  document.getElementById('sign-place-hint').textContent = '✅ Signature placed! Drag it anywhere on the PDF, then click Process.';
+  document.getElementById('sign-place-btn').textContent  = '🔄 Re-place Signature';
+}
+
+function removeSigDragBox() {
+  const old = document.getElementById('sig-drag-box');
+  if (old) old.remove();
+}
+
+function updateSigDragContent() {
+  const box = document.getElementById('sig-drag-content');
+  if (!box) return;
+  const method = document.getElementById('sign-method-sel')?.value || 'draw';
+  box.innerHTML = '';
+  if (method === 'type') {
+    const txt = document.getElementById('ed-sig-text')?.value || 'Signature';
+    const s = document.createElement('span');
+    s.textContent = txt || 'Signature';
+    box.appendChild(s);
+  } else if (method === 'draw') {
+    const c = document.getElementById('ed-sig-canvas');
+    if (c) {
+      const img = document.createElement('img');
+      img.src = c.toDataURL('image/png');
+      box.appendChild(img);
+    }
+  } else if (method === 'upload') {
+    const f = document.getElementById('ed-sig-file')?.files[0];
+    if (f) {
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      box.appendChild(img);
+    }
+  }
+}
+
+function makeSigDraggable(box) {
+  const onDown = e => {
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    sigDragState = { isDragging:true, startMouseX:clientX, startMouseY:clientY,
+                     startElX:parseInt(box.style.left)||0, startElY:parseInt(box.style.top)||0 };
+    box.classList.add('dragging');
+  };
+  const onMove = e => {
+    if (!sigDragState.isDragging) return;
+    e.preventDefault();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    const dx = clientX - sigDragState.startMouseX;
+    const dy = clientY - sigDragState.startMouseY;
+    const parent = box.parentElement;
+    const newX = Math.max(0, Math.min(sigDragState.startElX + dx, parent.offsetWidth  - box.offsetWidth));
+    const newY = Math.max(0, Math.min(sigDragState.startElY + dy, parent.offsetHeight - box.offsetHeight));
+    box.style.left = newX + 'px';
+    box.style.top  = newY + 'px';
+  };
+  const onUp = e => {
+    if (!sigDragState.isDragging) return;
+    sigDragState.isDragging = false;
+    box.classList.remove('dragging');
+    // Capture final position as % of page
+    const parent = box.parentElement;
+    sigFinalPos.pageEl = parent;
+    sigFinalPos.xPct = Math.round((parseInt(box.style.left) / parent.offsetWidth)  * 100);
+    sigFinalPos.yPct = Math.round((parseInt(box.style.top)  / parent.offsetHeight) * 100);
+  };
+  box.addEventListener('mousedown',  onDown);
+  box.addEventListener('touchstart', onDown, {passive:false});
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('touchmove', onMove, {passive:false});
+  document.addEventListener('mouseup',   onUp);
+  document.addEventListener('touchend',  onUp);
 }
 
 // ── MULTI-FILE MERGE ─────────────────────────────────────────────────────────
@@ -726,22 +861,27 @@ async function processTool() {
     fd.append('file', pdfBlob, currentFileName);
   }
 
-  // Handle sign mode — map editor UI to SignController params
+  // Handle sign mode — use drag position + sign content
   if (tool.signMode) {
     const method = document.getElementById('sign-method-sel')?.value || 'draw';
-    const pos    = document.getElementById('sign-pos-sel')?.value || 'bottom-right';
 
-    // Map position label → x%, y%, placement
-    const posMap = {
-      'bottom-right' : {x:65, y:85},
-      'bottom-left'  : {x:5,  y:85},
-      'bottom-center': {x:35, y:85},
-      'top-right'    : {x:65, y:5 },
-    };
-    const {x, y} = posMap[pos] || {x:65, y:85};
+    // Check drag box placed
+    const dragBox = document.getElementById('sig-drag-box');
+    if (!dragBox) {
+      showProgress(false);
+      showError('Click "Place Signature on PDF" first, then drag it to position.');
+      document.getElementById('btn-process').disabled = false;
+      return;
+    }
+
+    // Read position from drag box
+    const parent = dragBox.parentElement;
+    const xPct = Math.round((parseInt(dragBox.style.left) / parent.offsetWidth)  * 100);
+    const yPct = Math.round((parseInt(dragBox.style.top)  / parent.offsetHeight) * 100);
+
     fd.append('placement', 'last');
-    fd.append('x', x);
-    fd.append('y', y);
+    fd.append('x', xPct);
+    fd.append('y', yPct);
     fd.append('width',  '150');
     fd.append('height', '50');
 
@@ -754,9 +894,8 @@ async function processTool() {
     } else if (method === 'draw') {
       const c = document.getElementById('ed-sig-canvas');
       if (!c) { showProgress(false); showError('Canvas not ready.'); document.getElementById('btn-process').disabled=false; return; }
-      const dataUrl = c.toDataURL('image/png');
       fd.append('sign_type',  'image');
-      fd.append('sign_image', dataUrl);
+      fd.append('sign_image', c.toDataURL('image/png'));
     } else if (method === 'upload') {
       const f = document.getElementById('ed-sig-file')?.files[0];
       if (!f) { showProgress(false); showError('Please upload a signature image.'); document.getElementById('btn-process').disabled=false; return; }
