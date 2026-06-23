@@ -302,12 +302,11 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
 .pfb-change:hover{border-color:var(--accent);color:var(--accent);}
 
 /* TOOLS */
-.section{padding:72px 24px;max-width:1160px;margin:0 auto;}
-.sec-tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;
-  letter-spacing:-1px;line-height:1.1;margin-bottom:12px;}
-.sec-sub{color:var(--text2);font-size:16px;max-width:480px;line-height:1.65;}
-.sec-header{text-align:center;margin-bottom:52px;}
+.section{padding:80px 0;max-width:1200px;margin:0 auto;}
+.sec-header{text-align:center;margin-bottom:48px;padding:0 24px;}
+.sec-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(91,92,255,.1);border:1px solid rgba(91,92,255,.2);color:#9898ff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;}
+.sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px;}
+.sec-sub{color:var(--text2);font-size:16px;}
 .sec-header .sec-sub{margin:0 auto;}
 
 .tool-tabs{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap;}
@@ -317,25 +316,30 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
 .ttab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
 .ttab:hover:not(.active){border-color:var(--accent);color:var(--accent);}
 
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:12px;}
-.tc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:22px 18px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
-.tc::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;}
-.tc[data-c="ai"]::before{background:radial-gradient(circle at 0 0,rgba(91,92,255,.1),transparent 60%);}
-.tc[data-c="edit"]::before{background:radial-gradient(circle at 0 0,rgba(0,229,160,.09),transparent 60%);}
-.tc[data-c="convert"]::before{background:radial-gradient(circle at 0 0,rgba(255,204,68,.09),transparent 60%);}
-.tc[data-c="organize"]::before{background:radial-gradient(circle at 0 0,rgba(132,204,255,.09),transparent 60%);}
-.tc[data-c="security"]::before{background:radial-gradient(circle at 0 0,rgba(255,107,107,.09),transparent 60%);}
-.tc:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+/* TOOL CARDS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding:0 24px;max-width:1200px;margin:0 auto;}
+.tc{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:22px 18px 18px;
+  cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:10px;text-align:left;}
+.tc::before{content:'';position:absolute;inset:0;border-radius:18px;opacity:0;transition:opacity .25s;
+  background:radial-gradient(circle at 30% 0,rgba(91,92,255,.08),transparent 70%);}
+.tc:hover{transform:translateY(-5px);border-color:rgba(91,92,255,.4);
+  box-shadow:0 16px 48px rgba(0,0,0,.35),0 0 0 1px rgba(91,92,255,.15);}
 .tc:hover::before{opacity:1;}
-.tc-icon{font-size:26px;margin-bottom:12px;}
-.tc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:13.5px;font-weight:700;margin-bottom:4px;}
-.tc-desc{font-size:12px;color:var(--text2);line-height:1.5;}
-.tc-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:8px;}
-.bai{background:rgba(91,92,255,.15);color:#9898ff;}
-.bnew{background:rgba(0,229,160,.15);color:#00e5a0;}
-.bhot{background:rgba(255,107,107,.15);color:#ff8f8f;}
-.bfree{background:rgba(255,204,68,.15);color:#ffcc44;}
+.tc-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;margin-bottom:2px;}
+.tc-icon-wrap.c-blue{background:rgba(91,92,255,.18);}
+.tc-icon-wrap.c-green{background:rgba(0,229,160,.15);}
+.tc-icon-wrap.c-red{background:rgba(255,107,107,.15);}
+.tc-icon-wrap.c-yellow{background:rgba(255,204,68,.15);}
+.tc-icon-wrap.c-purple{background:rgba(168,85,247,.15);}
+.tc-icon-wrap.c-cyan{background:rgba(6,182,212,.15);}
+.tc-name{font-size:14px;font-weight:700;color:var(--text);line-height:1.3;}
+.tc-desc{font-size:12px;color:var(--text2);line-height:1.5;flex:1;}
+.tc-badge{position:absolute;top:12px;right:12px;font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;}
+.bnew{background:rgba(0,229,160,.15);color:#00e5a0;border:1px solid rgba(0,229,160,.25);}
+.bai{background:rgba(91,92,255,.15);color:#9898ff;border:1px solid rgba(91,92,255,.25);}
+.bhot{background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.25);}
+.bfree{background:rgba(255,255,255,.06);color:var(--text3);border:1px solid var(--border);}
 
 /* PANEL */
 #panel-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.82);
@@ -505,6 +509,25 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
 </section>
 
+<!-- Trust Bar -->
+<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);padding:14px 24px;margin-bottom:0;">
+  @foreach([
+    ['🔒','SSL Encrypted','All uploads secured'],
+    ['⚡','Instant Processing','Results in seconds'],
+    ['🚫','No Signup Needed','Just upload and go'],
+    ['🗑️','Auto-Deleted','Files removed in 2h'],
+    ['💸','Always Free','20+ tools, no credit card'],
+  ] as [$icon,$title,$sub])
+  <div style="display:flex;align-items:center;gap:10px;padding:8px 28px;border-right:1px solid var(--border);">
+    <span style="font-size:18px;">{{$icon}}</span>
+    <div>
+      <div style="font-size:12px;font-weight:700;color:var(--text);">{{$title}}</div>
+      <div style="font-size:11px;color:var(--text2);">{{$sub}}</div>
+    </div>
+  </div>
+  @endforeach
+</div>
+
 <div id="drop-section" style="padding:0 24px 72px;display:flex;justify-content:center;">
   <div style="max-width:700px;width:100%;">
 
@@ -611,6 +634,29 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
 </div>
 
+<!-- How it Works -->
+<div style="max-width:900px;margin:0 auto;padding:72px 24px 40px;text-align:center;">
+  <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(91,92,255,.1);border:1px solid rgba(91,92,255,.25);border-radius:99px;padding:6px 16px;font-size:12px;color:#9898ff;font-weight:600;margin-bottom:20px;text-transform:uppercase;letter-spacing:.06em;">How it Works</div>
+  <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,40px);font-weight:800;margin-bottom:14px;letter-spacing:-1px;">Three steps. Done.</h2>
+  <p style="color:var(--text2);font-size:16px;margin-bottom:48px;">No software to install. No account needed. Just upload, choose a tool, and download.</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;">
+    <!-- connector line -->
+    <div style="position:absolute;top:28px;left:calc(16.6% + 20px);right:calc(16.6% + 20px);height:2px;background:linear-gradient(90deg,rgba(91,92,255,.4),rgba(0,229,160,.4));border-radius:99px;z-index:0;"></div>
+    @foreach([
+      ['1','📤','Upload your PDF','Drop your PDF file. Up to 10MB free — no account, no waiting.'],
+      ['2','⚙️','Choose your tool','Pick from 20+ PDF tools — compress, merge, translate, sign, and more.'],
+      ['3','📥','Download instantly','Your processed file is ready in seconds. Download and you\'re done.'],
+    ] as [$n,$icon,$title,$desc])
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px 22px;position:relative;z-index:1;">
+      <div style="width:52px;height:52px;background:linear-gradient(135deg,rgba(91,92,255,.25),rgba(0,229,160,.15));border:1px solid rgba(91,92,255,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;">{{$icon}}</div>
+      <div style="position:absolute;top:14px;left:14px;width:22px;height:22px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;">{{$n}}</div>
+      <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">{{$title}}</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;">{{$desc}}</div>
+    </div>
+    @endforeach
+  </div>
+</div>
+
 <section class="section" id="tools">
   <div class="sec-header">
     <div class="sec-tag">All Tools</div>
@@ -626,40 +672,60 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     <button class="ttab" onclick="filterTools('security',this)">🔒 Security</button>
   </div>
   <div class="tools-grid" id="tools-grid">
-    <div class="tc" data-c="ai" onclick="window.location='/ocr-pdf'"><div class="tc-icon">🔍</div><div class="tc-name">OCR PDF</div><div class="tc-desc">Extract text from scanned PDFs</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="security" onclick="window.location='/redact-pdf'"><div class="tc-icon">🔒</div><div class="tc-name">PDF Redactor</div><div class="tc-desc">Auto-blackout sensitive info with AI</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="convert" onclick="window.location='/pdf-to-csv'"><div class="tc-icon">📊</div><div class="tc-name">PDF to Excel / CSV</div><div class="tc-desc">Extract tables from any PDF with AI</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="security" onclick="window.location='/watermark-remover'"><div class="tc-icon">🚫</div><div class="tc-name">Watermark Remover</div><div class="tc-desc">Remove watermarks from PDF</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="ai" onclick="window.location='/ai-form-fill'"><div class="tc-icon">📋</div><div class="tc-name">AI Form Filler</div><div class="tc-desc">Auto-fill PDF forms with AI</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="ai" onclick="window.location='/ai-pdf-generator'"><div class="tc-icon">✨</div><div class="tc-name">AI PDF Generator</div><div class="tc-desc">Text to beautiful PDF with AI</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="edit" onclick="window.location='/pdf-text-editor'"><div class="tc-icon">✏️</div><div class="tc-name">PDF Text Editor</div><div class="tc-desc">Edit PDF text in your browser</div><span class="tc-badge bnew">NEW</span></div>
-    <div class="tc" data-c="ai" onclick="openTool('chat')"><div class="tc-icon">💬</div><div class="tc-name">Chat with PDF</div><div class="tc-desc">Ask questions, get instant answers</div><span class="tc-badge bai">AI</span></div>
-    <div class="tc" data-c="ai" onclick="openTool('summarize')"><div class="tc-icon">📝</div><div class="tc-name">AI Summarizer</div><div class="tc-desc">Concise summary of any PDF</div><span class="tc-badge bai">AI</span></div>
-    <div class="tc" data-c="ai" onclick="openTool('translate')"><div class="tc-icon">🌐</div><div class="tc-name">PDF Translator</div><div class="tc-desc">Translate to 12+ languages</div><span class="tc-badge bnew">NEW</span><a href="/pdf-translator-bengali" onclick="event.stopPropagation()" style="display:block;margin-top:8px;font-size:0.78rem;color:#8888a8;text-decoration:none;">📖 Bengali guide</a></div>
-    <div class="tc" data-c="ai" onclick="openTool('extract-data')"><div class="tc-icon">📊</div><div class="tc-name">Data Extractor</div><div class="tc-desc">Extract invoices & tables to JSON</div><span class="tc-badge bai">AI</span></div>
-    <div class="tc" data-c="organize" onclick="openTool('compress')"><div class="tc-icon">🗜️</div><div class="tc-name">Compress PDF</div><div class="tc-desc">Reduce size, keep quality</div><span class="tc-badge bhot">HOT</span></div>
-    <div class="tc" data-c="organize" onclick="openTool('merge')"><div class="tc-icon">🔗</div><div class="tc-name">Merge PDFs</div><div class="tc-desc">Combine multiple PDFs into one</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="organize" onclick="openTool('split')"><div class="tc-icon">✂️</div><div class="tc-name">Split PDF</div><div class="tc-desc">Split by pages, range, or half</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="organize" onclick="openTool('delete-pages')"><div class="tc-icon">🗑️</div><div class="tc-name">Delete Pages</div><div class="tc-desc">Remove specific pages</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="organize" onclick="openTool('reorder')"><div class="tc-icon">📋</div><div class="tc-name">Reorder Pages</div><div class="tc-desc">Change page order</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="edit" onclick="openTool('watermark')"><div class="tc-icon">💧</div><div class="tc-name">Watermark</div><div class="tc-desc">Add text watermark to all pages</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="edit" onclick="openTool('page-numbers')"><div class="tc-icon">🔢</div><div class="tc-name">Page Numbers</div><div class="tc-desc">Add numbered pages to PDF</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="edit" onclick="openTool('rotate')"><div class="tc-icon">🔄</div><div class="tc-name">Rotate Pages</div><div class="tc-desc">Rotate PDF pages permanently</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="convert" onclick="openTool('pdf-to-images')"><div class="tc-icon">🖼️</div><div class="tc-name">PDF to Images</div><div class="tc-desc">Convert pages to JPG / PNG</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="convert" onclick="openTool('images-to-pdf')"><div class="tc-icon">📄</div><div class="tc-name">Images to PDF</div><div class="tc-desc">Combine images into one PDF</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="convert" onclick="openTool('extract-text')"><div class="tc-icon">📃</div><div class="tc-name">Extract Text</div><div class="tc-desc">Pull all text out as .txt file</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="convert" onclick="openTool('grayscale')"><div class="tc-icon">⚫</div><div class="tc-name">Grayscale</div><div class="tc-desc">Convert colors to black & white</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="security" onclick="openTool('protect')"><div class="tc-icon">🔐</div><div class="tc-name">Protect PDF</div><div class="tc-desc">Add AES password encryption</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="security" onclick="openTool('unlock')"><div class="tc-icon">🔓</div><div class="tc-name">Unlock PDF</div><div class="tc-desc">Remove password from PDF</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="security" onclick="openTool('info')"><div class="tc-icon">ℹ️</div><div class="tc-name">PDF Info</div><div class="tc-desc">View metadata and properties</div><span class="tc-badge bfree">FREE</span></div>
-    <div class="tc" data-c="edit" onclick="openTool('sign')">
-      <div class="tc-icon">✍️</div>
-      <div class="tc-name">eSign PDF</div>
-      <div class="tc-desc">Draw, type or upload signature</div>
-      <span class="tc-badge bnew">NEW</span>
-    </div>
+    <div class="tc" data-c="ai" onclick="window.location='/ocr-pdf'"><div class="tc-icon-wrap c-blue">🔍</div><div class="tc-name">OCR PDF</div><div class="tc-desc">Extract text from scanned PDFs with high accuracy</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="security" onclick="window.location='/redact-pdf'"><div class="tc-icon-wrap c-red">🛡️</div><div class="tc-name">PDF Redactor</div><div class="tc-desc">Auto-blackout sensitive info with AI</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="convert" onclick="window.location='/pdf-to-csv'"><div class="tc-icon-wrap c-green">📊</div><div class="tc-name">PDF to Excel / CSV</div><div class="tc-desc">Extract tables from any PDF with AI</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="security" onclick="window.location='/watermark-remover'"><div class="tc-icon-wrap c-yellow">✨</div><div class="tc-name">Watermark Remover</div><div class="tc-desc">Remove watermarks cleanly from PDF</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="ai" onclick="window.location='/ai-form-fill'"><div class="tc-icon-wrap c-purple">📋</div><div class="tc-name">AI Form Filler</div><div class="tc-desc">Auto-fill PDF forms intelligently with AI</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="ai" onclick="window.location='/ai-pdf-generator'"><div class="tc-icon-wrap c-cyan">✨</div><div class="tc-name">AI PDF Generator</div><div class="tc-desc">Turn text into a beautiful PDF document</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="edit" onclick="window.location='/pdf-text-editor'"><div class="tc-icon-wrap c-blue">✏️</div><div class="tc-name">PDF Text Editor</div><div class="tc-desc">Edit PDF text directly in your browser</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="ai" onclick="openTool('chat')"><div class="tc-icon-wrap c-purple">💬</div><div class="tc-name">Chat with PDF</div><div class="tc-desc">Ask questions, get instant AI answers</div><span class="tc-badge bai">AI</span></div>
+    <div class="tc" data-c="ai" onclick="openTool('summarize')"><div class="tc-icon-wrap c-blue">📝</div><div class="tc-name">AI Summarizer</div><div class="tc-desc">Get a concise summary of any PDF</div><span class="tc-badge bai">AI</span></div>
+    <div class="tc" data-c="ai" onclick="openTool('translate')"><div class="tc-icon-wrap c-green">🌐</div><div class="tc-name">PDF Translator</div><div class="tc-desc">Translate to Bengali, Hindi, Arabic + 9 more</div><span class="tc-badge bnew">NEW</span></div>
+    <div class="tc" data-c="ai" onclick="openTool('extract-data')"><div class="tc-icon-wrap c-cyan">🔬</div><div class="tc-name">Data Extractor</div><div class="tc-desc">Extract invoices &amp; structured data to JSON</div><span class="tc-badge bai">AI</span></div>
+    <div class="tc" data-c="organize" onclick="openTool('compress')"><div class="tc-icon-wrap c-yellow">🗜️</div><div class="tc-name">Compress PDF</div><div class="tc-desc">Reduce file size while keeping quality</div><span class="tc-badge bhot">HOT</span></div>
+    <div class="tc" data-c="organize" onclick="openTool('merge')"><div class="tc-icon-wrap c-blue">🔗</div><div class="tc-name">Merge PDFs</div><div class="tc-desc">Combine multiple PDF files into one</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="organize" onclick="openTool('split')"><div class="tc-icon-wrap c-red">✂️</div><div class="tc-name">Split PDF</div><div class="tc-desc">Split by pages, range, or in half</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="organize" onclick="openTool('delete-pages')"><div class="tc-icon-wrap c-red">🗑️</div><div class="tc-name">Delete Pages</div><div class="tc-desc">Remove specific pages from a PDF</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="organize" onclick="openTool('reorder')"><div class="tc-icon-wrap c-blue">↕️</div><div class="tc-name">Reorder Pages</div><div class="tc-desc">Drag and reorder PDF pages freely</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="edit" onclick="openTool('watermark')"><div class="tc-icon-wrap c-cyan">💧</div><div class="tc-name">Watermark PDF</div><div class="tc-desc">Add custom text watermark to all pages</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="edit" onclick="openTool('page-numbers')"><div class="tc-icon-wrap c-green">🔢</div><div class="tc-name">Page Numbers</div><div class="tc-desc">Add numbered footers to all PDF pages</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="edit" onclick="openTool('rotate')"><div class="tc-icon-wrap c-yellow">🔄</div><div class="tc-name">Rotate Pages</div><div class="tc-desc">Fix page orientation permanently</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="convert" onclick="openTool('pdf-to-images')"><div class="tc-icon-wrap c-purple">🖼️</div><div class="tc-name">PDF to Images</div><div class="tc-desc">Convert PDF pages to JPG or PNG</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="convert" onclick="openTool('images-to-pdf')"><div class="tc-icon-wrap c-blue">📄</div><div class="tc-name">Images to PDF</div><div class="tc-desc">Combine multiple images into one PDF</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="convert" onclick="openTool('extract-text')"><div class="tc-icon-wrap c-green">📃</div><div class="tc-name">Extract Text</div><div class="tc-desc">Pull all text from PDF as a .txt file</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="convert" onclick="openTool('grayscale')"><div class="tc-icon-wrap c-cyan">⬛</div><div class="tc-name">Grayscale PDF</div><div class="tc-desc">Convert color PDF to black &amp; white</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="security" onclick="openTool('protect')"><div class="tc-icon-wrap c-red">🔐</div><div class="tc-name">Protect PDF</div><div class="tc-desc">Add AES-256 password encryption</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="security" onclick="openTool('unlock')"><div class="tc-icon-wrap c-yellow">🔓</div><div class="tc-name">Unlock PDF</div><div class="tc-desc">Remove password from protected PDF</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="security" onclick="openTool('info')"><div class="tc-icon-wrap c-blue">ℹ️</div><div class="tc-name">PDF Info</div><div class="tc-desc">View metadata, page count, file size</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="edit" onclick="openTool('sign')"><div class="tc-icon-wrap c-purple">✍️</div><div class="tc-name">eSign PDF</div><div class="tc-desc">Draw, type or upload your signature</div><span class="tc-badge bnew">NEW</span></div>
   </div>
 </section>
+
+<!-- Why PDFTash Section -->
+<div style="background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);padding:80px 24px;margin:0;">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:99px;padding:6px 16px;font-size:11px;color:#00e5a0;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:.08em;">Why PDFTash</div>
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;">Built for people, not enterprises</h2>
+    <p style="color:var(--text2);font-size:16px;max-width:520px;margin:0 auto 56px;line-height:1.7;">No bloated UI. No forced signup. Just fast, reliable PDF tools that work the first time.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;text-align:left;">
+      @foreach([
+        ['🔒','Privacy First','Your files are processed on our secure servers and automatically deleted after 2 hours. We never read, share, or store your documents.','c-red'],
+        ['⚡','Lightning Fast','No queues. No batch jobs. Upload and get your result in seconds — most operations complete in under 10 seconds.','c-yellow'],
+        ['🤖','Powered by Claude AI','AI features use Claude — one of the most accurate and capable language models available. Not a cheap GPT wrapper.','c-purple'],
+        ['💸','Genuinely Free','20+ tools are completely free with no daily limits on basic operations. No dark patterns, no forced upgrades.','c-green'],
+        ['🌍','Works Everywhere','No software to install. Works on Windows, Mac, Linux, Android, and iPhone — any device with a browser.','c-blue'],
+        ['🛠️','Built on Open Tools','Backend uses battle-tested tools: Ghostscript, ImageMagick, Tesseract OCR, poppler. Not black-box conversion.','c-cyan'],
+      ] as [$icon,$title,$desc,$color])
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:26px 22px;transition:all .25s;" onmouseover="this.style.borderColor='rgba(91,92,255,.35)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='translateY(0)'">
+        <div class="tc-icon-wrap {{$color}}" style="margin-bottom:16px;">{{$icon}}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">{{$title}}</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.65;">{{$desc}}</div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</div>
 
 <section class="section" id="pricing">
   <div class="sec-header">
