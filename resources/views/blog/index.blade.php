@@ -163,6 +163,62 @@
             <span class="article-card__meta">4 min read · Watermark</span>
         </a>
 
+        <a href="/blog/how-to-sign-pdf-online-free" class="article-card">
+            <span class="article-card__emoji">✍️</span>
+            <h2 class="article-card__title">How to Sign a PDF Online Free — No App, No Signup</h2>
+            <p class="article-card__desc">Draw, type or upload your signature and add it to any PDF in seconds. Legally valid e-signature.</p>
+            <span class="article-card__meta">5 min read · Sign</span>
+        </a>
+
+        <a href="/blog/how-to-remove-password-from-pdf" class="article-card">
+            <span class="article-card__emoji">🔓</span>
+            <h2 class="article-card__title">How to Remove Password from PDF Online Free</h2>
+            <p class="article-card__desc">Unlock a password-protected PDF instantly — no software needed, works in any browser.</p>
+            <span class="article-card__meta">4 min read · Security</span>
+        </a>
+
+        <a href="/blog/how-to-redact-pdf" class="article-card">
+            <span class="article-card__emoji">⬛</span>
+            <h2 class="article-card__title">How to Redact a PDF: Black Out Sensitive Information</h2>
+            <p class="article-card__desc">Permanently hide names, SSNs, addresses and card numbers before sharing confidential documents.</p>
+            <span class="article-card__meta">5 min read · Security</span>
+        </a>
+
+        <a href="/blog/how-to-extract-tables-from-pdf" class="article-card">
+            <span class="article-card__emoji">📊</span>
+            <h2 class="article-card__title">How to Extract Tables from PDF to Excel or CSV Free</h2>
+            <p class="article-card__desc">Pull structured data out of invoices, reports and financial PDFs directly into a spreadsheet.</p>
+            <span class="article-card__meta">5 min read · Data</span>
+        </a>
+
+        <a href="/blog/best-free-pdf-editor-online" class="article-card">
+            <span class="article-card__emoji">✏️</span>
+            <h2 class="article-card__title">Best Free PDF Editor Online in 2026</h2>
+            <p class="article-card__desc">Honest comparison of SmallPDF, ILovePDF, Sejda, PDF24 and PDFTash — who wins for free users?</p>
+            <span class="article-card__meta">6 min read · Comparison</span>
+        </a>
+
+        <a href="/blog/how-to-ocr-pdf" class="article-card">
+            <span class="article-card__emoji">🔍</span>
+            <h2 class="article-card__title">How to OCR a PDF: Make Scanned PDFs Searchable</h2>
+            <p class="article-card__desc">Convert image-based scanned PDFs into searchable, copyable text. Supports Bengali, Arabic, Hindi.</p>
+            <span class="article-card__meta">5 min read · OCR</span>
+        </a>
+
+        <a href="/blog/how-to-add-page-numbers-to-pdf" class="article-card">
+            <span class="article-card__emoji">#️⃣</span>
+            <h2 class="article-card__title">How to Add Page Numbers to a PDF Online Free</h2>
+            <p class="article-card__desc">Number pages in your PDF for reports, contracts, and academic submissions. Choose position and start number.</p>
+            <span class="article-card__meta">3 min read · Edit</span>
+        </a>
+
+        <a href="/blog/how-to-translate-pdf" class="article-card">
+            <span class="article-card__emoji">🌏</span>
+            <h2 class="article-card__title">How to Translate a PDF to Any Language Online Free</h2>
+            <p class="article-card__desc">AI-powered PDF translation into Bengali, Arabic, Spanish, Hindi, Chinese and 8 more languages.</p>
+            <span class="article-card__meta">5 min read · Translate</span>
+        </a>
+
     </div>
 
 </div>

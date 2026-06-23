@@ -228,6 +228,27 @@ Route::get('/blog/best-free-pdf-tools',                    fn() => view('blog.be
 Route::get('/blog/how-to-merge-pdf',                       fn() => view('blog.how-to-merge-pdf'));
 Route::get('/blog/ilovepdf-vs-smallpdf-vs-pdftash',        fn() => view('blog.ilovepdf-vs-smallpdf-vs-pdftash'));
 Route::get('/blog/how-to-remove-watermark-from-pdf',       fn() => view('blog.how-to-remove-watermark-from-pdf'));
+// New blog posts
+Route::get('/blog/how-to-sign-pdf-online-free',            fn() => view('blog.how-to-sign-pdf-online-free'));
+Route::get('/blog/how-to-remove-password-from-pdf',        fn() => view('blog.how-to-remove-password-from-pdf'));
+Route::get('/blog/how-to-redact-pdf',                      fn() => view('blog.how-to-redact-pdf'));
+Route::get('/blog/how-to-extract-tables-from-pdf',         fn() => view('blog.how-to-extract-tables-from-pdf'));
+Route::get('/blog/best-free-pdf-editor-online',            fn() => view('blog.best-free-pdf-editor-online'));
+Route::get('/blog/how-to-ocr-pdf',                         fn() => view('blog.how-to-ocr-pdf'));
+Route::get('/blog/how-to-add-page-numbers-to-pdf',         fn() => view('blog.how-to-add-page-numbers-to-pdf'));
+Route::get('/blog/how-to-translate-pdf',                   fn() => view('blog.how-to-translate-pdf'));
+
+// ── SEO Pages: New high-volume tool keywords ──────────────────────────────────
+Route::get('/pdf-editor-online-free',   fn() => view('pages.pdf-editor-online-free'));
+Route::get('/free-pdf-editor',          fn() => view('pages.pdf-editor-online-free'));
+Route::get('/remove-pdf-password',      fn() => view('pages.remove-pdf-password'));
+Route::get('/unlock-pdf-online',        fn() => view('pages.remove-pdf-password'));
+Route::get('/rotate-pdf-online',        fn() => view('pages.rotate-pdf-online'));
+Route::get('/rotate-pdf-free',          fn() => view('pages.rotate-pdf-online'));
+Route::get('/add-watermark-to-pdf',     fn() => view('pages.add-watermark-to-pdf'));
+Route::get('/watermark-pdf-online',     fn() => view('pages.add-watermark-to-pdf'));
+Route::get('/pdf-to-text-online',       fn() => view('pages.pdf-to-text'));
+Route::get('/compress-pdf-free',        fn() => view('pages.compress-pdf-free'));
 
 // ── SEO Pages: Translate language variants ───────────────────────────────────
 Route::get('/translate-pdf-to-spanish',     fn() => view('pages.translate-pdf-to-spanish'));
@@ -339,6 +360,24 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/blog/how-to-merge-pdf',                       'priority' => '0.75','changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/ilovepdf-vs-smallpdf-vs-pdftash',        'priority' => '0.75','changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/how-to-remove-watermark-from-pdf',       'priority' => '0.75','changefreq' => 'monthly'],
+        // New blog posts
+        ['loc' => 'https://pdftash.com/blog/how-to-sign-pdf-online-free',           'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-remove-password-from-pdf',       'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-redact-pdf',                     'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-extract-tables-from-pdf',        'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/best-free-pdf-editor-online',           'priority' => '0.9', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-ocr-pdf',                        'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-add-page-numbers-to-pdf',        'priority' => '0.8', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-translate-pdf',                  'priority' => '0.85','changefreq' => 'monthly'],
+        // New landing pages
+        ['loc' => 'https://pdftash.com/pdf-editor-online-free',  'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/remove-pdf-password',     'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/rotate-pdf-online',       'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/add-watermark-to-pdf',    'priority' => '0.85','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-to-text-online',      'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/compress-pdf-free',       'priority' => '0.9', 'changefreq' => 'weekly'],
+        // Editor
+        ['loc' => 'https://pdftash.com/editor',                  'priority' => '0.95','changefreq' => 'weekly'],
     ];
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
