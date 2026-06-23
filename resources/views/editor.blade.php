@@ -726,36 +726,57 @@ async function processTool() {
     fd.append('file', pdfBlob, currentFileName);
   }
 
-  // Handle sign mode
+  // Handle sign mode — map editor UI to SignController params
   if (tool.signMode) {
     const method = document.getElementById('sign-method-sel')?.value || 'draw';
-    fd.append('method', method);
-    fd.append('position', document.getElementById('sign-pos-sel')?.value || 'bottom-right');
-    if (method === 'draw') {
+    const pos    = document.getElementById('sign-pos-sel')?.value || 'bottom-right';
+
+    // Map position label → x%, y%, placement
+    const posMap = {
+      'bottom-right' : {x:65, y:85},
+      'bottom-left'  : {x:5,  y:85},
+      'bottom-center': {x:35, y:85},
+      'top-right'    : {x:65, y:5 },
+    };
+    const {x, y} = posMap[pos] || {x:65, y:85};
+    fd.append('placement', 'last');
+    fd.append('x', x);
+    fd.append('y', y);
+    fd.append('width',  '150');
+    fd.append('height', '50');
+
+    if (method === 'type') {
+      const txt = document.getElementById('ed-sig-text')?.value?.trim() || '';
+      if (!txt) { showProgress(false); showError('Please type your signature name.'); document.getElementById('btn-process').disabled=false; return; }
+      fd.append('sign_type', 'text');
+      fd.append('sign_text', txt);
+      fd.append('font_size', '28');
+    } else if (method === 'draw') {
       const c = document.getElementById('ed-sig-canvas');
-      if (c) {
-        await new Promise(r => c.toBlob(b => { fd.append('signature', b, 'sig.png'); r(); }, 'image/png'));
-      }
-    } else if (method === 'type') {
-      fd.append('text', document.getElementById('ed-sig-text')?.value || '');
+      if (!c) { showProgress(false); showError('Canvas not ready.'); document.getElementById('btn-process').disabled=false; return; }
+      const dataUrl = c.toDataURL('image/png');
+      fd.append('sign_type',  'image');
+      fd.append('sign_image', dataUrl);
     } else if (method === 'upload') {
       const f = document.getElementById('ed-sig-file')?.files[0];
-      if (f) fd.append('signature', f, f.name);
+      if (!f) { showProgress(false); showError('Please upload a signature image.'); document.getElementById('btn-process').disabled=false; return; }
+      fd.append('sign_type', 'image');
+      fd.append('sign_file', f, f.name);
     }
   }
 
-  // Collect fields (skip sign-specific ones already added)
-  const fieldsEl = document.getElementById('panel-fields');
-  fieldsEl.querySelectorAll('input,select,textarea').forEach(el => {
-    if (!el.name) return;
-    if (['sign-method-sel','sign-pos-sel','ed-sig-text'].includes(el.id)) return;
-    if (el.id === 'ed-sig-file') return;
-    if (el.type === 'checkbox') {
-      if (el.checked) fd.append(el.name, el.value);
-    } else {
-      fd.append(el.name, el.value);
-    }
-  });
+  // Collect fields (skip sign-specific ones already handled above)
+  if (!tool.signMode) {
+    const fieldsEl = document.getElementById('panel-fields');
+    fieldsEl.querySelectorAll('input,select,textarea').forEach(el => {
+      if (!el.name) return;
+      if (el.type === 'checkbox') {
+        if (el.checked) fd.append(el.name, el.value);
+      } else {
+        fd.append(el.name, el.value);
+      }
+    });
+  }
 
   showProgress(true, 'Processing…');
 
