@@ -186,14 +186,15 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;
-  justify-content:space-between;padding:14px 40px;
-  background:rgba(7,7,13,0.85);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;
-  background:linear-gradient(135deg,#5b5cff,#00e5a0);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  justify-content:space-between;padding:10px 40px;
+  background:rgba(7,7,13,0.92);backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border);box-shadow:0 1px 30px rgba(0,0,0,.4);}
+.nav-logo{display:flex;align-items:center;text-decoration:none;}
+.nav-logo img{height:36px;width:auto;display:block;}
 .nav-links{display:flex;gap:28px;}
 .nav-links a{color:var(--text2);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s;}
 .nav-links a:hover{color:var(--text);}
+.nav-links a.active{color:var(--text);}
 .nav-right{display:flex;gap:10px;}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
   padding:9px 20px;border-radius:99px;font-size:13.5px;font-weight:600;
@@ -436,9 +437,8 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
 
 /* FOOTER */
 footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:center;}
-.foot-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-bottom:14px;
-  background:linear-gradient(135deg,#5b5cff,#00e5a0);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.foot-logo{display:flex;justify-content:center;margin-bottom:14px;}
+.foot-logo img{height:38px;width:auto;opacity:.85;}
 .foot-links{display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
 .foot-links a{color:var(--text2);font-size:14px;text-decoration:none;transition:color .2s;}
 .foot-links a:hover{color:var(--text);}
@@ -455,7 +455,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <body>
 
 <nav>
-  <div class="nav-logo">PDFTash</div>
+  <a href="/" class="nav-logo"><img src="/logo.svg" alt="PDFTash — Free PDF Tools Online"></a>
   <div class="nav-links">
     <a href="#tools">Tools</a>
     <a href="#pricing">Pricing</a>
@@ -748,7 +748,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 </section>
 
 <footer>
-  <div class="foot-logo">PDFTash</div>
+  <div class="foot-logo"><img src="/logo.svg" alt="PDFTash"></div>
   <div class="foot-links"><a href="#">About</a><a href="/blog">Blog</a><a href="#">Privacy</a><a href="#">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
   <div style="margin:14px 0 4px;font-size:0.82rem;color:#44445a;">
     <a href="/pdf-translator-bengali" style="color:#44445a;text-decoration:none;">📖 PDF to Bengali Translation</a>
@@ -1572,8 +1572,7 @@ function showToast(msg, icon='✅'){
 
     <!-- Logo + Title -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-      <div style="width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;">PDFTash</span>
+      <img src="/logo.svg" alt="PDFTash" style="height:30px;width:auto;">
     </div>
     <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;" id="modal-title">Sign in</div>
     <div style="font-size:13px;color:#888;margin-bottom:24px;" id="modal-sub">Continue to your account</div>

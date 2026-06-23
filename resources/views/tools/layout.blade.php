@@ -34,10 +34,14 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100vh;}
-.nav{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);}
-.nav-logo{font-size:20px;font-weight:700;color:#5b5cff;text-decoration:none;}
-.nav-back{color:#8888a8;text-decoration:none;font-size:14px;}
+.nav{padding:12px 40px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:50;
+  background:rgba(7,7,13,0.92);backdrop-filter:blur(24px);}
+.nav-logo{display:flex;align-items:center;text-decoration:none;}
+.nav-logo img{height:34px;width:auto;}
+.nav-back{color:#8888a8;text-decoration:none;font-size:14px;display:flex;align-items:center;gap:6px;transition:color .2s;}
 .nav-back:hover{color:#fff;}
+.nav-back::before{content:'←';}
 .hero{text-align:center;padding:80px 20px 40px;}
 .hero h1{font-size:48px;font-weight:800;margin-bottom:16px;line-height:1.2;}
 .hero p{color:#8888a8;font-size:18px;max-width:600px;margin:0 auto 40px;line-height:1.6;}
@@ -61,6 +65,7 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 .faq-item h3{font-size:15px;font-weight:600;margin-bottom:8px;}
 .faq-item p{color:#8888a8;font-size:14px;line-height:1.6;}
 .footer{text-align:center;padding:40px;border-top:1px solid rgba(255,255,255,.08);color:#8888a8;font-size:14px;}
+.footer img{height:32px;width:auto;opacity:.7;margin-bottom:14px;}
 .footer a{color:#5b5cff;text-decoration:none;}
 @media(max-width:768px){
 .hero h1{font-size:32px;}
@@ -71,11 +76,12 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 </head>
 <body>
 <nav class="nav">
-  <a href="/" class="nav-logo">PDFTash</a>
-  <a href="/" class="nav-back">← All Tools</a>
+  <a href="/" class="nav-logo"><img src="/logo.svg" alt="PDFTash"></a>
+  <a href="/" class="nav-back"> All Tools</a>
 </nav>
 @yield('content')
 <div class="footer">
+  <img src="/logo.svg" alt="PDFTash"><br>
   <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a> · <a href="/blog">Blog</a></p>
 </div>
 
@@ -130,9 +136,8 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
   <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:16px;max-width:400px;width:100%;padding:36px 32px;position:relative;">
     <button onclick="closeAuthModal()" style="position:absolute;top:14px;right:16px;background:transparent;border:none;color:#666;font-size:22px;cursor:pointer;line-height:1;">×</button>
 
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-      <div style="width:32px;height:32px;background:#5b5cff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">📄</div>
-      <span style="font-size:16px;font-weight:700;color:#fff;">PDFTash</span>
+    <div style="margin-bottom:6px;">
+      <img src="/logo.svg" alt="PDFTash" style="height:30px;width:auto;">
     </div>
     <div style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;" id="auth-title">Sign in</div>
     <div style="font-size:13px;color:#888;margin-bottom:24px;" id="auth-sub">Sign in to upgrade to Pro</div>
