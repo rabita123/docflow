@@ -241,6 +241,12 @@ Route::get('/translate-pdf-to-japanese',    fn() => view('pages.translate-pdf-to
 Route::get('/translate-pdf-to-urdu',        fn() => view('pages.translate-pdf-to-urdu'));
 Route::get('/translate-english-pdf-to-bengali', fn() => view('pages.translate-english-pdf-to-bengali'));
 
+// ── PDF Editor Hub ───────────────────────────────────────────────────────────
+use App\Http\Controllers\EditorController;
+Route::get('/editor', [EditorController::class, 'show'])->name('editor');
+Route::post('/editor/upload', [EditorController::class, 'upload'])->name('editor.upload');
+Route::get('/editor/file/{token}', [EditorController::class, 'serveFile'])->name('editor.file');
+
 Route::get('/sitemap.xml', function () {
     $today = date('Y-m-d');
     $urls = [

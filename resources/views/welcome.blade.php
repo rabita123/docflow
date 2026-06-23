@@ -462,6 +462,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   <a href="/" class="nav-logo"><img src="/logo.svg" alt="PDFTash — Free PDF Tools Online"></a>
   <div class="nav-links">
     <a href="#tools">Tools</a>
+    <a href="/editor" style="color:var(--accent);font-weight:600;">Editor</a>
     <a href="#pricing">Pricing</a>
     <a href="/blog">Blog</a>
   </div>
@@ -628,6 +629,8 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
       </div>
       <div class="qt-more">
         <a href="#tools" onclick="event.preventDefault();document.getElementById('tools').scrollIntoView({behavior:'smooth'})">See all 20+ tools ↓</a>
+        &nbsp;·&nbsp;
+        <a href="#" onclick="event.preventDefault();openInEditor()" style="color:var(--accent);font-weight:600;">🖊️ Open in Full Editor</a>
       </div>
 
     </div>
@@ -1139,6 +1142,22 @@ function clearGlobalFile(){
   document.querySelectorAll('#file-input').forEach(el => el.value = '');
   document.getElementById('dz-empty').style.display = 'block';
   document.getElementById('dz-loaded').style.display = 'none';
+}
+
+async function openInEditor(){
+  if(!globalFile){ showToast('Please upload a PDF first','⚠️'); return; }
+  const fd = new FormData();
+  fd.append('file', globalFile, globalFile.name);
+  fd.append('_token', CSRF);
+  showToast('Opening editor…','⏳');
+  try {
+    const resp = await fetch('/editor/upload', {method:'POST', headers:{'X-CSRF-TOKEN':CSRF}, body:fd});
+    const data = await resp.json();
+    if(!resp.ok || data.error) throw new Error(data.error||'Upload failed');
+    window.location.href = '/editor?token=' + encodeURIComponent(data.token) + '&name=' + encodeURIComponent(data.name);
+  } catch(e) {
+    showToast('Failed: '+e.message,'❌');
+  }
 }
 
 function filterTools(cat, btn){
