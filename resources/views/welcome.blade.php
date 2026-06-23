@@ -265,6 +265,7 @@ h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(38px,7vw,80px);fon
   box-shadow:0 8px 32px rgba(91,92,255,.2);
 }
 @keyframes floatIcon{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes progressAnim{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
 .dz-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:-.3px;}
 .dz-sub{color:var(--text2);font-size:14px;line-height:1.7;max-width:420px;margin:0 auto;}
 .dz-btn{
@@ -1204,24 +1205,41 @@ function swapPanelFile(input){
   if(nameEl) nameEl.textContent = globalFile.name;
   if(metaEl) metaEl.textContent = sizeStr + ' · Ready to process ✓';
 }
-function handleGlobalFile(input){
+async function handleGlobalFile(input){
   if(!input.files[0]) return;
   globalFile = input.files[0];
 
-  // Format file size
-  const kb = globalFile.size / 1024;
-  const sizeStr = kb < 1024 ? kb.toFixed(0) + ' KB' : (kb/1024).toFixed(1) + ' MB';
+  // Show uploading state in dropzone
+  const dz = document.getElementById('dropzone');
+  if(dz){
+    dz.innerHTML = `
+      <div class="dz-upload-icon" style="animation:none">⏳</div>
+      <div class="dz-title">Uploading…</div>
+      <div class="dz-sub" style="color:var(--accent)">${globalFile.name}</div>
+      <div style="margin-top:20px;height:4px;width:200px;background:rgba(255,255,255,.1);border-radius:99px;margin-left:auto;margin-right:auto;overflow:hidden;">
+        <div style="height:100%;background:linear-gradient(90deg,#5b5cff,#7c3aed);border-radius:99px;animation:progressAnim 1.2s ease infinite;width:60%"></div>
+      </div>`;
+  }
 
-  // Populate loaded-state card
-  document.getElementById('dz-fname').textContent = globalFile.name;
-  document.getElementById('dz-fmeta').textContent = sizeStr + ' · Ready to process ✓';
+  // Upload to editor
+  const fd = new FormData();
+  fd.append('file', globalFile, globalFile.name);
+  fd.append('_token', CSRF);
 
-  // Switch to loaded state
-  document.getElementById('dz-empty').style.display = 'none';
-  document.getElementById('dz-loaded').style.display = 'block';
-  document.getElementById('dz-loaded').scrollIntoView({behavior:'smooth', block:'nearest'});
-
-  showToast('File loaded! Pick a tool ↓', '📄');
+  try {
+    const resp = await fetch('/editor/upload', {
+      method: 'POST',
+      headers: {'X-CSRF-TOKEN': CSRF},
+      body: fd
+    });
+    const data = await resp.json();
+    if(!resp.ok || data.error) throw new Error(data.error || 'Upload failed');
+    window.location.href = '/editor?token=' + encodeURIComponent(data.token) + '&name=' + encodeURIComponent(data.name);
+  } catch(e) {
+    // On error, fall back to the tool picker panel
+    if(dz) location.reload();
+    showToast('Upload failed: ' + e.message, '❌');
+  }
 }
 
 function clearGlobalFile(){
