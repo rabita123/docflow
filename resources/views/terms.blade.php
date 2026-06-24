@@ -15,6 +15,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Terms of Service — PDFTash">
 <meta name="twitter:description" content="PDFTash terms of service. Free and Pro plan details, acceptable use, file handling, and more.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 <link rel="canonical" href="https://pdftash.com/terms">
 <script type="application/ld+json">
 {

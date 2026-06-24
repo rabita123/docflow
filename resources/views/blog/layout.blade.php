@@ -9,6 +9,8 @@
     <meta name="keywords" content="@yield('keywords')">
     @endif
     <link rel="canonical" href="https://pdftash.com/blog/@yield('slug')">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.ico">
 
     {{-- Open Graph --}}
     <meta property="og:type" content="article">

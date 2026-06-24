@@ -15,6 +15,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About PDFTash — Free PDF Tools with AI">
 <meta name="twitter:description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features powered by Claude. No watermarks, no signup required.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 <link rel="canonical" href="https://pdftash.com/about">
 <script type="application/ld+json">
 {

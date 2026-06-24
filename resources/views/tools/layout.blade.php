@@ -10,6 +10,8 @@
 <meta name="robots" content="index, follow">
 <meta name="author" content="PDFTash">
 <link rel="canonical" href="https://pdftash.com/@yield('slug')">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">

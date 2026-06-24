@@ -15,6 +15,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy Policy — PDFTash">
 <meta name="twitter:description" content="PDFTash privacy policy. We don't store your files. PDFs are auto-deleted after 2 hours.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 <link rel="canonical" href="https://pdftash.com/privacy">
 <script type="application/ld+json">
 {

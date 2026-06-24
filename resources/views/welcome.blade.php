@@ -42,6 +42,8 @@
 
 <!-- Canonical -->
 <link rel="canonical" href="https://pdftash.com">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 
 <!-- Structured Data: Organization -->
 <script type="application/ld+json">

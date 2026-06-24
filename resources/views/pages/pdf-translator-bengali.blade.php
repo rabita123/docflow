@@ -6,6 +6,8 @@
 <title>Translate PDF to Bengali Free Online — PDFTash</title>
 <meta name="description" content="Translate any PDF to Bengali (Bangla) instantly for free. No signup needed. Supports English to Bengali, Hindi to Bengali, Arabic to Bengali and more. Fast, accurate AI-powered PDF translation.">
 <meta name="keywords" content="pdf translator bengali, translate pdf to bangla, english to bengali pdf, pdf bangla translator free, pdf translate online bangladesh, বাংলায় pdf অনুবাদ">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="alternate icon" href="/favicon.ico">
 <link rel="canonical" href="https://pdftash.com/pdf-translator-bengali">
 
 <!-- Open Graph -->
