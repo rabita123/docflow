@@ -82,7 +82,7 @@ body{font-family:'Inter',sans-serif;background:#07070d;color:#fff;min-height:100
 @yield('content')
 <div class="footer">
   <img src="/logo.svg" alt="PDFTash"><br>
-  <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a> · <a href="/blog">Blog</a></p>
+  <p>© 2026 PDFTash — <a href="/">All PDF Tools</a> · <a href="/#pricing">Pricing</a> · <a href="/blog">Blog</a> · <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
 </div>
 
 {{-- Pro Upgrade Modal (shown when AI feature is accessed without Pro plan) --}}
