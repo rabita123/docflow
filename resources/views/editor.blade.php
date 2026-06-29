@@ -395,7 +395,7 @@ const TOOLS = {
     fields:[{type:'text',name:'pages',label:'Pages to delete',placeholder:'1,3,5-8'}]},
   reorder:{title:'Reorder Pages',desc:'Specify new page order.',endpoint:'/api/pdf/reorder',icon:'↕️',
     fields:[{type:'text',name:'order',label:'New page order',placeholder:'3,1,2,4,5'}]},
-  'pdf-to-word':{title:'PDF to Word',desc:'Convert PDF to editable Word document (.docx).',endpoint:'/api/pdf/to-word',icon:'📝',
+  'pdf-to-word':{title:'PDF to Word',desc:'Convert PDF to editable Word document (.docx).',endpoint:'/api/pdf/to-word',icon:'📝',resultFilename:'result.docx',
     fields:[{type:'hidden',name:'format',value:'docx'}]},
   ocr:{title:'OCR PDF',desc:'Make scanned PDFs searchable with OCR.',endpoint:'/api/pdf/ocr',icon:'🔍',
     fields:[
@@ -963,7 +963,7 @@ async function processTool() {
       const blob = await resp.blob();
       resultBlob = blob;
       showProgress(false);
-      showDownloadResult('result.pdf');
+      showDownloadResult(tool.resultFilename || 'result.pdf');
     }
   } catch(e) {
     showProgress(false);

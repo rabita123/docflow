@@ -789,6 +789,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
     <div class="tc" data-c="convert" onclick="openTool('images-to-pdf')"><div class="tc-icon-wrap c-blue">📄</div><div class="tc-name">Images to PDF</div><div class="tc-desc">Combine multiple images into one PDF</div><span class="tc-badge bfree">FREE</span></div>
     <div class="tc" data-c="convert" onclick="openTool('extract-text')"><div class="tc-icon-wrap c-green">📃</div><div class="tc-name">Extract Text</div><div class="tc-desc">Pull all text from PDF as a .txt file</div><span class="tc-badge bfree">FREE</span></div>
     <div class="tc" data-c="convert" onclick="openTool('grayscale')"><div class="tc-icon-wrap c-cyan">⬛</div><div class="tc-name">Grayscale PDF</div><div class="tc-desc">Convert color PDF to black &amp; white</div><span class="tc-badge bfree">FREE</span></div>
+    <div class="tc" data-c="convert" onclick="openTool('pdf-to-word')"><div class="tc-icon-wrap c-blue">📝</div><div class="tc-name">PDF to Word</div><div class="tc-desc">Convert PDF to editable Word (.docx)</div><span class="tc-badge bnew">NEW</span></div>
     <div class="tc" data-c="security" onclick="openTool('protect')"><div class="tc-icon-wrap c-red">🔐</div><div class="tc-name">Protect PDF</div><div class="tc-desc">Add AES-256 password encryption</div><span class="tc-badge bfree">FREE</span></div>
     <div class="tc" data-c="security" onclick="openTool('unlock')"><div class="tc-icon-wrap c-yellow">🔓</div><div class="tc-name">Unlock PDF</div><div class="tc-desc">Remove password from protected PDF</div><span class="tc-badge bfree">FREE</span></div>
     <div class="tc" data-c="security" onclick="openTool('info')"><div class="tc-icon-wrap c-blue">ℹ️</div><div class="tc-name">PDF Info</div><div class="tc-desc">View metadata, page count, file size</div><span class="tc-badge bfree">FREE</span></div>
@@ -1034,6 +1035,10 @@ const TOOLS = {
     action:'Extract Data',endpoint:'/ai/extract-data'},
 
   chat:{title:'💬 Chat with PDF',sub:'Upload a PDF then ask any question about it.',method:'chat'},
+
+  'pdf-to-word':{title:'📝 PDF to Word',sub:'Convert PDF to an editable Word document (.docx).',
+    fields:[{type:'hidden',name:'format',value:'docx'}],
+    action:'Convert to Word',endpoint:'/pdf/to-word'},
 };
 
 // ── Panel ─────────────────────────────────────────────────────────────────
@@ -1083,6 +1088,7 @@ function buildPanel(tool, key){
 
   if(tool.fields){
     tool.fields.forEach(f => {
+      if(f.type === 'hidden') return; // handled by buildFD directly
       html += `<div class="fgroup"><label class="flabel">${f.label}</label>`;
       if(f.type === 'select'){
         html += `<select class="fselect" id="f-${f.name}">`;
@@ -1445,8 +1451,12 @@ function buildFD(tool){
 
   if(tool.fields){
     tool.fields.forEach(field => {
-      const el = document.getElementById('f-' + field.name);
-      if(el) fd.append(field.name, el.value);
+      if(field.type === 'hidden'){
+        fd.append(field.name, field.value || '');
+      } else {
+        const el = document.getElementById('f-' + field.name);
+        if(el) fd.append(field.name, el.value);
+      }
     });
   }
   fd.append('_token', CSRF);
