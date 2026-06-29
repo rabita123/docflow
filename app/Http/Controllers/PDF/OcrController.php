@@ -49,8 +49,7 @@ class OcrController extends BasePdfController
                 . ' -l ' . escapeshellarg($lang)
                 . ' --output-type pdf'
                 . ' --optimize 0'         // no optimization — avoids pngquant dependency
-                . ' --skip-text'          // don't error if pages already have text
-                . ' --force-ocr'          // force OCR on all pages
+                . ' --skip-text'          // skip pages that already have text, OCR image pages
                 . ' ' . escapeshellarg($pdfPath)
                 . ' ' . escapeshellarg($outputPdf)
                 . ' 2>&1';
