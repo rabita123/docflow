@@ -160,6 +160,9 @@ Route::get('/free-ilovepdf-alternative',                fn() => view('pages.ilov
 Route::get('/pdf-to-word',                              fn() => view('pages.pdf-to-word'))->name('seo.pdf-to-word');
 Route::get('/pdf-to-docx',                              fn() => view('pages.pdf-to-word'));
 Route::get('/convert-pdf-to-word',                      fn() => view('pages.pdf-to-word'));
+Route::get('/free-pdf-to-word-converter',               fn() => view('pages.free-pdf-to-word-converter'));
+Route::get('/pdf-word-converter',                       fn() => view('pages.free-pdf-to-word-converter'));
+Route::get('/pdf-to-word-no-signup',                    fn() => view('pages.free-pdf-to-word-converter'));
 Route::get('/pdf-to-jpg',                               fn() => view('pages.pdf-to-jpg'))->name('seo.pdf-to-jpg');
 Route::get('/pdf-to-jpeg',                              fn() => view('pages.pdf-to-jpg'));
 Route::get('/pdf-to-image',                             fn() => view('pages.pdf-to-jpg'));
@@ -244,6 +247,7 @@ Route::get('/blog/best-free-pdf-editor-online',            fn() => view('blog.be
 Route::get('/blog/how-to-ocr-pdf',                         fn() => view('blog.how-to-ocr-pdf'));
 Route::get('/blog/how-to-add-page-numbers-to-pdf',         fn() => view('blog.how-to-add-page-numbers-to-pdf'));
 Route::get('/blog/how-to-translate-pdf',                   fn() => view('blog.how-to-translate-pdf'));
+Route::get('/blog/how-to-convert-pdf-to-word',             fn() => view('blog.how-to-convert-pdf-to-word'));
 
 // ── SEO Pages: New high-volume tool keywords ──────────────────────────────────
 Route::get('/pdf-editor-online-free',   fn() => view('pages.pdf-editor-online-free'));
@@ -380,6 +384,9 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/blog/how-to-ocr-pdf',                        'priority' => '0.85','changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/how-to-add-page-numbers-to-pdf',        'priority' => '0.8', 'changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/how-to-translate-pdf',                  'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-convert-pdf-to-word',           'priority' => '0.9', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/free-pdf-to-word-converter',                'priority' => '0.95','changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/pdf-word-converter',                        'priority' => '0.9', 'changefreq' => 'weekly'],
         // New landing pages
         ['loc' => 'https://pdftash.com/pdf-editor-online-free',  'priority' => '0.95','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/remove-pdf-password',     'priority' => '0.9', 'changefreq' => 'weekly'],

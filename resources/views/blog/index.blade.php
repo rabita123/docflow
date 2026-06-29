@@ -219,6 +219,13 @@
             <span class="article-card__meta">5 min read · Translate</span>
         </a>
 
+        <a href="/blog/how-to-convert-pdf-to-word" class="article-card">
+            <span class="article-card__emoji">📝</span>
+            <h2 class="article-card__title">How to Convert PDF to Word Free Online (2026 Guide)</h2>
+            <p class="article-card__desc">3 free methods to convert any PDF to editable Word document — no signup, no watermark, works on scanned PDFs too.</p>
+            <span class="article-card__meta">6 min read · Convert</span>
+        </a>
+
     </div>
 
 </div>
