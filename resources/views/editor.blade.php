@@ -396,7 +396,10 @@ const TOOLS = {
   reorder:{title:'Reorder Pages',desc:'Specify new page order.',endpoint:'/api/pdf/reorder',icon:'↕️',
     fields:[{type:'text',name:'order',label:'New page order',placeholder:'3,1,2,4,5'}]},
   ocr:{title:'OCR PDF',desc:'Make scanned PDFs searchable with OCR.',endpoint:'/api/pdf/ocr',icon:'🔍',
-    fields:[{type:'select',name:'language',label:'Language',opts:['eng','ben','ara','hin'],labels:['English','Bengali','Arabic','Hindi']}]},
+    fields:[
+      {type:'select',name:'lang',label:'Language',opts:['eng','ben','ara','hin'],labels:['English','Bengali','Arabic','Hindi']},
+      {type:'hidden',name:'format',value:'pdf'}
+    ]},
   grayscale:{title:'Grayscale PDF',desc:'Convert all colors to black and white.',endpoint:'/api/pdf/grayscale',icon:'⚫',fields:[]},
   watermark:{title:'Add Watermark',desc:'Add diagonal text watermark.',endpoint:'/api/pdf/watermark',icon:'💧',
     fields:[
@@ -542,7 +545,14 @@ function openTool(key) {
     lbl.className = 'field-label';
     lbl.textContent = f.label;
 
-    if (f.type === 'select') {
+    if (f.type === 'hidden') {
+      const inp = document.createElement('input');
+      inp.type = 'hidden';
+      inp.name = f.name;
+      inp.value = f.value || '';
+      fieldsEl.appendChild(inp);
+      return; // skip group wrapper, no label needed
+    } else if (f.type === 'select') {
       const sel = document.createElement('select');
       sel.className = 'field-select';
       sel.name = f.name;
