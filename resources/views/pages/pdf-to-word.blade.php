@@ -52,32 +52,117 @@
   <p>Convert any PDF to an editable Word document (DOCX) instantly. Preserves text, tables, and formatting. No signup, no watermark, works on any device.</p>
 </div>
 
-{{-- COMING SOON TOOL BOX --}}
+{{-- WORKING TOOL BOX --}}
 <div class="tool-box" style="max-width:700px;">
-  <div style="text-align:center;padding:40px 20px;">
-    <div style="font-size:64px;margin-bottom:16px;">🚀</div>
-    <h2 style="font-size:24px;font-weight:700;margin-bottom:12px;color:#eeeef8;">PDF to Word — Coming Very Soon</h2>
-    <p style="color:#8888a8;font-size:15px;line-height:1.7;max-width:480px;margin:0 auto 28px;">
-      Our PDF to Word converter is in final testing. It will support text PDFs, scanned PDFs (OCR), tables, and multi-column layouts — all free, no signup.
-    </p>
-    <div style="display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto 28px;">
-      <input type="email" id="notify-email" placeholder="Get notified when it launches →"
-        style="width:100%;padding:13px 18px;background:#16162a;border:1px solid rgba(255,255,255,.2);border-radius:10px;color:#eeeef8;font-size:14px;font-family:'Inter',sans-serif;text-align:center;">
-      <button onclick="notifyMe()" style="padding:13px 28px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">
-        Notify Me When Ready
-      </button>
-    </div>
-    <p id="notify-msg" style="display:none;color:#00e5a0;font-size:13px;">✅ You're on the list! We'll email you when PDF to Word launches.</p>
-    <div style="border-top:1px solid rgba(255,255,255,.08);padding-top:24px;margin-top:8px;">
-      <p style="color:#8888a8;font-size:13px;margin-bottom:14px;">While you wait, try these free tools:</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
-        @foreach([['Compress PDF','/compress-pdf'],['Merge PDF','/merge-pdf'],['Translate PDF','/translate-pdf'],['Chat with PDF','/chat-with-pdf']] as $t)
-        <a href="{{ $t[1] }}" style="padding:9px 16px;background:#0f0f1a;border:1px solid rgba(255,255,255,.1);border-radius:99px;color:#eeeef8;text-decoration:none;font-size:13px;font-weight:500;" onmouseover="this.style.borderColor='#5b5cff'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)'">{{ $t[0] }}</a>
-        @endforeach
-      </div>
+  <div id="upload-area" style="text-align:center;padding:32px 20px;">
+    <div style="font-size:48px;margin-bottom:12px;">📄→📝</div>
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:8px;color:#eeeef8;">Drop your PDF here</h2>
+    <p style="color:#8888a8;font-size:14px;margin-bottom:20px;">Converts to editable Word (.docx) — free, no signup</p>
+    <input type="file" id="pdf-input" accept=".pdf" style="display:none" onchange="handleFile(this.files[0])">
+    <button onclick="document.getElementById('pdf-input').click()"
+      style="padding:14px 36px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border:none;border-radius:99px;font-size:15px;font-weight:700;cursor:pointer;">
+      Choose PDF File
+    </button>
+    <p style="color:#8888a8;font-size:12px;margin-top:12px;">or drag and drop your PDF here</p>
+  </div>
+
+  <div id="processing-area" style="display:none;text-align:center;padding:40px 20px;">
+    <div style="font-size:48px;margin-bottom:16px;">⚙️</div>
+    <h3 style="color:#eeeef8;margin-bottom:8px;">Converting to Word...</h3>
+    <p style="color:#8888a8;font-size:14px;">This may take 10–30 seconds depending on file size</p>
+    <div style="margin-top:20px;height:4px;background:#1a1a2e;border-radius:2px;overflow:hidden;">
+      <div id="prog-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#5b5cff,#00e5a0);border-radius:2px;animation:prog 25s linear forwards;"></div>
     </div>
   </div>
+
+  <div id="result-area" style="display:none;text-align:center;padding:32px 20px;">
+    <div style="font-size:48px;margin-bottom:12px;">✅</div>
+    <h3 style="color:#eeeef8;margin-bottom:8px;">Conversion Complete!</h3>
+    <p style="color:#8888a8;font-size:14px;margin-bottom:24px;">Your Word document is ready to download</p>
+    <button id="dl-btn" onclick="downloadResult()"
+      style="padding:14px 36px;background:linear-gradient(135deg,#00e5a0,#00c882);color:#000;border:none;border-radius:99px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;">
+      ⬇ Download Word (.docx)
+    </button>
+    <br>
+    <button onclick="resetTool()"
+      style="padding:10px 24px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:99px;color:#8888a8;font-size:13px;cursor:pointer;margin-top:8px;">
+      Convert Another PDF
+    </button>
+  </div>
+
+  <div id="error-area" style="display:none;text-align:center;padding:32px 20px;">
+    <div style="font-size:48px;margin-bottom:12px;">❌</div>
+    <h3 style="color:#ff6b6b;margin-bottom:8px;">Conversion Failed</h3>
+    <p id="error-msg" style="color:#8888a8;font-size:14px;margin-bottom:20px;"></p>
+    <button onclick="resetTool()"
+      style="padding:12px 28px;background:#5b5cff;color:#fff;border:none;border-radius:99px;font-size:14px;cursor:pointer;">
+      Try Again
+    </button>
+  </div>
 </div>
+
+<style>
+@keyframes prog { from{width:0%} to{width:95%} }
+.tool-box { border: 2px dashed rgba(91,92,255,.3); border-radius: 16px; background:#0f0f1a; }
+.tool-box.drag-over { border-color: #5b5cff; background: rgba(91,92,255,.05); }
+</style>
+
+<script>
+const CSRF = document.querySelector('meta[name="csrf-token"]')?.content || '';
+let resultBlob = null;
+
+// Drag and drop
+const toolBox = document.querySelector('.tool-box');
+toolBox.addEventListener('dragover', e => { e.preventDefault(); toolBox.classList.add('drag-over'); });
+toolBox.addEventListener('dragleave', () => toolBox.classList.remove('drag-over'));
+toolBox.addEventListener('drop', e => { e.preventDefault(); toolBox.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f) handleFile(f); });
+
+function show(id) {
+  ['upload-area','processing-area','result-area','error-area'].forEach(a => {
+    document.getElementById(a).style.display = a === id ? 'block' : 'none';
+  });
+}
+
+async function handleFile(file) {
+  if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
+    alert('Please upload a PDF file.'); return;
+  }
+  show('processing-area');
+  document.getElementById('prog-bar').style.animation = 'prog 25s linear forwards';
+
+  const fd = new FormData();
+  fd.append('file', file, file.name);
+  fd.append('format', 'docx');
+  fd.append('_token', CSRF);
+
+  try {
+    const resp = await fetch('/api/pdf/to-word', { method: 'POST', body: fd });
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => ({}));
+      throw new Error(data.error || 'Conversion failed. Please try a different PDF.');
+    }
+    resultBlob = await resp.blob();
+    show('result-area');
+  } catch (e) {
+    document.getElementById('error-msg').textContent = e.message;
+    show('error-area');
+  }
+}
+
+function downloadResult() {
+  if (!resultBlob) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(resultBlob);
+  a.download = 'converted.docx';
+  a.click();
+}
+
+function resetTool() {
+  resultBlob = null;
+  document.getElementById('pdf-input').value = '';
+  show('upload-area');
+}
+</script>
 
 {{-- WHY PEOPLE NEED PDF TO WORD --}}
 <div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
