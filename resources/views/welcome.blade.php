@@ -909,7 +909,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 
 <footer>
   <div class="foot-logo"><img src="/logo.svg" alt="PDFTash"></div>
-  <div class="foot-links"><a href="/about">About</a><a href="/blog">Blog</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/system-status" target="_blank">System Status</a></div>
+  <div class="foot-links"><a href="/about">About</a><a href="/blog">Blog</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/refund">Refund Policy</a><a href="/system-status" target="_blank">System Status</a></div>
   <div style="margin:14px 0 4px;font-size:0.82rem;color:#44445a;">
     <a href="/pdf-translator-bengali" style="color:#44445a;text-decoration:none;">📖 PDF to Bengali Translation</a>
     &nbsp;·&nbsp;
