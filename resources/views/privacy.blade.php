@@ -376,6 +376,7 @@ footer {
     <li><a href="/about">About</a></li>
     <li><a href="/privacy" style="color:var(--text)">Privacy</a></li>
     <li><a href="/terms">Terms</a></li>
+    <li><a href="/refund">Refund Policy</a></li>
   </ul>
   <p class="footer-copy">&copy; 2025–2026 PDFTash. All rights reserved.</p>
 </footer>

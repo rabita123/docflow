@@ -14,6 +14,7 @@ Route::get('/', function () {
 Route::get('/privacy',  fn() => view('privacy'))->name('privacy');
 Route::get('/about',    fn() => view('about'))->name('about');
 Route::get('/terms',    fn() => view('terms'))->name('terms');
+Route::get('/refund',   fn() => view('refund'))->name('refund');
 Route::get('/contact',  fn() => view('about'));  // redirect contact to about for now
 
 // ── System Status ────────────────────────────────────────────────────────────
@@ -281,6 +282,7 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/about',                    'priority' => '0.7', 'changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/privacy',                  'priority' => '0.5', 'changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/terms',                    'priority' => '0.5', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/refund',                   'priority' => '0.5', 'changefreq' => 'monthly'],
         // Core tools
         ['loc' => 'https://pdftash.com/compress-pdf',             'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/merge-pdf',                'priority' => '0.9', 'changefreq' => 'weekly'],
