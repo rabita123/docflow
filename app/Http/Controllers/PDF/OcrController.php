@@ -43,13 +43,16 @@ class OcrController extends BasePdfController
         // Check ocrmypdf is available
         exec('which ocrmypdf 2>/dev/null', $out, $code);
         if ($code === 0) {
-            $cmd = 'ocrmypdf'
+            // Check if unpaper is available for deskew/rotate
+        exec('which unpaper 2>/dev/null', $upOut, $upCode);
+        $extraFlags = $upCode === 0 ? ' --rotate-pages --deskew' : '';
+
+        $cmd = 'ocrmypdf'
                 . ' -l ' . escapeshellarg($lang)
                 . ' --output-type pdf'
                 . ' --optimize 1'
                 . ' --skip-text'          // don't error if some pages already have text
-                . ' --rotate-pages'       // auto-fix rotated pages
-                . ' --deskew'             // auto-fix skewed scans
+                . $extraFlags
                 . ' ' . escapeshellarg($pdfPath)
                 . ' ' . escapeshellarg($outputPdf)
                 . ' 2>&1';
