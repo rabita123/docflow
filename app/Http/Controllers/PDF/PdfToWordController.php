@@ -18,9 +18,16 @@ class PdfToWordController extends BasePdfController
         $outDir  = $this->outputDir;
         $baseName = pathinfo($input, PATHINFO_FILENAME);
 
-        // LibreOffice outputs to the same directory as input, with same base name
-        $cmd = 'libreoffice --headless --infilter="writer_pdf_import"'
-             . ' --convert-to ' . escapeshellarg($format)
+        // LibreOffice needs a writable HOME directory for www-data
+        $loHome = '/var/www/.libreoffice';
+        if (!is_dir($loHome)) @mkdir($loHome, 0755, true);
+
+        $filter = $format === 'docx' ? 'MS Word 2007 XML' : 'writer8';
+
+        $cmd = 'HOME=' . escapeshellarg($loHome)
+             . ' libreoffice --headless'
+             . ' --infilter="writer_pdf_import"'
+             . ' --convert-to ' . escapeshellarg($format . ':' . $filter)
              . ' --outdir ' . escapeshellarg($outDir)
              . ' ' . escapeshellarg($input)
              . ' 2>&1';
