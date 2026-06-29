@@ -114,7 +114,7 @@
 <div id="state-upload">
   <div class="hero">
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
-      <div class="badge">✨ Powered by Claude AI</div>
+      <div class="badge">✨ AI-Powered</div>
       <div class="badge" style="background:rgba(255,165,0,.1);border-color:rgba(255,165,0,.4);color:#ffa500;">🔒 Pro Feature</div>
     </div>
     <h1>AI Form Filler</h1>

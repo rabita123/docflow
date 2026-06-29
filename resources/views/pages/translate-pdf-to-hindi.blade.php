@@ -13,7 +13,7 @@
   {"@type":"Question","name":"Is the Hindi translation in Devanagari script?","acceptedAnswer":{"@type":"Answer","text":"Yes. The AI outputs proper Devanagari script Hindi, not transliteration. The PDF download uses Noto Sans Devanagari font for perfect rendering."}},
   {"@type":"Question","name":"Can I translate Hindi PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language to convert Hindi PDFs to English."}},
   {"@type":"Question","name":"Does it work for UPSC or government documents?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash works well for government circulars, UPSC study material, Hindi medium textbooks, and official documents."}},
-  {"@type":"Question","name":"How accurate is Hindi AI translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI which handles Hindi accurately including formal and colloquial registers. For certified translations, a licensed translator is needed."}}
+  {"@type":"Question","name":"How accurate is Hindi AI translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses advanced AI which handles Hindi accurately including formal and colloquial registers. For certified translations, a licensed translator is needed."}}
 ]}]
 </script>
 @endsection

@@ -7,7 +7,7 @@
 <script type="application/ld+json">
 [{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — Translate PDF to Japanese","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free AI tool to translate any PDF to Japanese online. Accurate kanji, hiragana and katakana output. No signup.","url":"https://pdftash.com/translate-pdf-to-japanese","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"1044"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"Does PDFTash translate to proper Japanese (kanji + hiragana)?","acceptedAnswer":{"@type":"Answer","text":"Yes. Claude AI outputs natural Japanese using the correct mix of kanji, hiragana, and katakana as appropriate for the content type."}},
+{"@type":"Question","name":"Does PDFTash translate to proper Japanese (kanji + hiragana)?","acceptedAnswer":{"@type":"Answer","text":"Yes. advanced AI outputs natural Japanese using the correct mix of kanji, hiragana, and katakana as appropriate for the content type."}},
 {"@type":"Question","name":"Is PDF to Japanese translation free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 translation per day with no signup. Pro users get unlimited."}},
 {"@type":"Question","name":"Can I translate a Japanese PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language."}}
 ]}]
@@ -42,7 +42,7 @@
 </div>
 <div class="faq">
   <h2>Frequently Asked Questions</h2>
-  <div class="faq-item"><h3>Does the Japanese translation use proper kanji?</h3><p>Yes. Claude AI outputs natural Japanese using the correct mixture of kanji (漢字), hiragana (ひらがな), and katakana (カタカナ) depending on the content and register.</p></div>
+  <div class="faq-item"><h3>Does the Japanese translation use proper kanji?</h3><p>Yes. advanced AI outputs natural Japanese using the correct mixture of kanji (漢字), hiragana (ひらがな), and katakana (カタカナ) depending on the content and register.</p></div>
   <div class="faq-item"><h3>Can I translate academic papers to Japanese?</h3><p>Yes. PDFTash works well for research papers, business documents, and technical manuals. Academic Japanese (論文体) is used for formal content.</p></div>
   <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>1 per day on free plan. Pro ($2/month) gives unlimited translations.</p></div>
 </div>

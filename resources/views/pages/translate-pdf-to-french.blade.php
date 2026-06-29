@@ -8,7 +8,7 @@
 [{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — Translate PDF to French","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free AI tool to translate any PDF to French online. No signup required. Accurate French translation with paragraph structure preserved.","url":"https://pdftash.com/translate-pdf-to-french","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"1421"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Can I translate a PDF to French for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates any PDF to French free with no signup. Free users get 1 translation per day."}},
-{"@type":"Question","name":"Is the French translation grammatically correct?","acceptedAnswer":{"@type":"Answer","text":"Yes. Claude AI produces natural, grammatically correct French including proper accents and gender agreement."}},
+{"@type":"Question","name":"Is the French translation grammatically correct?","acceptedAnswer":{"@type":"Answer","text":"Yes. advanced AI produces natural, grammatically correct French including proper accents and gender agreement."}},
 {"@type":"Question","name":"Can I translate French PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language."}},
 {"@type":"Question","name":"How many PDFs can I translate per day?","acceptedAnswer":{"@type":"Answer","text":"Free users get 1 per day. Pro users get unlimited."}}
 ]}]
@@ -44,7 +44,7 @@
 <div class="faq">
   <h2>Frequently Asked Questions — PDF to French Translation</h2>
   <div class="faq-item"><h3>How do I translate a PDF to French online?</h3><p>Upload your PDF above, wait 10–30 seconds for AI processing, and download your French translation. No account or software needed.</p></div>
-  <div class="faq-item"><h3>Does the translation include French accents correctly?</h3><p>Yes. Claude AI correctly applies French diacritics (é, è, ê, ç, à, ù, etc.) and proper punctuation conventions (guillemets « »).</p></div>
+  <div class="faq-item"><h3>Does the translation include French accents correctly?</h3><p>Yes. advanced AI correctly applies French diacritics (é, è, ê, ç, à, ù, etc.) and proper punctuation conventions (guillemets « »).</p></div>
   <div class="faq-item"><h3>Can I translate Canadian French or Belgian French?</h3><p>The AI produces standard French (Français standard) which is universally understood. Localized dialect variants are not separately supported.</p></div>
   <div class="faq-item"><h3>How many PDFs can I translate per day for free?</h3><p>Free users get 1 translation per day. Pro users ($2/month) get unlimited translations to all 12+ languages.</p></div>
 </div>

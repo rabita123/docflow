@@ -24,7 +24,7 @@
   "@type": "FAQPage",
   "mainEntity": [
     {"@type":"Question","name":"Can I translate a PDF to Spanish for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates any PDF to Spanish for free with no signup required. Free users get 1 translation per day. Pro users get unlimited translations."}},
-    {"@type":"Question","name":"How accurate is AI PDF translation to Spanish?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI (Anthropic) which produces natural, contextually accurate Spanish translations. It handles technical, legal, and academic documents well."}},
+    {"@type":"Question","name":"How accurate is AI PDF translation to Spanish?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses advanced AI which produces natural, contextually accurate Spanish translations. It handles technical, legal, and academic documents well."}},
     {"@type":"Question","name":"Does the translation preserve the original formatting?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash preserves paragraph breaks and document structure in the translated output. You can download as formatted PDF or plain text."}},
     {"@type":"Question","name":"Can I translate Spanish PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the main Translate PDF tool and select English as the target language to convert Spanish PDFs to English."}},
     {"@type":"Question","name":"What is the maximum PDF size I can translate?","acceptedAnswer":{"@type":"Answer","text":"Free users can translate PDFs up to 10MB (approx. 6,000 words). Pro users can translate larger documents with no size restrictions."}}

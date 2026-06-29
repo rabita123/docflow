@@ -335,14 +335,14 @@ footer {
 
   <div class="section">
     <h2><span class="icon">🤖</span> AI Processing</h2>
-    <p>PDFTash offers AI-powered tools including Summarize, Translate, and Chat with PDF. When you use these features, the extracted text content of your PDF is sent to <strong style="color:var(--text)">Anthropic's Claude API</strong> for processing.</p>
+    <p>PDFTash offers AI-powered tools including Summarize, Translate, and Chat with PDF. When you use these features, the extracted text content of your PDF is sent to <strong style="color:var(--text)">our AI API</strong> for processing.</p>
     <ul>
-      <li>Anthropic's <a href="https://www.anthropic.com/privacy" target="_blank" rel="noopener" class="email-link">privacy policy</a> applies to text processed through their API</li>
+      <li>Our AI provider's privacy policy applies to text processed through their API</li>
       <li>Your PDF text is <strong style="color:var(--text)">not used to train AI models</strong></li>
-      <li>Text is sent only for the specific task you requested and is not retained by Anthropic beyond their standard data handling practices</li>
+      <li>Text is sent only for the specific task you requested and is not retained beyond standard data handling practices</li>
     </ul>
     <div class="highlight-box">
-      <p>If your documents contain sensitive information, we recommend using non-AI tools for those files, or reviewing Anthropic's data handling policies before proceeding.</p>
+      <p>If your documents contain sensitive information, we recommend using non-AI tools for those files, for those files.</p>
     </div>
   </div>
 

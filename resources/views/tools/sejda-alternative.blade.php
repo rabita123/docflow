@@ -270,7 +270,7 @@
 
   <div style="display:flex;flex-direction:column;gap:16px;">
     @foreach([
-      ['🤖','AI Features Sejda Doesn\'t Have','PDFTash is powered by Claude AI. Chat with your PDF, get instant answers, summarize long documents in seconds, and translate to 12+ languages. Sejda is a plain utility — no AI at all.'],
+      ['🤖','AI Features Sejda Doesn\'t Have','PDFTash is AI-powered. Chat with your PDF, get instant answers, summarize long documents in seconds, and translate to 12+ languages. Sejda is a plain utility — no AI at all.'],
       ['🆓','No Frustrating Daily Caps','Sejda\'s free plan cuts you off after 3 tasks per day. PDFTash has no daily limit on core tools like compress, merge, split, rotate, watermark and page numbers. Use as much as you need.'],
       ['🌐','Bengali, Hindi & Arabic Support','PDFTash is the only PDF tool with AI translation to Bengali (বাংলা), Hindi (हिंदी) and Arabic (العربية). Perfect for students, professionals and businesses in South Asia and the Middle East.'],
       ['⚡','Faster & Modern Technology','Built on modern cloud infrastructure, PDFTash processes PDFs quickly with a clean, mobile-friendly interface. No ads, no popups, no upsell traps — just clean tools that work.'],

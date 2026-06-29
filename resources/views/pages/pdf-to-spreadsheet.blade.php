@@ -69,7 +69,7 @@
   <div class="feature">
     <div class="feature-icon">🤖</div>
     <h3>AI Table Detection</h3>
-    <p>Doesn't rely on pixel coordinates or rule-based parsing. Claude AI reads and understands your PDF's structure, extracting every table accurately — even complex multi-row headers.</p>
+    <p>Doesn't rely on pixel coordinates or rule-based parsing. advanced AI reads and understands your PDF's structure, extracting every table accurately — even complex multi-row headers.</p>
   </div>
   <div class="feature">
     <div class="feature-icon">📥</div>

@@ -5,9 +5,9 @@
 @section('slug', 'pdf-table-extractor')
 @section('schema')
 <script type="application/ld+json">
-[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — PDF Table Extractor","applicationCategory":"WebApplication","operatingSystem":"Any","description":"The best free PDF table extractor online. Uses Claude AI to find and extract every table from any PDF — financial reports, invoices, research papers, data exports. Download as CSV or real Excel .xlsx.","url":"https://pdftash.com/pdf-table-extractor","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"4102"}},
+[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — PDF Table Extractor","applicationCategory":"WebApplication","operatingSystem":"Any","description":"The best free PDF table extractor online. Uses advanced AI to find and extract every table from any PDF — financial reports, invoices, research papers, data exports. Download as CSV or real Excel .xlsx.","url":"https://pdftash.com/pdf-table-extractor","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"4102"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"What makes this PDF table extractor better than others?","acceptedAnswer":{"@type":"Answer","text":"Most PDF table extractors use coordinate-based or whitespace-based parsing that breaks on complex layouts. PDFTash uses Claude AI for semantic understanding — it reads the content like a human would and identifies table structure regardless of formatting irregularities."}},
+{"@type":"Question","name":"What makes this PDF table extractor better than others?","acceptedAnswer":{"@type":"Answer","text":"Most PDF table extractors use coordinate-based or whitespace-based parsing that breaks on complex layouts. PDFTash uses advanced AI for semantic understanding — it reads the content like a human would and identifies table structure regardless of formatting irregularities."}},
 {"@type":"Question","name":"Is there a limit on how many tables it can extract?","acceptedAnswer":{"@type":"Answer","text":"No limit on the number of tables. PDFTash extracts every table found in the entire PDF in one pass — whether there are 1 table or 50 tables. Each table gets its own preview and download button."}},
 {"@type":"Question","name":"Does it work on large PDFs?","acceptedAnswer":{"@type":"Answer","text":"Yes, up to 10MB for free users (200MB for Pro). The tool processes up to 30,000 characters of text content. For very large PDFs, split the document into sections first using the Split PDF tool."}}
 ]}]
@@ -18,7 +18,7 @@
 <div class="hero">
   <div class="badge">⚡ Best PDF Table Extractor</div>
   <h1>PDF Table Extractor — AI-Powered, Free Online</h1>
-  <p>The most accurate PDF table extractor available free online. Claude AI understands table structure semantically — extracts every table from any PDF, no matter how complex the layout.</p>
+  <p>The most accurate PDF table extractor available free online. advanced AI understands table structure semantically — extracts every table from any PDF, no matter how complex the layout.</p>
 </div>
 
 <div style="max-width:700px;margin:0 auto 60px;background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:40px;text-align:center;">
@@ -102,7 +102,7 @@
 
   <div class="faq-item">
     <h3>What makes this PDF table extractor better than alternatives?</h3>
-    <p>Most PDF table extractors use coordinate-based extraction — they look at the x,y positions of text and try to group them into columns based on alignment. This breaks immediately on PDFs with irregular spacing, merged cells, rotated text, or complex multi-row headers. PDFTash uses Claude AI which understands table structure semantically — it reads the text and understands context, headers, data rows, and table boundaries the same way a human analyst would. This makes it dramatically more accurate on real-world messy PDFs.</p>
+    <p>Most PDF table extractors use coordinate-based extraction — they look at the x,y positions of text and try to group them into columns based on alignment. This breaks immediately on PDFs with irregular spacing, merged cells, rotated text, or complex multi-row headers. PDFTash uses advanced AI which understands table structure semantically — it reads the text and understands context, headers, data rows, and table boundaries the same way a human analyst would. This makes it dramatically more accurate on real-world messy PDFs.</p>
   </div>
 
   <div class="faq-item">
@@ -112,7 +112,7 @@
 
   <div class="faq-item">
     <h3>What happens if the table spans multiple pages?</h3>
-    <p>Claude AI is aware that tables can span page boundaries. When it sees table rows that continue from one page to the next (which appear as continuing data in the extracted text), it correctly merges them into a single table rather than treating each page's portion as a separate table.</p>
+    <p>advanced AI is aware that tables can span page boundaries. When it sees table rows that continue from one page to the next (which appear as continuing data in the extracted text), it correctly merges them into a single table rather than treating each page's portion as a separate table.</p>
   </div>
 
   <div class="faq-item">

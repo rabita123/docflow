@@ -10,7 +10,7 @@
 {"@type":"Question","name":"Can I translate a PDF to Arabic for free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash translates any PDF to Arabic free with no signup. Free users get 1 translation per day. Pro users get unlimited."}},
 {"@type":"Question","name":"Does the Arabic translation support right-to-left text?","acceptedAnswer":{"@type":"Answer","text":"Yes. The translated text is proper Arabic script. The PDF download uses Noto Sans Arabic font with correct RTL rendering."}},
 {"@type":"Question","name":"Can I translate Arabic PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language."}},
-{"@type":"Question","name":"How accurate is AI Arabic translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI which produces accurate Modern Standard Arabic (فصحى). Dialects are approximated to MSA."}}
+{"@type":"Question","name":"How accurate is AI Arabic translation?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses advanced AI which produces accurate Modern Standard Arabic (فصحى). Dialects are approximated to MSA."}}
 ]}]
 </script>
 @endsection

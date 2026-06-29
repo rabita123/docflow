@@ -97,7 +97,7 @@
 
   <div class="faq-item">
     <h3>Does it work on invoices from any vendor?</h3>
-    <p>Yes. PDFTash uses Claude AI which understands invoice structure contextually — not through fixed templates. Whether your invoice is from Amazon, a small freelancer, Zoho, QuickBooks, or a completely custom layout, the AI identifies and extracts the line item table correctly. No setup or configuration needed for different vendors.</p>
+    <p>Yes. PDFTash uses advanced AI which understands invoice structure contextually — not through fixed templates. Whether your invoice is from Amazon, a small freelancer, Zoho, QuickBooks, or a completely custom layout, the AI identifies and extracts the line item table correctly. No setup or configuration needed for different vendors.</p>
   </div>
 
   <div class="faq-item">

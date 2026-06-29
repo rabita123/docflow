@@ -119,7 +119,7 @@
   <h2 style="font-size:22px;font-weight:700;text-align:center;margin-bottom:24px;">How PDF Redaction Works</h2>
   <div style="display:flex;flex-direction:column;gap:12px;">
     @foreach([
-      ['1','🤖','AI Scans Your PDF','Claude AI reads every word in your document and identifies sensitive information based on the categories you selected.'],
+      ['1','🤖','AI Scans Your PDF','advanced AI reads every word in your document and identifies sensitive information based on the categories you selected.'],
       ['2','🎯','Locates Exact Positions','The tool maps each sensitive word to its exact position on the page — even across multiple pages.'],
       ['3','⬛','Permanently Blacks Out','Black rectangles are permanently drawn over all sensitive text. The underlying data is completely removed — not just hidden.'],
       ['4','📥','Download Clean PDF','Download your redacted PDF. The black boxes are permanent — no software can reveal the original text.'],
@@ -161,7 +161,7 @@
   </div>
   <div class="faq-item">
     <h3>How accurate is the AI detection?</h3>
-    <p>PDFTash uses Claude AI — one of the most accurate language models available. It correctly identifies email addresses, phone numbers, and credit card numbers with very high accuracy. Names and addresses can sometimes be missed if they appear in unusual formats.</p>
+    <p>PDFTash uses advanced AI — one of the most accurate language models available. It correctly identifies email addresses, phone numbers, and credit card numbers with very high accuracy. Names and addresses can sometimes be missed if they appear in unusual formats.</p>
   </div>
   <div class="faq-item">
     <h3>Is there a file size limit?</h3>

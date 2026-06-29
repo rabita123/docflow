@@ -7,8 +7,8 @@
 <script type="application/ld+json">
 [{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — Extract Table from PDF","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Extract tables from any PDF using AI. Detects and structures tables from invoices, financial reports, research papers, and data exports. Download as CSV or Excel .xlsx instantly.","url":"https://pdftash.com/extract-table-from-pdf","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2187"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"How does AI extract tables from PDF?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses pdftotext to extract layout-preserved text from your PDF, then Claude AI analyzes the spacing and structure to identify table boundaries, headers, and rows — even in complex multi-column layouts."}},
-{"@type":"Question","name":"What if the table columns aren't aligned properly?","acceptedAnswer":{"@type":"Answer","text":"Claude AI understands table context, not just column spacing. It uses semantic understanding to correctly identify which values belong to which column even in PDFs where text columns aren't perfectly aligned."}},
+{"@type":"Question","name":"How does AI extract tables from PDF?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses pdftotext to extract layout-preserved text from your PDF, then advanced AI analyzes the spacing and structure to identify table boundaries, headers, and rows — even in complex multi-column layouts."}},
+{"@type":"Question","name":"What if the table columns aren't aligned properly?","acceptedAnswer":{"@type":"Answer","text":"advanced AI understands table context, not just column spacing. It uses semantic understanding to correctly identify which values belong to which column even in PDFs where text columns aren't perfectly aligned."}},
 {"@type":"Question","name":"Can I extract specific pages only?","acceptedAnswer":{"@type":"Answer","text":"Currently PDFTash extracts tables from the entire document. If your PDF is large, you can use the Split PDF tool to extract specific pages first, then run table extraction on the smaller file."}},
 {"@type":"Question","name":"Does it work on password-protected PDFs?","acceptedAnswer":{"@type":"Answer","text":"No. Unlock the PDF first using our free Unlock PDF tool, then extract the tables."}}
 ]}]
@@ -54,7 +54,7 @@
   <div class="feature">
     <div class="feature-icon">🤖</div>
     <h3>Semantic Understanding</h3>
-    <p>Claude AI doesn't just split on whitespace — it understands what a table <em>means</em>. Headers, data rows, totals rows, and nested columns are all handled correctly.</p>
+    <p>advanced AI doesn't just split on whitespace — it understands what a table <em>means</em>. Headers, data rows, totals rows, and nested columns are all handled correctly.</p>
   </div>
   <div class="feature">
     <div class="feature-icon">📋</div>
@@ -88,17 +88,17 @@
 
   <div class="faq-item">
     <h3>How does AI extract tables from a PDF?</h3>
-    <p>PDFTash uses <code>pdftotext -layout</code> to extract text from your PDF while preserving the original column spacing and row structure. This layout-preserved text is then sent to Claude AI, which uses semantic understanding to identify table boundaries, parse headers from data rows, and structure everything into a clean rows-and-columns format — even for complex multi-column tables and headers spanning multiple rows.</p>
+    <p>PDFTash uses <code>pdftotext -layout</code> to extract text from your PDF while preserving the original column spacing and row structure. This layout-preserved text is then sent to advanced AI, which uses semantic understanding to identify table boundaries, parse headers from data rows, and structure everything into a clean rows-and-columns format — even for complex multi-column tables and headers spanning multiple rows.</p>
   </div>
 
   <div class="faq-item">
     <h3>What if the table columns aren't aligned properly in the output?</h3>
-    <p>Claude AI uses contextual understanding rather than pixel-perfect column detection. It identifies which value belongs to which column based on the surrounding data, labels, and structure — not just whitespace. This makes it significantly more robust than tools that rely purely on coordinate-based extraction.</p>
+    <p>advanced AI uses contextual understanding rather than pixel-perfect column detection. It identifies which value belongs to which column based on the surrounding data, labels, and structure — not just whitespace. This makes it significantly more robust than tools that rely purely on coordinate-based extraction.</p>
   </div>
 
   <div class="faq-item">
     <h3>Does it work on scanned PDFs?</h3>
-    <p>Not directly. Scanned PDFs are images, not text — so pdftotext returns nothing. However, PDFTash will automatically attempt to extract tables from page images using Claude's vision capability as a fallback. For best results with scanned documents, use the <a href="/ocr-pdf" style="color:#5b5cff">OCR tool</a> first, then extract tables from the resulting searchable PDF.</p>
+    <p>Not directly. Scanned PDFs are images, not text — so pdftotext returns nothing. However, PDFTash will automatically attempt to extract tables from page images using AI's vision capability as a fallback. For best results with scanned documents, use the <a href="/ocr-pdf" style="color:#5b5cff">OCR tool</a> first, then extract tables from the resulting searchable PDF.</p>
   </div>
 
   <div class="faq-item">

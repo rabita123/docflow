@@ -35,7 +35,7 @@
   "@type": "FAQPage",
   "mainEntity": [
     {"@type":"Question","name":"Is the PDF summarizer completely free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash summarizes PDFs for free with no signup required. Free users get 1 AI summary per day. Pro users ($2/month) get unlimited summaries."}},
-    {"@type":"Question","name":"How accurate is the AI PDF summary?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI (Anthropic) — one of the most accurate large language models available. Summaries preserve key facts, quotes, and data points faithfully."}},
+    {"@type":"Question","name":"How accurate is the AI PDF summary?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses advanced AI — one of the most accurate large language models available. Summaries preserve key facts, quotes, and data points faithfully."}},
     {"@type":"Question","name":"Can I summarize a 100-page research paper?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash processes up to 200MB PDFs. For very long documents, the AI intelligently samples key sections to produce a comprehensive summary."}},
     {"@type":"Question","name":"Can I ask follow-up questions after the summary?","acceptedAnswer":{"@type":"Answer","text":"Yes — use the Chat with PDF tool to ask specific follow-up questions after reviewing your summary."}},
     {"@type":"Question","name":"Does PDF summarizer work on scanned documents?","acceptedAnswer":{"@type":"Answer","text":"It works best on text-based PDFs. Scanned image PDFs require OCR processing first — our AI handles this automatically but accuracy depends on scan quality."}}
@@ -49,7 +49,7 @@
 <div class="hero">
   <div class="badge">🤖 AI PDF Summarizer</div>
   <h1>Summarize PDF Online Free — AI Summary in Seconds</h1>
-  <p>Upload any PDF and get a clear AI-generated summary with key points, conclusions, and action items. No signup. No page limits. Powered by Claude AI.</p>
+  <p>Upload any PDF and get a clear AI-generated summary with key points, conclusions, and action items. No signup. No page limits. AI-Powered.</p>
 </div>
 
 <div class="tool-box">
@@ -93,7 +93,7 @@
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
     @foreach([
       ['📤','1. Upload','Drop your PDF. Any size, any topic. Encrypted in transit.'],
-      ['🧠','2. AI Analyzes','Claude AI reads the full document, identifies key sections, themes, and data.'],
+      ['🧠','2. AI Analyzes','advanced AI reads the full document, identifies key sections, themes, and data.'],
       ['📋','3. Get Summary','Receive structured key points, conclusions, and any action items.'],
     ] as $s)
     <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center;">
@@ -169,7 +169,7 @@
   </div>
   <div class="faq-item">
     <h3>How accurate is the AI summary?</h3>
-    <p>PDFTash uses Claude AI by Anthropic — one of the most capable and accurate language models available. The summary faithfully represents the document's key points. For critical decisions, we recommend reading the relevant sections of the original document.</p>
+    <p>PDFTash uses advanced AI — one of the most capable and accurate language models available. The summary faithfully represents the document's key points. For critical decisions, we recommend reading the relevant sections of the original document.</p>
   </div>
   <div class="faq-item">
     <h3>Can I get the summary as a downloadable file?</h3>

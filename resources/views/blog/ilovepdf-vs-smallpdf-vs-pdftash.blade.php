@@ -257,7 +257,7 @@
 
         <div class="callout green">
             <p>
-                <strong>PDFTash is the only free PDF tool with Claude AI integration</strong> — the same model used by
+                <strong>PDFTash is the only free PDF tool with advanced AI integration</strong> — the same model used by
                 enterprise companies and research institutions worldwide. Translate your PDF to Spanish, French,
                 Arabic, Chinese, Japanese, and more; ask it questions; or generate an entirely new PDF document from a
                 text prompt — all without leaving your browser.

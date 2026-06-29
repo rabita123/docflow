@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About PDFTash — Free PDF Tools with AI</title>
-<meta name="description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features powered by Claude. No watermarks, no signup required. Built in 2025.">
+<meta name="description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features. No watermarks, no signup required. Built in 2025.">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="About PDFTash — Free PDF Tools with AI">
-<meta property="og:description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features powered by Claude. No watermarks, no signup required.">
+<meta property="og:description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features. No watermarks, no signup required.">
 <meta property="og:url" content="https://pdftash.com/about">
 <meta property="og:site_name" content="PDFTash">
 <meta property="og:image" content="https://pdftash.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About PDFTash — Free PDF Tools with AI">
-<meta name="twitter:description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features powered by Claude. No watermarks, no signup required.">
+<meta name="twitter:description" content="PDFTash is a free online PDF toolkit with 20+ tools and AI features. No watermarks, no signup required.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="alternate icon" href="/favicon.ico">
 <link rel="canonical" href="https://pdftash.com/about">
@@ -444,7 +444,7 @@ footer {
       </div>
       <div class="section-body">
         <p>PDFTash was built in 2025 because we were tired of PDF tools that slap watermarks on your work, force you to create an account just to compress a file, or cut you off after two uses a day. We believed there had to be a better way — and we built it.</p>
-        <p>What started as a simple tool for compressing and merging PDFs grew into a full-featured platform with 20+ tools and AI features powered by Claude from Anthropic. You can now summarize, translate, and even have a conversation with your PDF — all for free, right in your browser. No signup. No watermark. No catch.</p>
+        <p>What started as a simple tool for compressing and merging PDFs grew into a full-featured platform with 20+ tools and AI features from Anthropic. You can now summarize, translate, and even have a conversation with your PDF — all for free, right in your browser. No signup. No watermark. No catch.</p>
       </div>
     </div>
   </section>
@@ -466,8 +466,8 @@ footer {
       </div>
       <div class="diff-card">
         <span class="icon">🤖</span>
-        <h3>AI-Powered by Claude</h3>
-        <p>Summarize, translate, and chat with your PDFs using Claude AI from Anthropic — the most capable AI assistant available.</p>
+        <h3>AI-Powered</h3>
+        <p>Summarize, translate, and chat with your PDFs using advanced AI — the most capable AI assistant available.</p>
       </div>
       <div class="diff-card">
         <span class="icon">🌏</span>
@@ -537,13 +537,13 @@ footer {
     <div class="section-label">Under the Hood</div>
     <h2 class="section-title">Built with great tools</h2>
     <div class="section-body">
-      <p>PDFTash is built on a modern, reliable stack chosen for performance and accuracy. Laravel powers the backend, while Ghostscript and Poppler handle the heavy lifting for PDF compression, conversion, and rendering. AI features are delivered through Anthropic's Claude API.</p>
+      <p>PDFTash is built on a modern, reliable stack chosen for performance and accuracy. Laravel powers the backend, while Ghostscript and Poppler handle the heavy lifting for PDF compression, conversion, and rendering. AI features are delivered through our AI API.</p>
     </div>
     <div class="tech-pills">
       <span class="tech-pill"><strong>Laravel</strong> — Backend framework</span>
       <span class="tech-pill"><strong>Ghostscript</strong> — PDF compression &amp; rendering</span>
       <span class="tech-pill"><strong>Poppler</strong> — PDF parsing &amp; conversion</span>
-      <span class="tech-pill"><strong>Claude AI</strong> — Summarize, translate, chat</span>
+      <span class="tech-pill"><strong>AI Assistant</strong> — Summarize, translate, chat</span>
       <span class="tech-pill"><strong>Lemon Squeezy</strong> — Payments</span>
       <span class="tech-pill"><strong>HTTPS / TLS</strong> — Secure transfers</span>
     </div>

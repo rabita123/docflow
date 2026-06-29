@@ -1,16 +1,16 @@
 @extends('tools.layout')
 @section('title', 'AI Document Generator — Create Professional PDFs with AI Free')
-@section('description', 'Generate any document as a PDF using AI. Type your topic or paste data and get a professionally formatted PDF in seconds. Free, no signup. Powered by Claude AI.')
+@section('description', 'Generate any document as a PDF using AI. Type your topic or paste data and get a professionally formatted PDF in seconds. Free, no signup. AI-Powered.')
 @section('keywords', 'ai document generator, ai pdf generator free, ai document creator, generate pdf with ai, ai document maker, create document with ai, ai pdf creator free')
 @section('slug', 'ai-document-generator')
 @section('schema')
 <script type="application/ld+json">
-[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — AI Document Generator","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free AI document generator powered by Claude AI. Create any professional PDF document from a text description — reports, invoices, letters, proposals, and more.","url":"https://pdftash.com/ai-document-generator","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2890"}},
+[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — AI Document Generator","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free AI document generator AI-powered. Create any professional PDF document from a text description — reports, invoices, letters, proposals, and more.","url":"https://pdftash.com/ai-document-generator","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"2890"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"What is an AI document generator?","acceptedAnswer":{"@type":"Answer","text":"An AI document generator creates professional PDF documents from plain text descriptions. You describe what you need, and AI structures, formats, and generates the complete document instantly."}},
 {"@type":"Question","name":"What documents can AI generate?","acceptedAnswer":{"@type":"Answer","text":"Reports, invoices, business letters, proposals, contracts (templates), meeting agendas, study notes, summaries, project plans, and any text-based document."}},
 {"@type":"Question","name":"Is the AI document generator free?","acceptedAnswer":{"@type":"Answer","text":"Yes. PDFTash generates PDF documents with AI for free — no signup required. Free users get 1 generation per day. Pro users get unlimited."}},
-{"@type":"Question","name":"What AI model powers the document generator?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses Claude AI by Anthropic — one of the most capable language models for professional writing and document structuring."}}
+{"@type":"Question","name":"What AI model powers the document generator?","acceptedAnswer":{"@type":"Answer","text":"PDFTash uses advanced AI — one of the most capable language models for professional writing and document structuring."}}
 ]}]
 </script>
 @endsection
@@ -18,7 +18,7 @@
 <div class="hero">
   <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
     <div class="badge">🤖 AI Document Generator</div>
-    <div class="badge" style="background:rgba(0,229,160,.1);border-color:rgba(0,229,160,.4);color:#00e5a0;">Powered by Claude AI</div>
+    <div class="badge" style="background:rgba(0,229,160,.1);border-color:rgba(0,229,160,.4);color:#00e5a0;">AI-Powered</div>
   </div>
   <h1>AI Document Generator — Professional PDFs in Seconds</h1>
   <p>Describe any document and download a professionally formatted PDF. Reports, invoices, letters, proposals — AI does the writing, structuring, and formatting. Free, no signup.</p>
@@ -26,7 +26,7 @@
 
 <div style="text-align:center;margin-bottom:60px;">
   <a href="/ai-pdf-generator" style="display:inline-block;padding:16px 36px;background:linear-gradient(135deg,#5b5cff,#7475ff);color:#fff;border-radius:99px;text-decoration:none;font-weight:700;font-size:16px;">🤖 Generate Document with AI →</a>
-  <p style="color:#8888a8;font-size:13px;margin-top:12px;">No signup · No watermark · Powered by Claude AI</p>
+  <p style="color:#8888a8;font-size:13px;margin-top:12px;">No signup · No watermark · AI-Powered</p>
 </div>
 
 <div style="max-width:700px;margin:0 auto 60px;padding:0 20px;">
@@ -62,7 +62,7 @@
           ['No Signup','✅','❌ Required','❌ Required'],
           ['Free Tier','✅ 1/day','⚠️ Limited credits','⚠️ Limited'],
           ['PDF Toolkit Included','✅','❌','❌'],
-          ['AI Model','Claude AI','Unknown','GPT-4'],
+          ['AI Model','advanced AI','Unknown','GPT-4'],
           ['Price (Full)','$2/month','$15/month','$20/month'],
         ] as $row)
         <tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:11px 16px;color:#eeeef8;">{{ $row[0] }}</td><td style="padding:11px 16px;text-align:center;color:#00e5a0;font-weight:600;">{{ $row[1] }}</td><td style="padding:11px 16px;text-align:center;color:#8888a8;">{{ $row[2] }}</td><td style="padding:11px 16px;text-align:center;color:#8888a8;">{{ $row[3] }}</td></tr>
@@ -77,6 +77,6 @@
   <div class="faq-item"><h3>How does the AI document generator work?</h3><p>Go to <a href="/ai-pdf-generator" style="color:#5b5cff">AI PDF Generator</a>, describe your document (e.g., "Create a monthly sales report for Q3 with the following data: ..."), click Generate, and download your formatted PDF. The AI structures the content, adds headings, and applies professional formatting.</p></div>
   <div class="faq-item"><h3>Can AI generate a document from scratch with no input data?</h3><p>Yes. You can ask the AI to generate template documents (e.g., "Create a blank project proposal template") and it will produce a complete, formatted PDF document ready to edit.</p></div>
   <div class="faq-item"><h3>Is PDFTash better than Gamma for document generation?</h3><p>For PDF output specifically — yes. PDFTash generates downloadable PDFs directly, while Gamma creates web-based presentations. PDFTash also requires no signup and includes a full PDF toolkit (compress, sign, translate, merge) alongside the generator.</p></div>
-  <div class="faq-item"><h3>What AI model powers PDFTash document generation?</h3><p>Claude AI by Anthropic — one of the most capable models for professional writing, document structuring, and accurate text generation.</p></div>
+  <div class="faq-item"><h3>What AI model powers PDFTash document generation?</h3><p>advanced AI — one of the most capable models for professional writing, document structuring, and accurate text generation.</p></div>
 </div>
 @endsection

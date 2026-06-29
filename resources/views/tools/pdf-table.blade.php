@@ -27,7 +27,7 @@
     {"@type":"Question","name":"Can I download as Excel (.xlsx)?","acceptedAnswer":{"@type":"Answer","text":"Yes. After AI extracts the tables, click 'Download Excel (.xlsx)' to get a real .xlsx file that opens in Microsoft Excel, Google Sheets, or LibreOffice."}},
     {"@type":"Question","name":"What if my PDF has multiple tables?","acceptedAnswer":{"@type":"Answer","text":"PDFTash detects all tables in the PDF and shows them as separate previews. Each table has its own CSV and Excel download button."}},
     {"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"Free users can extract tables from PDFs up to 10MB. Pro users ($2/month) can process files up to 200MB with no daily limits."}},
-    {"@type":"Question","name":"Does it work on invoices and financial reports?","acceptedAnswer":{"@type":"Answer","text":"Yes — invoices, bank statements, financial reports, pricing tables, product catalogs, and any structured data in PDF form. Claude AI understands table context and extracts it accurately."}},
+    {"@type":"Question","name":"Does it work on invoices and financial reports?","acceptedAnswer":{"@type":"Answer","text":"Yes — invoices, bank statements, financial reports, pricing tables, product catalogs, and any structured data in PDF form. advanced AI understands table context and extracts it accurately."}},
   ]
 }
 ]
@@ -100,7 +100,7 @@
   <div style="display:flex;flex-direction:column;gap:12px;">
     @foreach([
       ['1','📤','Upload Your PDF','Drop any PDF — invoices, reports, spreadsheets exported as PDF, financial statements.'],
-      ['2','🤖','AI Finds Every Table','Claude AI scans the entire document, identifies all tables, and structures them with proper headers and rows.'],
+      ['2','🤖','AI Finds Every Table','advanced AI scans the entire document, identifies all tables, and structures them with proper headers and rows.'],
       ['3','👁️','Preview in Browser','All extracted tables appear as clean HTML tables directly in your browser before downloading.'],
       ['4','⬇️','Download CSV or Excel','Click to download any table as a CSV file or a real Excel .xlsx file — ready for analysis.'],
     ] as [$num, $icon, $title, $desc])
@@ -131,7 +131,7 @@
   </div>
   <div class="faq-item">
     <h3>How accurate is the extraction?</h3>
-    <p>PDFTash uses Claude AI — one of the most accurate language models. For well-structured PDFs, accuracy is very high. Complex merged cells or rotated tables may require some cleanup, which you can do after downloading in Excel.</p>
+    <p>PDFTash uses advanced AI — one of the most accurate language models. For well-structured PDFs, accuracy is very high. Complex merged cells or rotated tables may require some cleanup, which you can do after downloading in Excel.</p>
   </div>
   <div class="faq-item">
     <h3>Is there a file size limit?</h3>

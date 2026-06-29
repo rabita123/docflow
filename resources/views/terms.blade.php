@@ -469,12 +469,12 @@ footer {
 
     <div class="section" id="ai-features">
       <h2><span class="icon">🤖</span> AI Features</h2>
-      <p>PDFTash offers AI-powered tools including PDF Summarization, Translation, and Chat with PDF. These features are powered by Anthropic's Claude AI.</p>
+      <p>PDFTash offers AI-powered tools including PDF Summarization, Translation, and Chat with PDF. These features are powered by advanced AI.</p>
       <ul>
         <li>AI outputs (summaries, translations, extracted data) may contain errors or inaccuracies</li>
         <li>Always review AI-generated content before relying on it for professional, legal, or medical decisions</li>
         <li>PDFTash does not warrant the accuracy, completeness, or fitness of AI-generated outputs for any specific purpose</li>
-        <li>Use of AI features is subject to Anthropic's terms of service and usage policies</li>
+        <li>Use of AI features is subject to our AI provider's terms of service and usage policies</li>
       </ul>
       <div class="box box-info">
         <p>AI features are experimental tools to assist your workflow. They are not a substitute for professional advice. PDFTash is not liable for decisions made based on AI-generated outputs.</p>

@@ -8,7 +8,7 @@
 [{"@context":"https://schema.org","@type":"SoftwareApplication","name":"PDFTash — Translate PDF to German","applicationCategory":"WebApplication","operatingSystem":"Any","description":"Free AI tool to translate any PDF to German online. No signup required. Accurate German translation with proper grammar and umlauts.","url":"https://pdftash.com/translate-pdf-to-german","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","reviewCount":"1183"}},
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"Is PDF to German translation free?","acceptedAnswer":{"@type":"Answer","text":"Yes. Free users get 1 translation per day with no signup. Pro users get unlimited."}},
-{"@type":"Question","name":"Does the German translation include proper umlauts and grammar?","acceptedAnswer":{"@type":"Answer","text":"Yes. Claude AI correctly applies German umlauts (ä, ö, ü, ß) and formal grammatical structures."}},
+{"@type":"Question","name":"Does the German translation include proper umlauts and grammar?","acceptedAnswer":{"@type":"Answer","text":"Yes. advanced AI correctly applies German umlauts (ä, ö, ü, ß) and formal grammatical structures."}},
 {"@type":"Question","name":"Can I translate a German PDF to English?","acceptedAnswer":{"@type":"Answer","text":"Yes — use our Translate PDF tool and select English as the target language."}}
 ]}]
 </script>

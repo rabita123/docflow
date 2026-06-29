@@ -62,7 +62,7 @@
   <div class="feature">
     <div class="feature-icon">🤖</div>
     <h3>AI-Powered Accuracy</h3>
-    <p>Claude AI understands table structure semantically — not just whitespace. Handles complex headers, multi-column layouts, and irregular spacing that trip up rule-based tools.</p>
+    <p>advanced AI understands table structure semantically — not just whitespace. Handles complex headers, multi-column layouts, and irregular spacing that trip up rule-based tools.</p>
   </div>
   <div class="feature">
     <div class="feature-icon">📋</div>

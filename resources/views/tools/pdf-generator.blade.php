@@ -202,7 +202,7 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
       @foreach([
         ['✍️','1. Enter Your Topic','Type any topic or paste rough notes — AI handles the structure.'],
-        ['🤖','2. AI Structures It','Claude AI writes title, sections, bullet points and a conclusion.'],
+        ['🤖','2. AI Structures It','advanced AI writes title, sections, bullet points and a conclusion.'],
         ['⬇️','3. Download Instantly','A beautiful themed PDF is ready in under 30 seconds.'],
       ] as $s)
       <div style="background:#0f0f1a;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:20px;text-align:center;">
@@ -310,7 +310,7 @@
   <h2>Frequently Asked Questions</h2>
   <div class="faq-item">
     <h3>How does the AI PDF Generator work?</h3>
-    <p>You enter any topic or text. Our AI (powered by Claude) structures it into a professional document with title, sections, and bullet points, then generates a beautiful themed PDF.</p>
+    <p>You enter any topic or text. Our AI (AI-powered) structures it into a professional document with title, sections, and bullet points, then generates a beautiful themed PDF.</p>
   </div>
   <div class="faq-item">
     <h3>Is this a free Gamma alternative?</h3>

@@ -54,7 +54,7 @@
   <div class="feature">
     <div class="feature-icon">🤖</div>
     <h3>AI-Powered Detection</h3>
-    <p>Claude AI reads your entire PDF and identifies every table — even complex multi-column layouts, merged headers, and spanning rows that rule-based tools miss.</p>
+    <p>advanced AI reads your entire PDF and identifies every table — even complex multi-column layouts, merged headers, and spanning rows that rule-based tools miss.</p>
   </div>
   <div class="feature">
     <div class="feature-icon">📥</div>

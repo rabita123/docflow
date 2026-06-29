@@ -806,7 +806,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
       @foreach([
         ['🔒','Privacy First','Your files are processed on our secure servers and automatically deleted after 2 hours. We never read, share, or store your documents.','c-red'],
         ['⚡','Lightning Fast','No queues. No batch jobs. Upload and get your result in seconds — most operations complete in under 10 seconds.','c-yellow'],
-        ['🤖','Powered by Claude AI','AI features use Claude — one of the most accurate and capable language models available. Not a cheap GPT wrapper.','c-purple'],
+        ['🤖','AI-Powered','AI features use state-of-the-art language models — accurate, fast, and reliable for summarization, translation, and document chat.','c-purple'],
         ['💸','Genuinely Free','20+ tools are completely free with no daily limits on basic operations. No dark patterns, no forced upgrades.','c-green'],
         ['🌍','Works Everywhere','No software to install. Works on Windows, Mac, Linux, Android, and iPhone — any device with a browser.','c-blue'],
         ['🛠️','Built on Open Tools','Backend uses battle-tested tools: Ghostscript, ImageMagick, Tesseract OCR, poppler. Not black-box conversion.','c-cyan'],
