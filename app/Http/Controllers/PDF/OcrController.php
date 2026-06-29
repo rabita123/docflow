@@ -40,19 +40,17 @@ class OcrController extends BasePdfController
     {
         $outputPdf = $this->outputPath('pdf');
 
-        // Check ocrmypdf is available
+        // Find ocrmypdf full path (www-data may have limited PATH)
         exec('which ocrmypdf 2>/dev/null', $out, $code);
-        if ($code === 0) {
-            // Check if unpaper is available for deskew/rotate
-        exec('which unpaper 2>/dev/null', $upOut, $upCode);
-        $extraFlags = $upCode === 0 ? ' --rotate-pages --deskew' : '';
+        $ocrmypdfBin = ($code === 0 && !empty($out[0])) ? trim($out[0]) : '/usr/local/bin/ocrmypdf';
 
-        $cmd = 'ocrmypdf'
+        if (file_exists($ocrmypdfBin) || $code === 0) {
+            $cmd = escapeshellarg($ocrmypdfBin)
                 . ' -l ' . escapeshellarg($lang)
                 . ' --output-type pdf'
-                . ' --optimize 1'
-                . ' --skip-text'          // don't error if some pages already have text
-                . $extraFlags
+                . ' --optimize 0'         // no optimization — avoids pngquant dependency
+                . ' --skip-text'          // don't error if pages already have text
+                . ' --force-ocr'          // force OCR on all pages
                 . ' ' . escapeshellarg($pdfPath)
                 . ' ' . escapeshellarg($outputPdf)
                 . ' 2>&1';
@@ -60,15 +58,21 @@ class OcrController extends BasePdfController
             $result = $this->run($cmd);
             @unlink($pdfPath);
 
-            if (file_exists($outputPdf) && filesize($outputPdf) > 0) {
+            if (file_exists($outputPdf) && filesize($outputPdf) > 1024) {
                 return $this->download($outputPdf, 'searchable-ocr.pdf');
             }
+
+            // Log what went wrong
+            \Illuminate\Support\Facades\Log::error('OCR failed', [
+                'cmd'    => $cmd,
+                'output' => $result['stdout'] ?? '',
+                'exists' => file_exists($outputPdf),
+                'size'   => file_exists($outputPdf) ? filesize($outputPdf) : 0,
+            ]);
         }
 
-        // Fallback: tesseract PDF output (page-by-page)
         @unlink($pdfPath);
-        // Re-save since we unlinked above — can't, so return error
-        return $this->err('ocrmypdf is not installed on this server. Run: apt-get install -y ocrmypdf');
+        return $this->err('OCR processing failed. Please try a different PDF.');
     }
 
     // ─────────────────────────────────────────────────────────────────────────
