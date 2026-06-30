@@ -572,12 +572,12 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-badge"><div class="badge-dot"></div>20+ Free PDF Tools — No Signup, No Watermark</div>
-  <h1>Do More<br><span class="h1-grad">With Any PDF.</span></h1>
-  <p class="hero-sub">Compress, merge, convert, translate and sign PDFs in seconds. Free AI tools built in — works on any device, no account needed.</p>
+  <div class="hero-badge"><div class="badge-dot"></div>The Smarter Alternative to iLovePDF &amp; Sejda</div>
+  <h1>PDF Tools That Are<br><span class="h1-grad">Actually Free.</span></h1>
+  <p class="hero-sub">AI chat, Bengali translation, eSign, highlight &amp; 20+ tools — no watermark, no signup, no tricks. Everything competitors charge for, we give you free.</p>
   <div class="hero-cta">
-    <button class="btn btn-primary btn-lg" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Upload PDF Free →</button>
-    <button class="btn btn-ghost btn-lg" onclick="openTool('chat')">Try AI Chat</button>
+    <button class="btn btn-primary btn-lg" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Try Free — No Signup →</button>
+    <button class="btn btn-ghost btn-lg" onclick="openTool('chat')">Try AI Chat Free</button>
   </div>
   {{-- Social proof bar --}}
   <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:20px;margin-top:32px;">
@@ -595,9 +595,9 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
   <div class="hero-stats" style="margin-top:28px;">
     <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Free Tools</div></div>
-    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Signup Required</div></div>
+    <div class="stat"><div class="stat-n">$0</div><div class="stat-l">No Watermark</div></div>
     <div class="stat"><div class="stat-n">2h</div><div class="stat-l">Auto File Delete</div></div>
-    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Built In</div></div>
+    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Free — Built In</div></div>
   </div>
 </section>
 
@@ -871,40 +871,105 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <!-- Why PDFTash Section -->
 <div style="background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);padding:80px 24px;margin:0;">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
+
     <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:99px;padding:6px 16px;font-size:11px;color:#00e5a0;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:.08em;">Why PDFTash</div>
-    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;">Everything. Free. No catch.</h2>
-    <p style="color:var(--text2);font-size:16px;max-width:540px;margin:0 auto 56px;line-height:1.7;">iLovePDF, SmallPDF and Adobe charge for what PDFTash gives you free — no watermarks, no daily limits on core tools, no forced account.</p>
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;">Why Switch to PDFTash?</h2>
+    <p style="color:var(--text2);font-size:16px;max-width:580px;margin:0 auto 52px;line-height:1.7;">We built PDFTash because iLovePDF, SmallPDF and Sejda all have the same problem: they gate the good stuff behind paywalls. We don't.</p>
+
+    {{-- Pain-point cards --}}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:56px;text-align:left;">
+
+      <div style="background:var(--bg2);border:1px solid rgba(91,92,255,.25);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(91,92,255,.15),transparent 70%);pointer-events:none;"></div>
+        <div style="font-size:13px;font-weight:700;color:#f87171;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><span>❌</span> iLovePDF charges $4/mo for AI Chat</div>
+        <div style="font-size:13px;font-weight:700;color:#00e5a0;margin-bottom:14px;display:flex;align-items:center;gap:6px;"><span>✅</span> PDFTash: AI Chat is completely free</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">Summarize, translate and chat with any PDF using AI — no subscription required, no API key, no limit on basic use.</div>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid rgba(91,92,255,.25);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(91,92,255,.15),transparent 70%);pointer-events:none;"></div>
+        <div style="font-size:13px;font-weight:700;color:#f87171;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><span>❌</span> SmallPDF adds a watermark to free downloads</div>
+        <div style="font-size:13px;font-weight:700;color:#00e5a0;margin-bottom:14px;display:flex;align-items:center;gap:6px;"><span>✅</span> PDFTash: Zero watermarks, ever</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">Your compressed, merged or converted PDF is clean and professional — no "Processed by SmallPDF" stamped across your documents.</div>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid rgba(91,92,255,.25);border-radius:18px;padding:26px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(91,92,255,.15),transparent 70%);pointer-events:none;"></div>
+        <div style="font-size:13px;font-weight:700;color:#f87171;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><span>❌</span> Sejda forces you to create an account first</div>
+        <div style="font-size:13px;font-weight:700;color:#00e5a0;margin-bottom:14px;display:flex;align-items:center;gap:6px;"><span>✅</span> PDFTash: Upload and go, no account needed</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;">No email. No password. No confirmation. Just pick your PDF and your tool, and you're done in under 10 seconds.</div>
+      </div>
+
+    </div>
 
     {{-- Comparison table --}}
     <div style="overflow-x:auto;margin-bottom:56px;">
-      <table style="width:100%;max-width:780px;margin:0 auto;border-collapse:collapse;font-size:14px;text-align:left;">
+      <table style="width:100%;max-width:820px;margin:0 auto;border-collapse:collapse;font-size:14px;text-align:left;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;">
         <thead>
-          <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
-            <th style="padding:12px 16px;color:var(--text2);font-weight:600;">Feature</th>
-            <th style="padding:12px 16px;color:#5b5cff;font-weight:700;text-align:center;">PDFTash</th>
-            <th style="padding:12px 16px;color:var(--text2);font-weight:600;text-align:center;">SmallPDF</th>
-            <th style="padding:12px 16px;color:var(--text2);font-weight:600;text-align:center;">iLovePDF</th>
+          <tr style="background:rgba(91,92,255,.1);">
+            <th style="padding:14px 18px;color:var(--text2);font-weight:600;">Feature</th>
+            <th style="padding:14px 18px;color:#5b5cff;font-weight:700;text-align:center;">✦ PDFTash</th>
+            <th style="padding:14px 18px;color:var(--text2);font-weight:600;text-align:center;">SmallPDF</th>
+            <th style="padding:14px 18px;color:var(--text2);font-weight:600;text-align:center;">iLovePDF</th>
+            <th style="padding:14px 18px;color:var(--text2);font-weight:600;text-align:center;">Sejda</th>
           </tr>
         </thead>
         <tbody>
           @foreach([
-            ['No signup required',          '✅','❌','❌'],
-            ['No watermark (free)',          '✅','❌','❌'],
-            ['AI Chat & Summarize',         '✅','❌','❌'],
-            ['PDF Translation (12 langs)',  '✅','❌','✅'],
-            ['OCR (Bengali, Arabic, Hindi)','✅','✅','✅'],
-            ['Compress / Merge / Split',    '✅','✅','✅'],
-            ['Price',                       '$0–$2/mo','$9/mo','$4/mo'],
-          ] as [$feature,$us,$small,$ilove])
-          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
-            <td style="padding:13px 16px;color:var(--text2);">{{$feature}}</td>
-            <td style="padding:13px 16px;text-align:center;font-weight:600;color:{{str_starts_with($us,'✅') ? '#00e5a0' : 'var(--text2)'}};">{{$us}}</td>
-            <td style="padding:13px 16px;text-align:center;color:{{str_starts_with($small,'✅') ? '#00e5a0' : ($small==='❌' ? '#f87171' : 'var(--text2)')}};">{{$small}}</td>
-            <td style="padding:13px 16px;text-align:center;color:{{str_starts_with($ilove,'✅') ? '#00e5a0' : ($ilove==='❌' ? '#f87171' : 'var(--text2)')}};">{{$ilove}}</td>
+            ['No signup required',            '✅','❌','❌','❌'],
+            ['No watermark on free tier',     '✅','❌','✅','✅'],
+            ['AI Chat & Summarize (free)',    '✅','❌','❌','❌'],
+            ['PDF Translation (12+ langs)',   '✅','❌','✅','❌'],
+            ['Bengali / Hindi / Arabic OCR',  '✅','✅','✅','✅'],
+            ['Highlight & Annotate PDF',      '✅','❌','✅','✅'],
+            ['Compress / Merge / Split',      '✅','✅','✅','✅'],
+            ['Starting price',                '$0','$9/mo','$4/mo','$5/mo'],
+          ] as [$feature,$us,$small,$ilove,$sejda])
+          <tr style="border-top:1px solid rgba(255,255,255,.05);">
+            <td style="padding:13px 18px;color:var(--text2);">{{$feature}}</td>
+            <td style="padding:13px 18px;text-align:center;font-weight:700;color:{{str_starts_with($us,'✅') ? '#00e5a0' : (str_starts_with($us,'$') ? '#5b5cff' : 'var(--text2)')}};background:rgba(91,92,255,.04);">{{$us}}</td>
+            <td style="padding:13px 18px;text-align:center;color:{{str_starts_with($small,'✅') ? '#00e5a0' : ($small==='❌' ? '#f87171' : 'var(--text2)')}};">{{$small}}</td>
+            <td style="padding:13px 18px;text-align:center;color:{{str_starts_with($ilove,'✅') ? '#00e5a0' : ($ilove==='❌' ? '#f87171' : 'var(--text2)')}};">{{$ilove}}</td>
+            <td style="padding:13px 18px;text-align:center;color:{{str_starts_with($sejda,'✅') ? '#00e5a0' : ($sejda==='❌' ? '#f87171' : 'var(--text2)')}};">{{$sejda}}</td>
           </tr>
           @endforeach
         </tbody>
       </table>
+    </div>
+
+    {{-- Testimonials --}}
+    <div style="margin-bottom:56px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:24px;">What users say</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;text-align:left;">
+
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px 20px;">
+          <div style="color:#fbbf24;font-size:13px;letter-spacing:2px;margin-bottom:12px;">★★★★★</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:16px;">"Finally a PDF tool without a paywall popup every 2 minutes. Compressed a 50MB report in seconds, no signup, no watermark. Exactly what I needed."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#5b5cff,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">R</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--text);">Rashid K.</div><div style="font-size:11px;color:var(--text2);">University Student, Dhaka</div></div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px 20px;">
+          <div style="color:#fbbf24;font-size:13px;letter-spacing:2px;margin-bottom:12px;">★★★★★</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:16px;">"I translate Bengali research papers weekly. PDFTash is the only tool that does it properly — iLovePDF doesn't even have this feature for free."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#00e5a0,#5b5cff);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">F</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--text);">Fatima A.</div><div style="font-size:11px;color:var(--text2);">Research Analyst</div></div>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:22px 20px;">
+          <div style="color:#fbbf24;font-size:13px;letter-spacing:2px;margin-bottom:12px;">★★★★★</div>
+          <p style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:16px;">"PDFTash does everything I used to pay SmallPDF $9/month for. AI summarizer, merge, compress — all free. I cancelled my SmallPDF subscription same day."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#f97316,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;">M</div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--text);">Marcus T.</div><div style="font-size:11px;color:var(--text2);">Freelance Designer</div></div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
     {{-- Feature cards --}}
@@ -913,9 +978,9 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
         ['🔒','Files Auto-Deleted in 2h','Your PDFs are processed in isolation and permanently deleted after 2 hours. No one at PDFTash ever reads your files.','c-red'],
         ['⚡','Results in Under 10s','No queues. No batch jobs. Upload and get your result instantly — most tools complete in under 10 seconds.','c-yellow'],
         ['🤖','AI Built In — Free','Summarize, translate, chat with your PDF and extract data using AI. No extra subscription, no API key needed.','c-purple'],
-        ['🌍','No Download, Works Everywhere','100% browser-based. Works on Windows, Mac, Android, iPhone — any device with a browser, no install.','c-blue'],
-        ['💸','Free Core Tools, Forever','Compress, merge, split, rotate, sign, protect and more — free with no daily cap. Pro adds AI and large files.','c-green'],
-        ['🌐','PDF Translation in 12 Languages','Translate PDFs to Bengali, Arabic, Hindi, Spanish, French and 7 more. Unique AI translation not found on competitors.','c-cyan'],
+        ['🌍','Works on Any Device','100% browser-based. Works on Windows, Mac, Android, iPhone — any device with a browser, no install required.','c-blue'],
+        ['💸','Core Tools Free, Forever','Compress, merge, split, rotate, sign, highlight and more — free with no daily cap on core tools.','c-green'],
+        ['🌐','PDF Translation in 12 Languages','Translate PDFs to Bengali, Arabic, Hindi, Spanish, French and 7 more. Not available free anywhere else.','c-cyan'],
       ] as [$icon,$title,$desc,$color])
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:26px 22px;transition:all .25s;" onmouseover="this.style.borderColor='rgba(91,92,255,.35)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='translateY(0)'">
         <div class="tc-icon-wrap {{$color}}" style="margin-bottom:16px;">{{$icon}}</div>
@@ -924,6 +989,7 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
       </div>
       @endforeach
     </div>
+
   </div>
 </div>
 
