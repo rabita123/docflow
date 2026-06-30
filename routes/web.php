@@ -248,6 +248,9 @@ Route::get('/blog/how-to-ocr-pdf',                         fn() => view('blog.ho
 Route::get('/blog/how-to-add-page-numbers-to-pdf',         fn() => view('blog.how-to-add-page-numbers-to-pdf'));
 Route::get('/blog/how-to-translate-pdf',                   fn() => view('blog.how-to-translate-pdf'));
 Route::get('/blog/how-to-convert-pdf-to-word',             fn() => view('blog.how-to-convert-pdf-to-word'));
+Route::get('/blog/how-to-rotate-pdf',                      fn() => view('blog.how-to-rotate-pdf'));
+Route::get('/blog/how-to-compress-pdf-for-whatsapp',       fn() => view('blog.how-to-compress-pdf-for-whatsapp'));
+Route::get('/blog/how-to-password-protect-pdf',            fn() => view('blog.how-to-password-protect-pdf'));
 
 // ── SEO Pages: New high-volume tool keywords ──────────────────────────────────
 Route::get('/pdf-editor-online-free',   fn() => view('pages.pdf-editor-online-free'));
@@ -385,6 +388,9 @@ Route::get('/sitemap.xml', function () {
         ['loc' => 'https://pdftash.com/blog/how-to-add-page-numbers-to-pdf',        'priority' => '0.8', 'changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/how-to-translate-pdf',                  'priority' => '0.85','changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/blog/how-to-convert-pdf-to-word',           'priority' => '0.9', 'changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-rotate-pdf',                   'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-compress-pdf-for-whatsapp',    'priority' => '0.85','changefreq' => 'monthly'],
+        ['loc' => 'https://pdftash.com/blog/how-to-password-protect-pdf',         'priority' => '0.85','changefreq' => 'monthly'],
         ['loc' => 'https://pdftash.com/free-pdf-to-word-converter',                'priority' => '0.95','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/pdf-word-converter',                        'priority' => '0.9', 'changefreq' => 'weekly'],
         // New landing pages

@@ -226,6 +226,27 @@
             <span class="article-card__meta">6 min read · Convert</span>
         </a>
 
+        <a href="/blog/how-to-rotate-pdf" class="article-card">
+            <span class="article-card__emoji">🔄</span>
+            <h2 class="article-card__title">How to Rotate PDF Pages Online Free (Permanent Fix)</h2>
+            <p class="article-card__desc">Fix sideways or upside-down PDF pages permanently in seconds. Rotate all pages or specific pages only.</p>
+            <span class="article-card__meta">4 min read · Edit</span>
+        </a>
+
+        <a href="/blog/how-to-compress-pdf-for-whatsapp" class="article-card">
+            <span class="article-card__emoji">💬</span>
+            <h2 class="article-card__title">How to Compress PDF for WhatsApp (Fast &amp; Free)</h2>
+            <p class="article-card__desc">Send large PDFs on WhatsApp without errors. Reduce PDF size for WhatsApp in seconds — no app needed.</p>
+            <span class="article-card__meta">4 min read · Compress</span>
+        </a>
+
+        <a href="/blog/how-to-password-protect-pdf" class="article-card">
+            <span class="article-card__emoji">🔐</span>
+            <h2 class="article-card__title">How to Password Protect a PDF Online Free</h2>
+            <p class="article-card__desc">Add AES-256 encryption to any PDF in seconds. Keep contracts, IDs and financial documents secure.</p>
+            <span class="article-card__meta">5 min read · Security</span>
+        </a>
+
     </div>
 
 </div>
