@@ -472,6 +472,7 @@ function onDown(e, pageNum) {
 
   // ── TEXT TOOL ─────────────────────────────────────────────────────────────
   if (currentTool === 'text') {
+    e.preventDefault(); // prevent default focus-steal that causes immediate blur
     createTextInput(pageNum, pos.x, pos.y);
     return;
   }
@@ -574,20 +575,30 @@ function onUp(e, pageNum) {
 
 // ─── Text Input Overlay ───────────────────────────────────────────────────────
 function createTextInput(pageNum, canvasX, canvasY) {
+  // Remove any previous uncommitted input
+  document.querySelectorAll('.text-input-overlay').forEach(el => el.remove());
+
   const canvas  = pageCanvases[pageNum].anno;
   const wrapper = document.getElementById('page-wrapper-' + pageNum);
   const css     = canvasToCss(canvas, canvasX, canvasY);
 
   const ta = document.createElement('textarea');
-  ta.className = 'text-input-overlay';
-  ta.style.left     = css.x + 'px';
-  ta.style.top      = css.y + 'px';
+  ta.className    = 'text-input-overlay';
+  ta.style.left   = css.x + 'px';
+  ta.style.top    = css.y + 'px';
   ta.style.fontSize = Math.round(thickness * (canvas.getBoundingClientRect().width / canvas.width)) + 'px';
-  ta.style.color    = currentColor === '#ffffff' ? '#000' : currentColor;
-  ta.rows = 1;
+  // Keep text dark enough to see while typing (will render in chosen color)
+  ta.style.color  = '#111';
+  ta.rows         = 1;
+  ta.placeholder  = 'Type here, Enter to place…';
 
   wrapper.appendChild(ta);
-  ta.focus();
+
+  // Stop mousedown inside textarea from bubbling to canvas (would create another input)
+  ta.addEventListener('mousedown', ev => ev.stopPropagation());
+
+  // Delay focus slightly so the mousedown that triggered this doesn't immediately steal focus back
+  setTimeout(() => ta.focus(), 10);
 
   let committed = false;
 
@@ -595,31 +606,38 @@ function createTextInput(pageNum, canvasX, canvasY) {
     if (committed) return;
     committed = true;
     const text = ta.value.trim();
-    if (text) {
-      addTextAnnotation(pageNum, canvasX, canvasY, text);
-    }
+    if (text) addTextAnnotation(pageNum, canvasX, canvasY, text);
     if (ta.parentNode) ta.parentNode.removeChild(ta);
+    document.removeEventListener('mousedown', outsideClick);
   }
 
   ta.addEventListener('keydown', ev => {
     if (ev.key === 'Escape') {
       committed = true;
       if (ta.parentNode) ta.parentNode.removeChild(ta);
+      document.removeEventListener('mousedown', outsideClick);
+      return;
     }
-    // Commit on Enter (but Shift+Enter = new line)
     if (ev.key === 'Enter' && !ev.shiftKey) {
       ev.preventDefault();
       commit();
+      return;
     }
-    // Auto-resize textarea width
+    // Auto-grow textarea as user types
     requestAnimationFrame(() => {
       ta.style.width  = 'auto';
       ta.style.height = 'auto';
-      ta.style.width  = ta.scrollWidth + 'px';
-      ta.style.height = ta.scrollHeight + 'px';
+      ta.style.width  = (ta.scrollWidth + 6) + 'px';
+      ta.style.height = (ta.scrollHeight + 4) + 'px';
     });
   });
-  ta.addEventListener('blur', commit);
+
+  // Commit when clicking anywhere outside the textarea
+  // Delayed registration so this mousedown event doesn't immediately trigger it
+  function outsideClick(ev) {
+    if (!ta.contains(ev.target)) commit();
+  }
+  setTimeout(() => document.addEventListener('mousedown', outsideClick), 50);
 }
 
 function addTextAnnotation(pageNum, x, y, text) {
