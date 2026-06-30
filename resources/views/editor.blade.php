@@ -437,12 +437,12 @@ const TOOLS = {
     fields:[{type:'select',name:'type',label:'Data Type',opts:['invoice','table','contact'],labels:['Invoice Data','Table / Grid Data','Contact Information']}]},
   merge:{title:'Merge PDFs',desc:'Combine multiple PDFs into one.',endpoint:'/api/pdf/merge',icon:'🔗',multiFile:true},
   sign:{title:'eSign PDF',desc:'Add your signature to the PDF.',endpoint:'/api/pdf/sign',icon:'✍️',signMode:true},
-  'pdf-to-images':{title:'PDF to Images',desc:'Convert each page to a JPG/PNG image.',endpoint:'/api/pdf/to-images',icon:'🖼️',
+  'pdf-to-images':{title:'PDF to Images',desc:'Convert each page to a JPG/PNG image.',endpoint:'/api/pdf/to-images',icon:'🖼️',resultFilename:'pages.zip',
     fields:[
       {type:'select',name:'format',label:'Format',opts:['jpg','png'],labels:['JPG (smaller)','PNG (transparent)']},
       {type:'select',name:'dpi',label:'Quality',opts:['96','150','200','300'],labels:['96 DPI (screen)','150 DPI (standard)','200 DPI (high)','300 DPI (print)']}
     ]},
-  'extract-text':{title:'Extract Text',desc:'Extract all text from PDF as a .txt file.',endpoint:'/api/pdf/to-text',icon:'📃',textResult:true,fields:[]},
+  'extract-text':{title:'Extract Text',desc:'Extract all text from PDF as a .txt file.',endpoint:'/api/pdf/to-text',icon:'📃',resultFilename:'extracted_text.txt',fields:[]},
   info:{title:'PDF Info',desc:'View metadata, page count and file details.',endpoint:'/api/pdf/info',icon:'ℹ️',textResult:true,fields:[]},
   crop:{title:'Crop PDF',desc:'Crop margins from all pages.',endpoint:'/api/pdf/crop',icon:'✂️',
     fields:[
