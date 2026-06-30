@@ -164,7 +164,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:14px 3
       <div class="color-swatch" style="background:#93C5FD;" data-color="#93C5FD" onclick="setColor('#93C5FD',this)" title="Blue"></div>
       <div class="color-swatch" style="background:#C4B5FD;" data-color="#C4B5FD" onclick="setColor('#C4B5FD',this)" title="Purple"></div>
       <div class="color-swatch" style="background:#F97316;" data-color="#F97316" onclick="setColor('#F97316',this)" title="Orange"></div>
-      <div class="color-swatch" style="background:#fff;" data-color="#ffffff" onclick="setColor('#ffffff',this)" title="White"></div>
+      <div class="color-swatch" style="background:#EF4444;" data-color="#EF4444" onclick="setColor('#EF4444',this)" title="Red"></div>
       <div class="color-swatch" style="background:#111;" data-color="#111111" onclick="setColor('#111111',this)" title="Black"></div>
       <input type="color" id="custom-color" value="#FFE033" title="Custom color" style="width:22px;height:22px;border:none;border-radius:5px;cursor:pointer;background:none;padding:0;" onchange="setColor(this.value,null)">
     </div>
