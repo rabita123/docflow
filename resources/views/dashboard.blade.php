@@ -180,7 +180,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <div class="words-fill" id="ai-fill" style="width:0%"></div>
       </div>
     </div>
-    <button class="upgrade-btn" onclick="window.location.href='/payment/checkout'">
+    <button class="upgrade-btn" onclick="upgradeToPro()">
       ⚡ Upgrade to Pro
     </button>
     @endif
@@ -217,7 +217,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
     <div class="topbar-title" id="topbar-title">Overview</div>
     <div style="display:flex;align-items:center;gap:12px;">
       @if(auth()->user()->plan !== 'pro')
-      <button onclick="window.location.href='/payment/checkout'" style="display:flex;align-items:center;gap:6px;padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">
+      <button onclick="upgradeToPro()" style="display:flex;align-items:center;gap:6px;padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;">
         ⚡ Upgrade plan
       </button>
       @endif
@@ -508,7 +508,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <div style="font-size:36px;margin-bottom:10px;">🔒</div>
         <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Pro Feature</div>
         <div style="color:var(--text2);font-size:14px;margin-bottom:20px;">Upgrade to Pro to use AI Form Fill and all other AI tools.</div>
-        <button onclick="window.location.href='/payment/checkout'" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
+        <button onclick="upgradeToPro()" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
       </div>
       @else
       <div class="tool-panel" style="padding:48px 40px;text-align:center;">
@@ -536,7 +536,7 @@ textarea.tool-input::placeholder{color:var(--text3);}
         <div style="font-size:36px;margin-bottom:10px;">🔒</div>
         <div style="font-size:17px;font-weight:700;margin-bottom:8px;">Pro Feature</div>
         <div style="color:var(--text2);font-size:14px;margin-bottom:20px;">Upgrade to Pro to generate AI-powered PDFs, invoices, bank statements, and more.</div>
-        <button onclick="window.location.href='/payment/checkout'" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
+        <button onclick="upgradeToPro()" style="padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:14px;font-weight:700;cursor:pointer;">⚡ Upgrade to Pro</button>
       </div>
       @else
       <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:28px;text-align:center;">
@@ -891,6 +891,32 @@ async function runSummarize(){
         if(r.ok){ const d=await r.json(); document.getElementById('summarize-output').style.display='block'; document.getElementById('summarize-output').textContent=d.summary||d.text||''; showResult('summarize-result',''); }
         else { const d=await r.json(); showResult('summarize-result', resultError(d.error||'Summarize failed')); }
     } catch(e){ showResult('summarize-result', resultError('Connection error.')); }
+}
+</script>
+
+{{-- Paddle Billing --}}
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+@if(config('services.paddle.sandbox'))
+  Paddle.Environment.set('sandbox');
+@endif
+Paddle.Initialize({ token: '{{ config('services.paddle.client_token') }}' });
+
+async function upgradeToPro() {
+    try {
+        const resp = await fetch('/payment/checkout-data');
+        const data = await resp.json();
+        Paddle.Checkout.open({
+            items: [{ priceId: data.price_id, quantity: 1 }],
+            customer: data.email ? { email: data.email } : undefined,
+            customData: data.user_id ? { user_id: String(data.user_id) } : undefined,
+            settings: {
+                successUrl: window.location.origin + '/payment/success',
+            }
+        });
+    } catch(e) {
+        window.location.href = '/#pricing';
+    }
 }
 </script>
 </body>
