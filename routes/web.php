@@ -257,6 +257,8 @@ Route::get('/pdf-editor-online-free',   fn() => view('pages.pdf-editor-online-fr
 Route::get('/free-pdf-editor',          fn() => view('pages.pdf-editor-online-free'));
 Route::get('/remove-pdf-password',      fn() => view('pages.remove-pdf-password'));
 Route::get('/unlock-pdf-online',        fn() => view('pages.remove-pdf-password'));
+Route::get('/highlight-pdf',            fn() => view('pages.highlight-pdf'));
+Route::get('/annotate-pdf',             fn() => view('pages.highlight-pdf'));
 Route::get('/rotate-pdf-online',        fn() => view('pages.rotate-pdf-online'));
 Route::get('/rotate-pdf-free',          fn() => view('pages.rotate-pdf-online'));
 Route::get('/add-watermark-to-pdf',     fn() => view('pages.add-watermark-to-pdf'));
@@ -396,6 +398,8 @@ Route::get('/sitemap.xml', function () {
         // New landing pages
         ['loc' => 'https://pdftash.com/pdf-editor-online-free',  'priority' => '0.95','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/remove-pdf-password',     'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/highlight-pdf',            'priority' => '0.9', 'changefreq' => 'weekly'],
+        ['loc' => 'https://pdftash.com/annotate-pdf',            'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/rotate-pdf-online',       'priority' => '0.9', 'changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/add-watermark-to-pdf',    'priority' => '0.85','changefreq' => 'weekly'],
         ['loc' => 'https://pdftash.com/pdf-to-text-online',      'priority' => '0.9', 'changefreq' => 'weekly'],
