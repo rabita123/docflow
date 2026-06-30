@@ -117,8 +117,8 @@ Route::get('/auth/google',          [SocialiteController::class, 'redirectToGoog
 Route::get('/auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 Route::post('/logout',              [SocialiteController::class, 'logout'])->name('logout');
 
-// ── Payment Routes (Lemon Squeezy) ───────────────────────────────────────────
-Route::get('/payment/checkout',          [PaymentController::class, 'checkout'])->middleware('auth');
+// ── Payment Routes (Paddle Billing) ──────────────────────────────────────────
+Route::get('/payment/checkout-data',     [PaymentController::class, 'checkoutData'])->middleware('auth');
 Route::get('/payment/success',           [PaymentController::class, 'success']);
 Route::get('/payment/cancel',            [PaymentController::class, 'cancel']);
 Route::post('/payment/webhook',          [PaymentController::class, 'webhook'])->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);

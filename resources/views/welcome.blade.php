@@ -1736,14 +1736,27 @@ document.getElementById('login-modal')?.addEventListener('click', function(e){
 
 
 
-function upgradeToPro() {
+async function upgradeToPro() {
     const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
     if (!isLoggedIn) {
         openLoginModal('pricing');
         return;
     }
-    // Navigate to checkout — server pre-fills email and redirects to Lemon Squeezy
-    window.location.href = '/payment/checkout';
+    // Fetch price ID and user email from server, then open Paddle overlay
+    try {
+        const resp = await fetch('/payment/checkout-data');
+        const data = await resp.json();
+        Paddle.Checkout.open({
+            items: [{ priceId: data.price_id, quantity: 1 }],
+            customer: data.email ? { email: data.email } : undefined,
+            customData: data.user_id ? { user_id: String(data.user_id) } : undefined,
+            settings: {
+                successUrl: window.location.origin + '/payment/success',
+            }
+        });
+    } catch(e) {
+        window.location.href = '/pricing';
+    }
 }
 
 // ── Upgrade Modal ─────────────────────────────────────────────────────────
@@ -1858,5 +1871,14 @@ function showToast(msg, icon='✅'){
     <button onclick="closeUpgradeModal()" style="width:100%;padding:10px;background:transparent;color:var(--text2);border:1px solid var(--border2);border-radius:99px;font-size:13px;cursor:pointer;">Maybe later</button>
   </div>
 </div>
+
+{{-- Paddle Billing JS --}}
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+@if(config('services.paddle.sandbox'))
+  Paddle.Environment.set('sandbox');
+@endif
+Paddle.Initialize({ token: '{{ config('services.paddle.client_token') }}' });
+</script>
 </body>
 </html>

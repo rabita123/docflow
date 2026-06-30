@@ -31,12 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'lemonsqueezy' => [
-        'api_key'        => env('LEMONSQUEEZY_API_KEY'),
-        'store_id'       => env('LEMONSQUEEZY_STORE_ID'),
-        'checkout_url'   => env('LEMONSQUEEZY_CHECKOUT_URL'),
-        'variant_id'     => env('LEMONSQUEEZY_VARIANT_ID', '1665412'),
-        'webhook_secret' => env('LEMONSQUEEZY_WEBHOOK_SECRET'),
+    'paddle' => [
+        'client_token'   => env('PADDLE_CLIENT_TOKEN'),   // client-side token (starts with live_ or test_)
+        'api_key'        => env('PADDLE_API_KEY'),         // server-side API key
+        'webhook_secret' => env('PADDLE_WEBHOOK_SECRET'),  // from Notifications page
+        'price_id'       => env('PADDLE_PRICE_ID'),        // pri_xxxxxxxx
+        'sandbox'        => env('PADDLE_SANDBOX', false),  // true while testing
     ],
 
     'google' => [
