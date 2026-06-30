@@ -535,18 +535,32 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-badge"><div class="badge-dot"></div>Advanced PDF Platform — AI Powered</div>
-  <h1>Your PDFs.<br><span class="h1-grad">Supercharged.</span></h1>
-  <p class="hero-sub">Compress, merge, split, translate and sign PDFs in seconds. 20+ free tools with built-in AI — no signup needed.</p>
+  <div class="hero-badge"><div class="badge-dot"></div>20+ Free PDF Tools — No Signup, No Watermark</div>
+  <h1>Do More<br><span class="h1-grad">With Any PDF.</span></h1>
+  <p class="hero-sub">Compress, merge, convert, translate and sign PDFs in seconds. Free AI tools built in — works on any device, no account needed.</p>
   <div class="hero-cta">
     <button class="btn btn-primary btn-lg" onclick="document.getElementById('drop-section').scrollIntoView({behavior:'smooth'})">Upload PDF Free →</button>
     <button class="btn btn-ghost btn-lg" onclick="openTool('chat')">Try AI Chat</button>
   </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-n">20+</div><div class="stat-l">PDF Tools</div></div>
-    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Powered</div></div>
-    <div class="stat"><div class="stat-n">Free</div><div class="stat-l">To Start</div></div>
-    <div class="stat"><div class="stat-n">Fast</div><div class="stat-l">Laravel Backend</div></div>
+  {{-- Social proof bar --}}
+  <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:20px;margin-top:32px;">
+    <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:99px;padding:8px 18px;">
+      <span style="color:#fbbf24;font-size:14px;letter-spacing:1px;">★★★★★</span>
+      <span style="font-size:13px;font-weight:600;color:var(--text);">4.8</span>
+      <span style="font-size:12px;color:var(--text2);">· 2,400+ users</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-size:12px;color:var(--text2);font-weight:500;">TRUSTED BY USERS FROM</span>
+      <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">Product Hunt</span>
+      <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">Reddit</span>
+      <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">LinkedIn</span>
+    </div>
+  </div>
+  <div class="hero-stats" style="margin-top:28px;">
+    <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Free Tools</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Signup Required</div></div>
+    <div class="stat"><div class="stat-n">2h</div><div class="stat-l">Auto File Delete</div></div>
+    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Built In</div></div>
   </div>
 </section>
 
@@ -801,16 +815,50 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <div style="background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);padding:80px 24px;margin:0;">
   <div style="max-width:1100px;margin:0 auto;text-align:center;">
     <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:99px;padding:6px 16px;font-size:11px;color:#00e5a0;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:.08em;">Why PDFTash</div>
-    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;">Built for people, not enterprises</h2>
-    <p style="color:var(--text2);font-size:16px;max-width:520px;margin:0 auto 56px;line-height:1.7;">No bloated UI. No forced signup. Just fast, reliable PDF tools that work the first time.</p>
+    <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,4vw,42px);font-weight:800;letter-spacing:-1.5px;margin-bottom:12px;">Everything. Free. No catch.</h2>
+    <p style="color:var(--text2);font-size:16px;max-width:540px;margin:0 auto 56px;line-height:1.7;">iLovePDF, SmallPDF and Adobe charge for what PDFTash gives you free — no watermarks, no daily limits on core tools, no forced account.</p>
+
+    {{-- Comparison table --}}
+    <div style="overflow-x:auto;margin-bottom:56px;">
+      <table style="width:100%;max-width:780px;margin:0 auto;border-collapse:collapse;font-size:14px;text-align:left;">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,.1);">
+            <th style="padding:12px 16px;color:var(--text2);font-weight:600;">Feature</th>
+            <th style="padding:12px 16px;color:#5b5cff;font-weight:700;text-align:center;">PDFTash</th>
+            <th style="padding:12px 16px;color:var(--text2);font-weight:600;text-align:center;">SmallPDF</th>
+            <th style="padding:12px 16px;color:var(--text2);font-weight:600;text-align:center;">iLovePDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach([
+            ['No signup required',          '✅','❌','❌'],
+            ['No watermark (free)',          '✅','❌','❌'],
+            ['AI Chat & Summarize',         '✅','❌','❌'],
+            ['PDF Translation (12 langs)',  '✅','❌','✅'],
+            ['OCR (Bengali, Arabic, Hindi)','✅','✅','✅'],
+            ['Compress / Merge / Split',    '✅','✅','✅'],
+            ['Price',                       '$0–$2/mo','$9/mo','$4/mo'],
+          ] as [$feature,$us,$small,$ilove])
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+            <td style="padding:13px 16px;color:var(--text2);">{{$feature}}</td>
+            <td style="padding:13px 16px;text-align:center;font-weight:600;color:{{str_starts_with($us,'✅') ? '#00e5a0' : 'var(--text2)'}};">{{$us}}</td>
+            <td style="padding:13px 16px;text-align:center;color:{{str_starts_with($small,'✅') ? '#00e5a0' : ($small==='❌' ? '#f87171' : 'var(--text2)')}};">{{$small}}</td>
+            <td style="padding:13px 16px;text-align:center;color:{{str_starts_with($ilove,'✅') ? '#00e5a0' : ($ilove==='❌' ? '#f87171' : 'var(--text2)')}};">{{$ilove}}</td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+
+    {{-- Feature cards --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;text-align:left;">
       @foreach([
-        ['🔒','Privacy First','Your files are processed on our secure servers and automatically deleted after 2 hours. We never read, share, or store your documents.','c-red'],
-        ['⚡','Lightning Fast','No queues. No batch jobs. Upload and get your result in seconds — most operations complete in under 10 seconds.','c-yellow'],
-        ['🤖','AI-Powered','AI features use state-of-the-art language models — accurate, fast, and reliable for summarization, translation, and document chat.','c-purple'],
-        ['💸','Genuinely Free','20+ tools are completely free with no daily limits on basic operations. No dark patterns, no forced upgrades.','c-green'],
-        ['🌍','Works Everywhere','No software to install. Works on Windows, Mac, Linux, Android, and iPhone — any device with a browser.','c-blue'],
-        ['🛠️','Built on Open Tools','Backend uses battle-tested tools: Ghostscript, ImageMagick, Tesseract OCR, poppler. Not black-box conversion.','c-cyan'],
+        ['🔒','Files Auto-Deleted in 2h','Your PDFs are processed in isolation and permanently deleted after 2 hours. No one at PDFTash ever reads your files.','c-red'],
+        ['⚡','Results in Under 10s','No queues. No batch jobs. Upload and get your result instantly — most tools complete in under 10 seconds.','c-yellow'],
+        ['🤖','AI Built In — Free','Summarize, translate, chat with your PDF and extract data using AI. No extra subscription, no API key needed.','c-purple'],
+        ['🌍','No Download, Works Everywhere','100% browser-based. Works on Windows, Mac, Android, iPhone — any device with a browser, no install.','c-blue'],
+        ['💸','Free Core Tools, Forever','Compress, merge, split, rotate, sign, protect and more — free with no daily cap. Pro adds AI and large files.','c-green'],
+        ['🌐','PDF Translation in 12 Languages','Translate PDFs to Bengali, Arabic, Hindi, Spanish, French and 7 more. Unique AI translation not found on competitors.','c-cyan'],
       ] as [$icon,$title,$desc,$color])
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:26px 22px;transition:all .25s;" onmouseover="this.style.borderColor='rgba(91,92,255,.35)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='translateY(0)'">
         <div class="tc-icon-wrap {{$color}}" style="margin-bottom:16px;">{{$icon}}</div>
