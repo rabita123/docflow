@@ -182,6 +182,43 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── Trust Marquee ── */
+.trust-marquee-wrap{
+  overflow:hidden;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.015);
+  padding:0;
+  position:relative;
+}
+.trust-marquee-wrap::before,
+.trust-marquee-wrap::after{
+  content:'';
+  position:absolute;
+  top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
+}
+.trust-marquee-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+.trust-marquee-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+.trust-marquee-track{
+  display:flex;
+  width:max-content;
+  animation:trust-scroll 28s linear infinite;
+}
+.trust-marquee-track:hover{animation-play-state:paused;}
+@keyframes trust-scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
+.trust-badge{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 32px;
+  border-right:1px solid var(--border);
+  white-space:nowrap;flex-shrink:0;
+}
+.trust-badge-icon{font-size:20px;line-height:1;}
+.trust-badge-title{font-size:12px;font-weight:700;color:var(--text);display:block;}
+.trust-badge-sub{font-size:11px;color:var(--text2);display:block;}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--bg2);}
 ::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:99px;}
@@ -564,26 +601,45 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
   </div>
 </section>
 
-<!-- Trust Bar -->
-<div style="display:flex;justify-content:center;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);padding:14px 24px;margin-bottom:0;">
-  @foreach([
-    ['🔒','SSL Encrypted','All uploads secured'],
-    ['⚡','Instant Processing','Results in seconds'],
-    ['🚫','No Signup Needed','Just upload and go'],
-    ['🗑️','Auto-Deleted','Files removed in 2h'],
-    ['💸','Always Free','20+ tools, no credit card'],
-  ] as [$icon,$title,$sub])
-  <div style="display:flex;align-items:center;gap:10px;padding:8px 28px;border-right:1px solid var(--border);">
-    <span style="font-size:18px;">{{$icon}}</span>
-    <div>
-      <div style="font-size:12px;font-weight:700;color:var(--text);">{{$title}}</div>
-      <div style="font-size:11px;color:var(--text2);">{{$sub}}</div>
+<!-- Trust Bar — infinite scroll marquee -->
+<div class="trust-marquee-wrap">
+  <div class="trust-marquee-track" id="trust-track">
+    @php
+    $badges = [
+      ['🔒','SSL Encrypted','All uploads secured'],
+      ['⚡','Instant Processing','Results in seconds'],
+      ['🚫','No Signup Needed','Just upload and go'],
+      ['🗑️','Auto-Deleted','Files removed in 2h'],
+      ['💸','Always Free','20+ tools, no credit card'],
+      ['🛡️','Privacy First','Files never stored'],
+      ['🌍','Works Everywhere','Any browser, any device'],
+      ['🤖','AI Powered','Smart PDF processing'],
+    ];
+    @endphp
+    {{-- First set --}}
+    @foreach($badges as [$icon,$title,$sub])
+    <div class="trust-badge">
+      <span class="trust-badge-icon">{{$icon}}</span>
+      <div>
+        <span class="trust-badge-title">{{$title}}</span>
+        <span class="trust-badge-sub">{{$sub}}</span>
+      </div>
     </div>
+    @endforeach
+    {{-- Duplicate for seamless loop --}}
+    @foreach($badges as [$icon,$title,$sub])
+    <div class="trust-badge">
+      <span class="trust-badge-icon">{{$icon}}</span>
+      <div>
+        <span class="trust-badge-title">{{$title}}</span>
+        <span class="trust-badge-sub">{{$sub}}</span>
+      </div>
+    </div>
+    @endforeach
   </div>
-  @endforeach
 </div>
 
-<div id="drop-section" style="padding:0 24px 72px;display:flex;justify-content:center;">
+<div id="drop-section" style="padding:48px 24px 72px;display:flex;justify-content:center;">
   <div style="max-width:700px;width:100%;">
 
     {{-- ── STATE 1: No file selected ── --}}
