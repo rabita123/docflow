@@ -395,6 +395,7 @@ const TOOLS = {
     fields:[{type:'text',name:'pages',label:'Pages to delete',placeholder:'1,3,5-8'}]},
   reorder:{title:'Reorder Pages',desc:'Specify new page order.',endpoint:'/api/pdf/reorder',icon:'↕️',
     fields:[{type:'text',name:'order',label:'New page order',placeholder:'3,1,2,4,5'}]},
+  highlight:{title:'Highlight PDF',desc:'Highlight, underline, draw and annotate your PDF.',endpoint:'',icon:'🖊️',externalUrl:'/highlight-pdf',fields:[]},
   'pdf-to-word':{title:'PDF to Word',desc:'Convert PDF to editable Word document (.docx).',endpoint:'/api/pdf/to-word',icon:'📝',resultFilename:'result.docx',
     fields:[{type:'hidden',name:'format',value:'docx'}]},
   ocr:{title:'OCR PDF',desc:'Make scanned PDFs searchable with OCR.',endpoint:'/api/pdf/ocr',icon:'🔍',
@@ -455,6 +456,7 @@ const TOOLS = {
 
 const TOOLBAR_GROUPS = [
   {label:'EDIT',    tools:['compress','rotate','split','delete-pages','reorder','crop']},
+  {label:'ANNOTATE',tools:['highlight']},
   {label:'CONVERT', tools:['pdf-to-word','pdf-to-images','extract-text','grayscale']},
   {label:'ENHANCE', tools:['ocr','watermark','page-numbers']},
   {label:'SECURITY',tools:['protect','unlock','redact']},
@@ -478,6 +480,7 @@ let currentFileName = CURRENT_FILE;
     reorder:'Reorder',crop:'Crop',ocr:'OCR',grayscale:'Grayscale',watermark:'Watermark',
     'page-numbers':'Page Nos',protect:'Protect',unlock:'Unlock',redact:'Redact',
     sign:'eSign',
+    highlight:'Highlight',
     'pdf-to-word':'→ Word','pdf-to-images':'→ Images','extract-text':'Extract Text',
     info:'PDF Info',
     summarize:'Summarize',translate:'Translate',chat:'AI Chat',
@@ -529,6 +532,12 @@ function openTool(key) {
   if (btn) btn.classList.add('active');
 
   const tool = TOOLS[key];
+
+  // External tools open in a new page
+  if (tool.externalUrl) {
+    window.location.href = tool.externalUrl;
+    return;
+  }
   document.getElementById('panel-title').textContent = tool.icon + ' ' + tool.title;
   document.getElementById('panel-desc').textContent  = tool.desc;
   document.getElementById('error-msg').style.display = 'none';
