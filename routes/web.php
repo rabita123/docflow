@@ -2,6 +2,7 @@
 // এই file টা routes/web.php এ add করুন — শুধু test এর জন্য
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Auth\AuthController;
@@ -277,6 +278,18 @@ Route::get('/translate-pdf-to-german',      fn() => view('pages.translate-pdf-to
 Route::get('/translate-pdf-to-japanese',    fn() => view('pages.translate-pdf-to-japanese'));
 Route::get('/translate-pdf-to-urdu',        fn() => view('pages.translate-pdf-to-urdu'));
 Route::get('/translate-english-pdf-to-bengali', fn() => view('pages.translate-english-pdf-to-bengali'));
+
+// ── Lead Email Capture ───────────────────────────────────────────────────────
+Route::post('/save-lead', function(\Illuminate\Http\Request $request) {
+    $email = filter_var($request->input('email', ''), FILTER_VALIDATE_EMAIL);
+    if (!$email) return response()->json(['ok' => false, 'error' => 'Invalid email']);
+    try {
+        DB::table('lead_emails')->upsert([
+            ['email' => $email, 'tool' => substr($request->input('tool', 'unknown'), 0, 60), 'ip' => $request->ip(), 'created_at' => now(), 'updated_at' => now()]
+        ], ['email'], ['tool', 'updated_at']);
+    } catch (\Exception $e) {}
+    return response()->json(['ok' => true]);
+});
 
 // ── PDF Editor Hub ───────────────────────────────────────────────────────────
 use App\Http\Controllers\EditorController;

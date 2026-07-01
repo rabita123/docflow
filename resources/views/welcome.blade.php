@@ -642,6 +642,9 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 <div id="drop-section" style="padding:48px 24px 72px;display:flex;justify-content:center;">
   <div style="max-width:700px;width:100%;">
 
+    {{-- Usage counter --}}
+    <div id="usage-bar" style="text-align:center;margin-bottom:16px;font-size:13px;min-height:22px;"></div>
+
     {{-- ── STATE 1: No file selected ── --}}
     <div id="dz-empty">
       <div id="dropzone" onclick="document.getElementById('file-input').click()">
@@ -1101,6 +1104,26 @@ footer{border-top:1px solid var(--border);padding:56px 24px 36px;text-align:cent
 </div>
 
 <div id="toast"><span id="t-icon">✅</span><span id="t-msg"></span></div>
+
+<!-- ── Email Capture Modal ─────────────────────────────────────────────── -->
+<div id="ecm-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:900;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:#13131e;border:1px solid rgba(91,92,255,.35);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);">
+    <button onclick="ecmSkip()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#44445a;font-size:22px;cursor:pointer;line-height:1;">×</button>
+    <div style="font-size:44px;margin-bottom:14px;">🎉</div>
+    <h3 style="font-size:20px;font-weight:800;color:#eeeef8;margin-bottom:6px;">Your file is ready!</h3>
+    <div id="ecm-fname" style="font-size:13px;color:#5b5cff;font-weight:600;margin-bottom:20px;"></div>
+    <div style="background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:12px;padding:12px 16px;margin-bottom:20px;">
+      <span style="font-size:13px;color:#00e5a0;font-weight:600;">🎁 Get 3 bonus free uses today</span>
+      <div style="font-size:12px;color:#8888a8;margin-top:4px;">Enter your email — we'll send you your file link + tips.</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input type="email" id="ecm-email" placeholder="your@email.com" style="flex:1;padding:12px 14px;background:#1a1a28;border:1px solid rgba(255,255,255,.13);border-radius:10px;color:#eeeef8;font-size:14px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#5b5cff'" onblur="this.style.borderColor='rgba(255,255,255,.13)'" onkeydown="if(event.key==='Enter')ecmSubmit()">
+      <button onclick="ecmSubmit()" style="padding:12px 18px;background:#5b5cff;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;white-space:nowrap;transition:background .2s;" onmouseover="this.style.background='#7475ff'" onmouseout="this.style.background='#5b5cff'">Get it →</button>
+    </div>
+    <button onclick="ecmSkip()" style="background:none;border:none;color:#44445a;font-size:12px;cursor:pointer;text-decoration:underline;margin-bottom:14px;">No thanks, just download</button>
+    <div style="font-size:11px;color:#2a2a40;">🔒 No spam, ever. We email only when we ship something new.</div>
+  </div>
+</div>
 
 <script>
 // ── Config ──────────────────────────────────────────────────────────────────
@@ -1679,13 +1702,11 @@ async function runTool(key){
       return;
     }
 
-    // File download
+    // File download — show email capture modal first
     const blob = await resp.blob();
     const cd   = resp.headers.get('Content-Disposition') || '';
     const fname = cd.split('filename=')[1]?.replace(/"/g,'') || 'result.pdf';
-    triggerDownload(blob, fname);
-    showResult(`✅ Done! <strong>${fname}</strong> downloaded successfully.`);
-    showToast('File downloaded!','✅');
+    ecmShow(blob, fname, key);
 
   } catch(e){
     finishProgress();
@@ -1699,6 +1720,100 @@ function triggerDownload(blob, fname){
   a.href = url; a.download = fname; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
+
+// ── Usage Counter ─────────────────────────────────────────────────────────
+const FREE_LIMIT = {{ Auth::check() ? 99 : 3 }};
+const EMAIL_BONUS = 3;
+
+function getUsage() {
+  const today = new Date().toDateString();
+  const s = JSON.parse(localStorage.getItem('pdftash_usage') || '{}');
+  if (s.date !== today) return { count: 0, emailDone: s.emailDone || false };
+  return { count: s.count || 0, emailDone: s.emailDone || false };
+}
+
+function saveUsage(u) {
+  localStorage.setItem('pdftash_usage', JSON.stringify({ date: new Date().toDateString(), ...u }));
+}
+
+function incrementUsage() {
+  const u = getUsage();
+  u.count = (u.count || 0) + 1;
+  saveUsage(u);
+  renderUsageBar();
+}
+
+function renderUsageBar() {
+  const bar = document.getElementById('usage-bar');
+  if (!bar) return;
+  @if(Auth::check() && Auth::user()->plan === 'pro')
+  bar.innerHTML = '<span style="color:#00e5a0;font-weight:600;">✦ Pro — Unlimited uses</span>';
+  return;
+  @endif
+  const u = getUsage();
+  const limit = u.emailDone ? FREE_LIMIT + EMAIL_BONUS : FREE_LIMIT;
+  const left  = Math.max(0, limit - u.count);
+  if (left === 0) {
+    bar.innerHTML = `<span style="color:#f87171;font-weight:600;">⚠️ Free uses used up for today</span> &nbsp;·&nbsp; <a href="#pricing" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" style="color:#5b5cff;font-weight:700;text-decoration:none;">Upgrade $2/mo for unlimited →</a>`;
+  } else {
+    const color = left === 1 ? '#fbbf24' : '#00e5a0';
+    bar.innerHTML = `<span style="color:${color};font-weight:600;">⚡ ${left} free use${left !== 1 ? 's' : ''} left today</span> &nbsp;·&nbsp; <a href="#pricing" onclick="event.preventDefault();document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" style="color:#44445a;font-size:12px;text-decoration:none;">Upgrade for unlimited</a>`;
+  }
+}
+
+// ── Email Capture Modal ───────────────────────────────────────────────────
+let _ecmBlob = null, _ecmFname = null, _ecmTool = null;
+
+function ecmShow(blob, fname, tool) {
+  const u = getUsage();
+  // Skip modal if already captured email or is Pro
+  @if(Auth::check() && Auth::user()->plan === 'pro')
+  ecmDeliver(blob, fname); return;
+  @endif
+  if (u.emailDone) { ecmDeliver(blob, fname); return; }
+
+  _ecmBlob  = blob;
+  _ecmFname = fname;
+  _ecmTool  = tool;
+  document.getElementById('ecm-fname').textContent = fname;
+  document.getElementById('ecm-email').value = '';
+  const ov = document.getElementById('ecm-overlay');
+  ov.style.display = 'flex';
+  setTimeout(() => document.getElementById('ecm-email').focus(), 100);
+}
+
+function ecmDeliver(blob, fname) {
+  triggerDownload(blob, fname);
+  showResult(`✅ Done! <strong>${fname}</strong> downloaded successfully.`);
+  showToast('File downloaded! ✅', '✅');
+  incrementUsage();
+  _ecmBlob = null;
+}
+
+function ecmSkip() {
+  document.getElementById('ecm-overlay').style.display = 'none';
+  if (_ecmBlob) ecmDeliver(_ecmBlob, _ecmFname);
+}
+
+async function ecmSubmit() {
+  const email = document.getElementById('ecm-email').value.trim();
+  document.getElementById('ecm-overlay').style.display = 'none';
+  if (email && /\S+@\S+\.\S+/.test(email)) {
+    fetch('/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+      body: JSON.stringify({ email, tool: _ecmTool || 'unknown' })
+    }).catch(() => {});
+    const u = getUsage();
+    u.emailDone = true;
+    saveUsage(u);
+    showToast('🎁 3 bonus uses added!', '🎁');
+  }
+  if (_ecmBlob) ecmDeliver(_ecmBlob, _ecmFname);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', renderUsageBar);
 
 // ── Chat with PDF ─────────────────────────────────────────────────────────
 async function uploadForChat(input){
