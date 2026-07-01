@@ -279,6 +279,64 @@ Route::get('/translate-pdf-to-japanese',    fn() => view('pages.translate-pdf-to
 Route::get('/translate-pdf-to-urdu',        fn() => view('pages.translate-pdf-to-urdu'));
 Route::get('/translate-english-pdf-to-bengali', fn() => view('pages.translate-english-pdf-to-bengali'));
 
+// ── Admin: Lead Emails ────────────────────────────────────────────────────────
+Route::get('/admin/leads', function(\Illuminate\Http\Request $request) {
+    // Only the first user (admin) can access this
+    if (!auth()->check() || auth()->id() !== 1) {
+        abort(403, 'Forbidden');
+    }
+
+    // CSV export
+    if ($request->query('export') === 'csv') {
+        $leads = DB::table('lead_emails')->orderByDesc('created_at')->get();
+        $csv   = "Email,Tool,Date\n";
+        foreach ($leads as $l) {
+            $csv .= "\"{$l->email}\",\"{$l->tool}\",\"{$l->created_at}\"\n";
+        }
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="leads-' . date('Y-m-d') . '.csv"',
+        ]);
+    }
+
+    $leads = DB::table('lead_emails')->orderByDesc('created_at')->get();
+    $total = $leads->count();
+
+    $html  = '<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <title>Leads — PDFTash Admin</title>
+    <style>
+      *{margin:0;padding:0;box-sizing:border-box;}
+      body{font-family:system-ui,sans-serif;background:#0d0d14;color:#eeeef8;padding:40px 32px;}
+      h1{font-size:24px;font-weight:800;margin-bottom:6px;}
+      .meta{font-size:13px;color:#8888a8;margin-bottom:28px;}
+      .export{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:#5b5cff;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;margin-bottom:24px;}
+      table{width:100%;border-collapse:collapse;font-size:13px;}
+      th{text-align:left;padding:10px 14px;background:#13131e;color:#8888a8;font-weight:600;border-bottom:1px solid rgba(255,255,255,.08);}
+      td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:#eeeef8;}
+      tr:hover td{background:rgba(255,255,255,.03);}
+      .tool-badge{display:inline-block;background:rgba(91,92,255,.15);color:#9898ff;border-radius:5px;padding:2px 8px;font-size:11px;font-weight:600;}
+    </style></head><body>
+    <h1>📧 Lead Emails</h1>
+    <div class="meta">' . $total . ' email' . ($total !== 1 ? 's' : '') . ' captured &nbsp;·&nbsp; pdftash.com</div>
+    <a class="export" href="/admin/leads?export=csv">⬇ Export CSV</a>
+    <table>
+      <thead><tr><th>#</th><th>Email</th><th>Tool Used</th><th>Date</th></tr></thead>
+      <tbody>';
+
+    foreach ($leads as $i => $l) {
+        $date = \Carbon\Carbon::parse($l->created_at)->format('M j, Y · g:ia');
+        $html .= "<tr>
+          <td style='color:#44445a;'>" . ($i + 1) . "</td>
+          <td><strong>{$l->email}</strong></td>
+          <td><span class='tool-badge'>{$l->tool}</span></td>
+          <td style='color:#8888a8;'>{$date}</td>
+        </tr>";
+    }
+
+    $html .= '</tbody></table></body></html>';
+    return response($html);
+})->middleware('auth');
+
 // ── Lead Email Capture ───────────────────────────────────────────────────────
 Route::post('/save-lead', function(\Illuminate\Http\Request $request) {
     $email = filter_var($request->input('email', ''), FILTER_VALIDATE_EMAIL);
