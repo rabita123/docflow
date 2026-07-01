@@ -358,16 +358,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     </div>
     @endif
 
-    <!-- Crop overlay — covers entire viewer when crop mode is active -->
-    <div id="crop-overlay">
-      <div id="crop-selection">
-        <div class="crop-handle tl"></div>
-        <div class="crop-handle tr"></div>
-        <div class="crop-handle bl"></div>
-        <div class="crop-handle br"></div>
-      </div>
-      <div id="crop-hint">Drag to select the area to keep</div>
-    </div>
   </main>
 
   <!-- Right panel: tool options -->
@@ -1289,104 +1279,116 @@ function downloadCurrent() {
 @endif
 
 // ── CROP MODE ────────────────────────────────────────────────────────────────
-let cropRect   = null;   // {x1,y1,x2,y2} in % of first page
+let cropRect     = null;   // {x1,y1,x2,y2} in % of first page
 let cropDragging = false;
-let cropStart  = null;
+let cropStart    = null;
+
+function getCropOverlay() {
+  return document.getElementById('crop-overlay');
+}
 
 function startCropMode() {
-  const overlay = document.getElementById('crop-overlay');
+  const pageWrap = document.querySelector('.page-wrap');
+  if (!pageWrap) return;
+
+  // Remove any old overlay first
+  const old = document.getElementById('crop-overlay');
+  if (old) old.remove();
+
+  // Build overlay and attach directly on the page so coords are page-relative
+  const overlay = document.createElement('div');
+  overlay.id = 'crop-overlay';
   overlay.style.display = 'block';
+  overlay.innerHTML = `
+    <div id="crop-selection">
+      <div class="crop-handle tl"></div>
+      <div class="crop-handle tr"></div>
+      <div class="crop-handle bl"></div>
+      <div class="crop-handle br"></div>
+    </div>
+    <div id="crop-hint">Drag to select the area to keep</div>`;
+  pageWrap.appendChild(overlay);
+
   overlay.addEventListener('mousedown',  onCropDown);
   overlay.addEventListener('mousemove',  onCropMove);
   overlay.addEventListener('mouseup',    onCropUp);
   overlay.addEventListener('mouseleave', onCropUp);
-  // Touch
-  overlay.addEventListener('touchstart', e => onCropDown(touchToOverlayMouse(e)), {passive:false});
-  overlay.addEventListener('touchmove',  e => { e.preventDefault(); onCropMove(touchToOverlayMouse(e)); }, {passive:false});
-  overlay.addEventListener('touchend',   e => onCropUp(touchToOverlayMouse(e)));
+  overlay.addEventListener('touchstart', e => { e.preventDefault(); onCropDown(touchPt(e)); }, {passive:false});
+  overlay.addEventListener('touchmove',  e => { e.preventDefault(); onCropMove(touchPt(e)); }, {passive:false});
+  overlay.addEventListener('touchend',   e => onCropUp(touchPt(e)));
+
   resetCropSelection();
 }
 
 function stopCropMode() {
-  const overlay = document.getElementById('crop-overlay');
-  overlay.style.display = 'none';
-  overlay.removeEventListener('mousedown',  onCropDown);
-  overlay.removeEventListener('mousemove',  onCropMove);
-  overlay.removeEventListener('mouseup',    onCropUp);
-  overlay.removeEventListener('mouseleave', onCropUp);
-  resetCropSelection();
+  const overlay = getCropOverlay();
+  if (overlay) overlay.remove();
+  cropRect = null; cropDragging = false; cropStart = null;
 }
 
 function resetCropSelection() {
-  cropRect = null;
-  cropDragging = false;
-  cropStart = null;
-  document.getElementById('crop-selection').style.display = 'none';
+  cropRect = null; cropDragging = false; cropStart = null;
+  const sel = document.getElementById('crop-selection');
+  if (sel) sel.style.display = 'none';
   const d = document.getElementById('crop-coords-display');
   if (d) d.textContent = '';
 }
 
-function touchToOverlayMouse(e) {
+function touchPt(e) {
   const t = e.touches[0] || e.changedTouches[0];
   return { clientX: t.clientX, clientY: t.clientY };
 }
 
 function onCropDown(e) {
-  const overlay = document.getElementById('crop-overlay');
+  e.preventDefault();
+  const overlay = getCropOverlay();
+  if (!overlay) return;
   const rect = overlay.getBoundingClientRect();
   cropStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
   cropDragging = true;
-  document.getElementById('crop-selection').style.display = 'block';
+  const sel = document.getElementById('crop-selection');
+  if (sel) { sel.style.display = 'block'; sel.style.width = '0'; sel.style.height = '0'; }
 }
 
 function onCropMove(e) {
   if (!cropDragging || !cropStart) return;
-  const overlay = document.getElementById('crop-overlay');
-  const rect    = overlay.getBoundingClientRect();
-  const curX    = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
-  const curY    = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-
-  const x = Math.min(cropStart.x, curX);
-  const y = Math.min(cropStart.y, curY);
-  const w = Math.abs(curX - cropStart.x);
-  const h = Math.abs(curY - cropStart.y);
+  const overlay = getCropOverlay();
+  if (!overlay) return;
+  const rect = overlay.getBoundingClientRect();
+  const curX = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
+  const curY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
 
   const sel = document.getElementById('crop-selection');
-  sel.style.left   = x + 'px';
-  sel.style.top    = y + 'px';
-  sel.style.width  = w + 'px';
-  sel.style.height = h + 'px';
+  if (!sel) return;
+  sel.style.left   = Math.min(cropStart.x, curX) + 'px';
+  sel.style.top    = Math.min(cropStart.y, curY) + 'px';
+  sel.style.width  = Math.abs(curX - cropStart.x) + 'px';
+  sel.style.height = Math.abs(curY - cropStart.y) + 'px';
 }
 
 function onCropUp(e) {
   if (!cropDragging || !cropStart) return;
   cropDragging = false;
 
-  const overlay = document.getElementById('crop-overlay');
-  const rect    = overlay.getBoundingClientRect();
-  const curX    = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
-  const curY    = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+  const overlay = getCropOverlay();
+  if (!overlay) return;
+  const rect = overlay.getBoundingClientRect();
+  const curX = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
+  const curY = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
 
-  // Find first page-wrap to get page dimensions for percentage calculation
-  const pageWrap = document.querySelector('.page-wrap');
-  if (!pageWrap) { resetCropSelection(); return; }
-  const pageRect = pageWrap.getBoundingClientRect();
-
-  // Convert to % of page
-  const x1 = Math.max(0, Math.min(100, ((Math.min(cropStart.x, curX) - (pageRect.left - rect.left)) / pageRect.width  * 100)));
-  const y1 = Math.max(0, Math.min(100, ((Math.min(cropStart.y, curY) - (pageRect.top  - rect.top))  / pageRect.height * 100)));
-  const x2 = Math.max(0, Math.min(100, ((Math.max(cropStart.x, curX) - (pageRect.left - rect.left)) / pageRect.width  * 100)));
-  const y2 = Math.max(0, Math.min(100, ((Math.max(cropStart.y, curY) - (pageRect.top  - rect.top))  / pageRect.height * 100)));
+  // overlay IS the page — convert directly to % of page dimensions
+  const x1 = Math.min(cropStart.x, curX) / rect.width  * 100;
+  const y1 = Math.min(cropStart.y, curY) / rect.height * 100;
+  const x2 = Math.max(cropStart.x, curX) / rect.width  * 100;
+  const y2 = Math.max(cropStart.y, curY) / rect.height * 100;
 
   if ((x2 - x1) < 2 || (y2 - y1) < 2) { resetCropSelection(); return; }
 
-  cropRect = { x1, y1, x2, y2 };
+  cropRect = { x1: Math.max(0,x1), y1: Math.max(0,y1), x2: Math.min(100,x2), y2: Math.min(100,y2) };
 
-  // Update hint label
   const d = document.getElementById('crop-coords-display');
   if (d) d.textContent = `Selection: ${Math.round(x2-x1)}% × ${Math.round(y2-y1)}% — Click Process to crop`;
 
-  // Update hint inside overlay
   const hint = document.getElementById('crop-hint');
   if (hint) hint.textContent = '✅ Selection ready — click Process in the panel';
 }
