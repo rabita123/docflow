@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>PDF Editor – PDFTash</title>
@@ -1056,7 +1057,7 @@ function showDownloadResult(name) {
 function triggerResultDownload() {
   if (!resultBlob) return;
   const name = document.getElementById('btn-download-result').dataset.name || 'result.pdf';
-  downloadBlob(resultBlob, name);
+  ecmShow(resultBlob, name);
 }
 
 function downloadBlob(blob, name) {
@@ -1227,6 +1228,67 @@ function downloadCurrent() {
   });
 })();
 @endif
+
+// ── Email Capture Modal (Editor) ──────────────────────────────────────────
+let _ecmBlob = null, _ecmFname = null;
+
+function ecmShow(blob, fname) {
+  @if(Auth::check() && Auth::user()->plan === 'pro')
+  downloadBlob(blob, fname); return;
+  @endif
+  const u = JSON.parse(localStorage.getItem('pdftash_usage') || '{}');
+  if (u.emailDone) { downloadBlob(blob, fname); return; }
+
+  _ecmBlob  = blob;
+  _ecmFname = fname;
+  document.getElementById('ecm-fname').textContent = fname;
+  document.getElementById('ecm-email').value = '';
+  const ov = document.getElementById('ecm-overlay');
+  ov.style.display = 'flex';
+  setTimeout(() => document.getElementById('ecm-email').focus(), 100);
+}
+
+function ecmSkip() {
+  document.getElementById('ecm-overlay').style.display = 'none';
+  if (_ecmBlob) { downloadBlob(_ecmBlob, _ecmFname); _ecmBlob = null; }
+}
+
+async function ecmSubmit() {
+  const email = document.getElementById('ecm-email').value.trim();
+  document.getElementById('ecm-overlay').style.display = 'none';
+  if (email && /\S+@\S+\.\S+/.test(email)) {
+    fetch('/save-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]')?.content || '' },
+      body: JSON.stringify({ email, tool: 'editor' })
+    }).catch(() => {});
+    const stored = JSON.parse(localStorage.getItem('pdftash_usage') || '{}');
+    stored.emailDone = true;
+    localStorage.setItem('pdftash_usage', JSON.stringify(stored));
+  }
+  if (_ecmBlob) { downloadBlob(_ecmBlob, _ecmFname); _ecmBlob = null; }
+}
 </script>
+
+<!-- Email Capture Modal -->
+<div id="ecm-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:#13131e;border:1px solid rgba(91,92,255,.35);border-radius:24px;padding:40px 36px;max-width:420px;width:90%;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.6);">
+    <button onclick="ecmSkip()" style="position:absolute;top:14px;right:16px;background:none;border:none;color:#44445a;font-size:22px;cursor:pointer;line-height:1;">×</button>
+    <div style="font-size:44px;margin-bottom:14px;">🎉</div>
+    <h3 style="font-size:20px;font-weight:800;color:#eeeef8;margin-bottom:6px;">Your file is ready!</h3>
+    <div id="ecm-fname" style="font-size:13px;color:#5b5cff;font-weight:600;margin-bottom:20px;"></div>
+    <div style="background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);border-radius:12px;padding:12px 16px;margin-bottom:20px;">
+      <span style="font-size:13px;color:#00e5a0;font-weight:600;">🎁 Get 3 bonus free uses today</span>
+      <div style="font-size:12px;color:#8888a8;margin-top:4px;">Enter your email — we'll notify you when we add new tools.</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:10px;">
+      <input type="email" id="ecm-email" placeholder="your@email.com" style="flex:1;padding:12px 14px;background:#1a1a28;border:1px solid rgba(255,255,255,.13);border-radius:10px;color:#eeeef8;font-size:14px;outline:none;" onkeydown="if(event.key==='Enter')ecmSubmit()">
+      <button onclick="ecmSubmit()" style="padding:12px 18px;background:#5b5cff;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;white-space:nowrap;">Get it →</button>
+    </div>
+    <button onclick="ecmSkip()" style="background:none;border:none;color:#44445a;font-size:12px;cursor:pointer;text-decoration:underline;margin-bottom:14px;">No thanks, just download</button>
+    <div style="font-size:11px;color:#2a2a40;">🔒 No spam, ever.</div>
+  </div>
+</div>
+
 </body>
 </html>
