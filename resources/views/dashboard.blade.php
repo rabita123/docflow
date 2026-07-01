@@ -788,11 +788,12 @@ async function uploadChatFile(input){
     try {
         const r = await fetch('/api/ai/upload-for-chat', {method:'POST', body:fd});
         const d = await r.json();
-        chatFileId = d.file_id || d.id;
+        if (d.error) { document.getElementById('chat-file-name').textContent = d.error; return; }
+        chatFileId = d.session_id;
         document.getElementById('chat-file-icon').textContent='✅';
         document.getElementById('chat-file-name').textContent=f.name;
         addChatMsg('ai','PDF uploaded! Ask me anything about this document.');
-    } catch(e){ document.getElementById('chat-file-name').textContent='Upload failed.'; }
+    } catch(e){ document.getElementById('chat-file-name').textContent='Upload failed. Please try again.'; }
 }
 function addChatMsg(role,text){
     const msgs = document.getElementById('chat-messages');
@@ -803,16 +804,16 @@ function addChatMsg(role,text){
 }
 async function sendChatMsg(){
     const q = document.getElementById('chat-q').value.trim();
-    if(!q||!chatFileId) return;
+    if(!q||!chatFileId){ if(!chatFileId) addChatMsg('ai','Please upload a PDF first.'); return; }
     document.getElementById('chat-q').value='';
     addChatMsg('user',q); addChatMsg('ai','⏳ Thinking...');
-    const fd = new FormData(); fd.append('file_id',chatFileId); fd.append('message',q);
+    const fd = new FormData(); fd.append('session_id',chatFileId); fd.append('question',q);
     try {
         const r = await fetch('/api/ai/chat',{method:'POST',body:fd});
         const d = await r.json();
         const msgs = document.getElementById('chat-messages');
-        msgs.lastElementChild.querySelector('div').textContent = d.reply||d.response||d.error||'No response';
-    } catch(e){ document.getElementById('chat-messages').lastElementChild.querySelector('div').textContent='Error.'; }
+        msgs.lastElementChild.querySelector('div').textContent = d.answer || d.error || 'No response';
+    } catch(e){ document.getElementById('chat-messages').lastElementChild.querySelector('div').textContent='Error sending message.'; }
 }
 
 // ── Translate ──────────────────────────────────────────────────────────────
