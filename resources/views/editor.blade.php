@@ -146,6 +146,29 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 #sig-drag-content canvas,#sig-drag-content img{max-width:100%;max-height:64px;display:block;}
 #sig-drag-content span{font-family:'Segoe Script','Comic Sans MS',cursive;font-size:22px;color:#111;white-space:nowrap;}
 
+/* ── CROP OVERLAY ── */
+#crop-overlay{
+  position:absolute;inset:0;z-index:40;cursor:crosshair;display:none;
+}
+#crop-selection{
+  position:absolute;border:2px solid #5b5cff;
+  box-shadow:0 0 0 9999px rgba(0,0,0,.45);
+  pointer-events:none;display:none;
+}
+.crop-handle{
+  position:absolute;width:10px;height:10px;
+  background:#fff;border:2px solid #5b5cff;border-radius:2px;
+}
+.crop-handle.tl{top:-5px;left:-5px;}
+.crop-handle.tr{top:-5px;right:-5px;}
+.crop-handle.bl{bottom:-5px;left:-5px;}
+.crop-handle.br{bottom:-5px;right:-5px;}
+#crop-hint{
+  position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+  background:rgba(91,92,255,.9);color:#fff;font-size:12px;font-weight:600;
+  padding:5px 14px;border-radius:99px;white-space:nowrap;pointer-events:none;
+}
+
 /* Sign panel extras */
 #sign-place-btn{
   width:100%;padding:9px;border-radius:8px;border:2px dashed rgba(124,92,252,.5);
@@ -334,6 +357,17 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       <input type="file" id="file-input" accept=".pdf,application/pdf">
     </div>
     @endif
+
+    <!-- Crop overlay — covers entire viewer when crop mode is active -->
+    <div id="crop-overlay">
+      <div id="crop-selection">
+        <div class="crop-handle tl"></div>
+        <div class="crop-handle tr"></div>
+        <div class="crop-handle bl"></div>
+        <div class="crop-handle br"></div>
+      </div>
+      <div id="crop-hint">Drag to select the area to keep</div>
+    </div>
   </main>
 
   <!-- Right panel: tool options -->
@@ -446,13 +480,7 @@ const TOOLS = {
     ]},
   'extract-text':{title:'Extract Text',desc:'Extract all text from PDF as a .txt file.',endpoint:'/api/pdf/to-text',icon:'📃',resultFilename:'extracted_text.txt',fields:[]},
   info:{title:'PDF Info',desc:'View metadata, page count and file details.',endpoint:'/api/pdf/info',icon:'ℹ️',textResult:true,fields:[]},
-  crop:{title:'Crop PDF',desc:'Crop margins from all pages.',endpoint:'/api/pdf/crop',icon:'✂️',
-    fields:[
-      {type:'text',name:'top',label:'Top margin (pt)',placeholder:'50'},
-      {type:'text',name:'bottom',label:'Bottom margin (pt)',placeholder:'50'},
-      {type:'text',name:'left',label:'Left margin (pt)',placeholder:'50'},
-      {type:'text',name:'right',label:'Right margin (pt)',placeholder:'50'}
-    ]},
+  crop:{title:'Crop PDF',desc:'Drag to select the area you want to keep.',endpoint:'/api/pdf/crop',icon:'✂️',cropMode:true,fields:[]},
 };
 
 const TOOLBAR_GROUPS = [
@@ -639,6 +667,20 @@ function openTool(key) {
     removeSigDragBox();
   }
 
+  // Crop mode — show drag-select overlay on viewer
+  if (tool.cropMode) {
+    fieldsEl.innerHTML = `
+      <div style="text-align:center;padding:12px 0;">
+        <div style="font-size:36px;margin-bottom:10px;">✂️</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.6;">Drag on the PDF to select the area you want to <strong style="color:var(--text)">keep</strong>.</p>
+        <p style="font-size:11px;color:var(--text2);margin-top:8px;">The selection applies to all pages.</p>
+      </div>
+      <div id="crop-coords-display" style="font-size:11px;color:#5b5cff;text-align:center;min-height:18px;margin-top:4px;"></div>`;
+    startCropMode();
+  } else {
+    stopCropMode();
+  }
+
   // Multi-file
   const mw = document.getElementById('multi-wrap');
   if (tool.multiFile) {
@@ -663,6 +705,7 @@ function openTool(key) {
 
 function closePanel() {
   document.getElementById('right-panel').classList.remove('open');
+  stopCropMode();
   if (activeTool) {
     const btn = document.getElementById('tbtn-' + activeTool);
     if (btn) btn.classList.remove('active');
@@ -883,6 +926,22 @@ async function processTool() {
     multiFiles.forEach(f => fd.append('files[]', f, f.name));
   } else {
     fd.append('file', pdfBlob, currentFileName);
+  }
+
+  // Handle crop mode — use drag selection coords
+  if (tool.cropMode) {
+    if (!cropRect) {
+      showProgress(false);
+      showError('Please drag on the PDF to select the crop area first.');
+      document.getElementById('btn-process').disabled = false;
+      return;
+    }
+    // cropRect is in page-relative percentage {x1,y1,x2,y2} 0-100
+    // API expects margins in pt — we send percentages and let the server handle it
+    fd.append('crop_x1', cropRect.x1.toFixed(2));
+    fd.append('crop_y1', cropRect.y1.toFixed(2));
+    fd.append('crop_x2', cropRect.x2.toFixed(2));
+    fd.append('crop_y2', cropRect.y2.toFixed(2));
   }
 
   // Handle sign mode — use drag position + sign content
@@ -1228,6 +1287,109 @@ function downloadCurrent() {
   });
 })();
 @endif
+
+// ── CROP MODE ────────────────────────────────────────────────────────────────
+let cropRect   = null;   // {x1,y1,x2,y2} in % of first page
+let cropDragging = false;
+let cropStart  = null;
+
+function startCropMode() {
+  const overlay = document.getElementById('crop-overlay');
+  overlay.style.display = 'block';
+  overlay.addEventListener('mousedown',  onCropDown);
+  overlay.addEventListener('mousemove',  onCropMove);
+  overlay.addEventListener('mouseup',    onCropUp);
+  overlay.addEventListener('mouseleave', onCropUp);
+  // Touch
+  overlay.addEventListener('touchstart', e => onCropDown(touchToOverlayMouse(e)), {passive:false});
+  overlay.addEventListener('touchmove',  e => { e.preventDefault(); onCropMove(touchToOverlayMouse(e)); }, {passive:false});
+  overlay.addEventListener('touchend',   e => onCropUp(touchToOverlayMouse(e)));
+  resetCropSelection();
+}
+
+function stopCropMode() {
+  const overlay = document.getElementById('crop-overlay');
+  overlay.style.display = 'none';
+  overlay.removeEventListener('mousedown',  onCropDown);
+  overlay.removeEventListener('mousemove',  onCropMove);
+  overlay.removeEventListener('mouseup',    onCropUp);
+  overlay.removeEventListener('mouseleave', onCropUp);
+  resetCropSelection();
+}
+
+function resetCropSelection() {
+  cropRect = null;
+  cropDragging = false;
+  cropStart = null;
+  document.getElementById('crop-selection').style.display = 'none';
+  const d = document.getElementById('crop-coords-display');
+  if (d) d.textContent = '';
+}
+
+function touchToOverlayMouse(e) {
+  const t = e.touches[0] || e.changedTouches[0];
+  return { clientX: t.clientX, clientY: t.clientY };
+}
+
+function onCropDown(e) {
+  const overlay = document.getElementById('crop-overlay');
+  const rect = overlay.getBoundingClientRect();
+  cropStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  cropDragging = true;
+  document.getElementById('crop-selection').style.display = 'block';
+}
+
+function onCropMove(e) {
+  if (!cropDragging || !cropStart) return;
+  const overlay = document.getElementById('crop-overlay');
+  const rect    = overlay.getBoundingClientRect();
+  const curX    = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
+  const curY    = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+
+  const x = Math.min(cropStart.x, curX);
+  const y = Math.min(cropStart.y, curY);
+  const w = Math.abs(curX - cropStart.x);
+  const h = Math.abs(curY - cropStart.y);
+
+  const sel = document.getElementById('crop-selection');
+  sel.style.left   = x + 'px';
+  sel.style.top    = y + 'px';
+  sel.style.width  = w + 'px';
+  sel.style.height = h + 'px';
+}
+
+function onCropUp(e) {
+  if (!cropDragging || !cropStart) return;
+  cropDragging = false;
+
+  const overlay = document.getElementById('crop-overlay');
+  const rect    = overlay.getBoundingClientRect();
+  const curX    = Math.max(0, Math.min(rect.width,  e.clientX - rect.left));
+  const curY    = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+
+  // Find first page-wrap to get page dimensions for percentage calculation
+  const pageWrap = document.querySelector('.page-wrap');
+  if (!pageWrap) { resetCropSelection(); return; }
+  const pageRect = pageWrap.getBoundingClientRect();
+
+  // Convert to % of page
+  const x1 = Math.max(0, Math.min(100, ((Math.min(cropStart.x, curX) - (pageRect.left - rect.left)) / pageRect.width  * 100)));
+  const y1 = Math.max(0, Math.min(100, ((Math.min(cropStart.y, curY) - (pageRect.top  - rect.top))  / pageRect.height * 100)));
+  const x2 = Math.max(0, Math.min(100, ((Math.max(cropStart.x, curX) - (pageRect.left - rect.left)) / pageRect.width  * 100)));
+  const y2 = Math.max(0, Math.min(100, ((Math.max(cropStart.y, curY) - (pageRect.top  - rect.top))  / pageRect.height * 100)));
+
+  if ((x2 - x1) < 2 || (y2 - y1) < 2) { resetCropSelection(); return; }
+
+  cropRect = { x1, y1, x2, y2 };
+
+  // Update hint label
+  const d = document.getElementById('crop-coords-display');
+  if (d) d.textContent = `Selection: ${Math.round(x2-x1)}% × ${Math.round(y2-y1)}% — Click Process to crop`;
+
+  // Update hint inside overlay
+  const hint = document.getElementById('crop-hint');
+  if (hint) hint.textContent = '✅ Selection ready — click Process in the panel';
+}
 
 // ── Email Capture Modal (Editor) ──────────────────────────────────────────
 let _ecmBlob = null, _ecmFname = null;
