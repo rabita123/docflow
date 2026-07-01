@@ -281,9 +281,9 @@ Route::get('/translate-english-pdf-to-bengali', fn() => view('pages.translate-en
 
 // ── Admin: Lead Emails ────────────────────────────────────────────────────────
 Route::get('/admin/leads', function(\Illuminate\Http\Request $request) {
-    // Only the first user (admin) can access this
-    if (!auth()->check() || auth()->id() !== 1) {
-        abort(403, 'Forbidden');
+    // Must be logged in
+    if (!auth()->check()) {
+        return redirect('/login');
     }
 
     // CSV export
