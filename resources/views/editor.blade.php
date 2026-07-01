@@ -457,13 +457,13 @@ const TOOLS = {
 
 const TOOLBAR_GROUPS = [
   {label:'EDIT',    tools:['compress','rotate','split','delete-pages','reorder','crop']},
+  {label:'MERGE',   tools:['merge']},
   {label:'ANNOTATE',tools:['highlight']},
   {label:'CONVERT', tools:['pdf-to-word','pdf-to-images','extract-text','grayscale']},
   {label:'ENHANCE', tools:['ocr','watermark','page-numbers']},
   {label:'SECURITY',tools:['protect','unlock','redact']},
   {label:'SIGN',    tools:['sign']},
   {label:'AI',      tools:['summarize','translate','chat','extract-tables','extract-data']},
-  {label:'MERGE',   tools:['merge']},
 ];
 
 // ── STATE ────────────────────────────────────────────────────────────────────
